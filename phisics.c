@@ -19,5 +19,11 @@ void up_position(corpo *C, float dt) {
 float orbtVel (float r, float M) { //velocidade de orbita
     return sqrt (G * M/r);
 }
+
+float gravit (corpo *C1, corpo *C2) { //atração gravitacional
+    return G * C1->mass * C2->mass / pow (distEucl (C1->pos, C2->pos), 2);
+}
+
+
     
     
