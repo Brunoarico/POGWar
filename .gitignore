@@ -3,6 +3,7 @@ testes/tmp/**
 *.rasc
 **.rasc
 .gch
+*.h.gch
 *.gch
 !*.*
 *.o
