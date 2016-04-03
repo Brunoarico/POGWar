@@ -1,15 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import sys
 
-with open("test.txt") as f:
-    data = f.read()
-
-data = data.split('\n')
 x = []
 y = []
-print data
-for k in data:
-	l = k.split(' ')
+
+for line in sys.stdin:
+	l = line.split(' ')
 	if (len(l) > 1):
 		x.append(float(l[0]))
 		y.append(float(l[1]))

@@ -1,2 +1,5 @@
+capella/testes/tmp/**
+testes/tmp/**
+**.rasc
 .gch
 *.gch

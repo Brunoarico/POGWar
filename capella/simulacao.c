@@ -45,10 +45,10 @@ int main (int argc, char *argv[]) {
             printf("y: %e \t", corpos[i]->lin_position->data[1]);
             printf("vx: %e \t", corpos[i]->lin_speed->data[0]);
             printf("vy: %e \n", corpos[i]->lin_speed->data[1]);
+        } else {
+            printf("%lf ", corpos[i]->lin_position->data[0]);
+            printf("%lf\n", corpos[i]->lin_position->data[1]);
         }
-
-        printf("%lf ", corpos[i]->lin_position->data[0]);
-        printf("%lf\n", corpos[i]->lin_position->data[1]);
     }
 
     return 0;
