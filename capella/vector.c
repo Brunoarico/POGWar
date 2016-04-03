@@ -1,0 +1,56 @@
+/* Biblioteca destinada a operacoes vetoriais */
+#include "vector.h"
+
+double vector_norm2 (Vector a) {
+    int i;
+    double sum = 0.0; 
+    for (i = 0; i < a->size; i++)
+        sum += a->data[i] * a->data[i];
+    return sum;
+}
+
+double vector_norm (Vector a) {
+    return sqrt (vector_norm2 (a));
+}
+
+void vector_sub (Vector a, Vector b) {
+    int i;    
+    for (i = 0; i < a->size; i++)
+        a->data[i] = a->data[i] * b->data[i];
+}
+
+void vector_add (Vector a, Vector b) {
+    int i;    
+    for (i = 0; i < a->size; i++)
+        a->data[i] = a->data[i] + b->data[i];
+}
+
+void vector_scale (Vector a, double x) {
+    int i;    
+    for (i = 0; i < a->size; i++)
+        a->data[i] *= x;
+}
+
+Vector vector_zeros (int size) {
+    int i;
+    double *data;
+    Vector tmp;
+    tmp = malloc (sizeof (struct vector));
+    data = malloc (sizeof (double) * size);
+    tmp->data = data;
+    tmp->size = size;
+    for (i = 0; i < size; i++) data[i] = 0;
+    return tmp;
+}
+
+void vector_delete (Vector a) {
+    free (a->data);
+    free (a);
+}
+
+void vector_copy (Vector a, Vector b) {
+   int i;
+    for (i = 0; i < a->size; i++)
+        a->data[i] = b->data[i]; 
+}
+
