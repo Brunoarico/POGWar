@@ -1,7 +1,9 @@
 # POGWar
 
 Bruno Arico         8125459
+
 Gabriel Capella     8962078
+
 Nicolas Nogueira    9277541
 
 Esse reposítório é destinado ao projeto da disciplina Laboratório de Programação (MAC0211) do Instituto de Matemática e Estatística da Universidade de São Paulo.
