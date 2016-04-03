@@ -6,31 +6,6 @@
 #include "body.h"
 #include <GL/glut.h>
 
-int k = 3;
-corpo **ne;
-
-void drawplanet (corpo *c) {
-    glPushMatrix();
-    glTranslatef (c->pos[0], c->pos[1], 0);
-    glColor3f(1,0.8,0);
-    glutSolidSphere(0.2,40,40);
-    glPopMatrix();
-    
-}
-
-void drawship (corpo *s){
-    glPushMatrix ();
-    glTranslatef (s->pos[0], s->pos[1], 0);
-    glBegin (GL_POLYGON);	
-    glColor3f (1, 0, 0);
-    glVertex3f (0, -0.05, -1);
-    glVertex3f (0, 0.05, -1);
-    glVertex3f (0.05, 0, -1);
-    glEnd ();
-    glPopMatrix ();
-}
-
-
 corpo *newPlanet (float r, float m) {
   float i, **pt;
   int j;
@@ -81,7 +56,6 @@ void update (corpo **v, int n, float dt) {
 		m[i][0]  += -f * cos (ang);
 		m[i][1]  += -f * sin (ang);
 	    }
-
     for (i = 1; i < n; i++) {
 	up_acel (v[i], m[i]);
 	up_velocity (v[i], dt);
@@ -90,56 +64,28 @@ void update (corpo **v, int n, float dt) {
     FreeM(m, n, 2);
 }
 
-void display() {
-    int i;
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-        
-    glClearColor(0,0,1,0);
-
-    drawship(ne[1]);
-    
-    drawship(ne[2]);
-   
-    drawplanet(ne[0]);
-    
-    update (ne, k, 0.01);
-    printf("%f\n",orbtVel(0.5,500000));
-    
-    glutSwapBuffers();
-
-   
-}
 
 int main (int narg, char* args[]) {
-  int tempo, i;
-  char na1, na2;
+    int tempo, i, j;
+    int k = 3;
+    corpo **ne;
+ 
+    for (i = 0; i < k; i++)
+	ne = malloc (k * sizeof(corpo*));
 
-  for (i = 0; i < k; i++)
-    ne = malloc (k * sizeof(corpo*));
+    ne[0] = newPlanet(atof(args[1]), atof(args[2])); //gera o planeta
 
-  ne[0] = newPlanet(, 500000);
-
-  ne[1] = newShip('A', -0.5, 0, 0, orbtVel(0.5,500000), 500000);
-
-  ne[2] = newShip('B', 0.5, 0, 0, -orbtVel(0.5,500000), 500000);
-      
-
-  glutInit (&narg, args);
-
-  glutInitDisplayMode (GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH);
-
-  glutInitWindowSize (700,700);
+    tempo = atoi(args[3]); //pega o tempo
     
-  glutCreateWindow ("Teste");
+    for (i = 0, j = 1; j < 3 ; i = i + 6, j++) {//gera duas naves
 
-  glutDisplayFunc (display);
+	ne[j] = newShip(args[4+i][0], atof(args[6+i]), atof(args[7+i]), atof(args[8+i]), atof(args[9+i]),atof(args[5+i]));
 
-  glutIdleFunc(display);
-
-  glutMainLoop();
-
+	printf("%c %f %f %f %f %f \n", ne[j]->name, ne[j]->pos[0],  ne[j]->pos[1],  ne[j]->vel[0], ne[j]->vel[1], ne[j]->mass);
+    }
+    for(i=0; i < tempo; i++)   
+    update (ne, k, 0.1);
   
-
-  return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
   
 }  
