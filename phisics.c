@@ -3,6 +3,7 @@
 #include <math.h>
 #define G 6.67E-11
 #include "body.h"
+#include "utils.h"
 
 
 

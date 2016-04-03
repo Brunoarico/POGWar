@@ -5,6 +5,50 @@
 #include "utils.h"
 #include "body.h"
 
+float ***Dmatrix(int m, int n, int k) {
+    
+    float ***mat;
+    int i, j, a;
+    mat = mallocc (m * sizeof (float***));
+    for (i = 0; i < m; i++){
+	mat[i] = mallocc (n * sizeof (float**));
+	for (j = 0; j < n; j++)
+	    mat[i][j] = mallocc (k * sizeof (float*));
+    }
+    return mat;
+}
+
+void engine (corpo **v, int n) {
+    float ***m, f, ang;
+    int i, j;
+    
+    m = Dmatrix (n, n, 2);
+    
+    for (i = 0; i < n; i++) {
+	for(j = i; j < n; j++) {
+	    if (i == j) { 
+	    	m[i][j][0] = m[i][j][1] = 0;
+	    }
+	    else {
+	
+		f = gravit (v[i], v[j]);
+		
+		ang = atan2 (v[i]->pos[1] - v[j]->pos[1], v[i]->pos[0] - v[j]->pos[0]);
+		printf("%d\n",f);
+		m[i][j][0] = m[j][i][0] = f  ;
+		m[i][j][1]= m[j][i][1] = f ;
+	    }
+	}
+	   
+    }
+
+    for (i = 0; i < n; i++){ 
+	for(j = 0; j < n; j++)
+	    printf("   %f %f   ",m[i][j][0], m[i][j][1]);
+	printf("\n");
+    }
+}
+
 corpo *newPlanet (float r, float m) {
   float i, **pt;
   int j;
@@ -21,7 +65,7 @@ corpo *newPlanet (float r, float m) {
     planet->pt[j][0] = r * cos(i);
     planet->pt[j][1] = r * sin(i);
     
-    printf("%d %f %f\n", j, planet->pt[j][0], planet->pt[j][1]);
+    //printf("%d %f %f\n", j, planet->pt[j][0], planet->pt[j][1]);
   }
   return planet;
 }
@@ -44,39 +88,24 @@ corpo *newShip (char s, float x, float y, float vx, float vy, float m) {
 }
 
 
-int main () {
-  int tempo, n = 5, i;
-  corpo **necrot;
+int main (int narg, char* args[]) {
+  int tempo, k = 3, i;
+  corpo **n;
   float MP, RP, m1, m2, x1, x2, y1, y2, vx1, vx2, vy1, vy2;
   char na1, na2;
 
-  for (i = 0; i < n; i++)
-    necrot = malloc (n * sizeof(corpo*));
+  for (i = 0; i < k; i++)
+    n = malloc (k * sizeof(corpo*));
   
-  scanf("%f", &RP);
-  scanf("%f", &MP);
+
   
-  necrot[0] = newPlanet ( RP, MP);
+  n[0] = newPlanet ( atof(args[1]), atof(args[2]));
+  printf("%f\n",n[0]->mass);
+  n[1] = newShip (args[4][0], atof(args[6]), atof(args[7]), atof(args[8]), atof(args[9]), atof(args[5]));
  
-  scanf("%d", &tempo);
-  
-  scanf("%c", &na1);
-  scanf("%f", &m1);
-  scanf("%f", &x1);
-  scanf("%f", &y1);
-  scanf("%f", &vx1);
-  scanf("%f", &vy1);
-  
-  necrot[1] = newShip (na1, x1, y1, vx1, vy1, m1);
-  
-  scanf("%c", &na2);
-  scanf("%f", &m2);
-  scanf("%f", &x2);
-  scanf("%f", &y2);
-  scanf("%f", &vx2);
-  scanf("%f", &vy2);
-  
-  necrot[2] = newShip (na2, x2, y2, vx2, vy2, m2);
+  n[2] = newShip (args[10][0], atof(args[12]), atof(args[13]), atof(args[14]), atof(args[15]) , atof(args[11]));
+
+  engine(n, k);
   
   
   return EXIT_SUCCESS;

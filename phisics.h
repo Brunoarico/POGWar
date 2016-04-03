@@ -10,4 +10,6 @@ void up_position(corpo *C, float dt);
 
 float orbtVel (float r, float M);
 
+float gravit (corpo *C1, corpo *C2);
+
 #endif
