@@ -27,6 +27,9 @@ void vector_add (Vector a, Vector b);
 /* Realiza a = x * a */
 void vector_scale (Vector a, double x);
 
+/* Multiplica componente por componente a = a * b */
+void vector_mul (Vector a, Vector b);
+
 /* Retorno um vetor de tamanho size de 0 */
 Vector vector_zeros (int size);
 

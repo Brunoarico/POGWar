@@ -16,13 +16,20 @@ double vector_norm (Vector a) {
 void vector_sub (Vector a, Vector b) {
     int i;    
     for (i = 0; i < a->size; i++)
-        a->data[i] = a->data[i] * b->data[i];
+        a->data[i] -= b->data[i];
 }
 
 void vector_add (Vector a, Vector b) {
     int i;    
     for (i = 0; i < a->size; i++)
-        a->data[i] = a->data[i] + b->data[i];
+        a->data[i] += b->data[i];
+}
+
+
+void vector_mul (Vector a, Vector b) {
+    int i;    
+    for (i = 0; i < a->size; i++)
+        a->data[i] *= b->data[i];
 }
 
 void vector_scale (Vector a, double x) {
@@ -44,8 +51,10 @@ Vector vector_zeros (int size) {
 }
 
 void vector_delete (Vector a) {
-    free (a->data);
-    free (a);
+    if (a != NULL) { 
+        free (a->data);
+        free (a);
+    }
 }
 
 void vector_copy (Vector a, Vector b) {
