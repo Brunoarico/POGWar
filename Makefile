@@ -1,19 +1,15 @@
-CFLAGS  = -g -Wall -Wno-unused-result -ansi -O2 -pedantic
+CFLAGS  = -g -Wall -Wno-unused-result -O2 -pedantic
 T=0.0001
-F=testes/orbital.txt
+F=testes_simulacao/orbital.txt
 
 default:
-	$(CC) $(CFLAGS) -c *.c *.h
-	$(RM) *.gch
-	$(CC) $(CFLAGS) *.o -o ./testes/tmp/tmp
+	$(CC) $(CFLAGS) -ansi -c *.c *.h
+	$(CC) $(CFLAGS) *.o -o tmp
 
 teste_orbita:
 	make default
-	./testes/tmp/tmp $(T) -k -k < $(F) | python testes/teste.py
+	./tmp $(T) -k -k < $(F) | python testes_simulacao/plot.py
 
 teste_orbita2:
 	make default
-	./testes/tmp/tmp $(T) < $(F)
-
-
-
+	./tmp $(T) < $(F)

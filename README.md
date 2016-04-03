@@ -41,6 +41,9 @@ m é a massa do corpo, x e y a posição e vx e vj a velocidade após as intera�
 
 Obs: se o tempo de duração dos projéteis for menor do que o tempo total da simulação, eles não irão aparecer na saída final, pois vão desaparecer.
 
+##### Testes desse simulacao.c
+Veja mais informações dentro da pasta testes. Existem outros argumentos de comando desse módulos descrito nessa pasta.
+
 ### Para fazer
 
 - Retirar moviments e implementar o algorítimo de [Barnes Hut](http://www.cs.princeton.edu/courses/archive/fall03/cs126/assignments/barnes-hut.html). Os cálculos são qudráticos se ao número de objetos no sistema.

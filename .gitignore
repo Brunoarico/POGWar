@@ -8,3 +8,4 @@ testes/tmp/**
 *.o
 **.o
 .DS_Store
+*.class
