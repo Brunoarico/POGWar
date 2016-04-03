@@ -18,8 +18,9 @@ float** allocM (int m, int n) {
   int i, j;
   M = mallocc (m * sizeof(float*));
   for (i = 0; i < m; i++) M[i] = mallocc (n * sizeof(float));
-  for (i = 0; i < n; i++)
-	for(j = 0; j < 2; j++) M[i][j] =0;
+  
+  for (i = 0; i < m; i++)
+	for(j = 0; j < n; j++) M[i][j] = 0;
   return M;
 }
 

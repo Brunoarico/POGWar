@@ -5,24 +5,23 @@
 #include "body.h"
 #include "utils.h"
 
-
-
 void up_velocity (corpo *C, float dt) {
-  C->vel[0] += C->a[0]*dt;
-  C->vel[1] += C->a[1]*dt;
-  printf("v[0] = %.2f v[1] = %.2f ", C->vel[0], C->vel[1]);
+  C->vel[0] += C->a[0] * dt;
+  C->vel[1] += C->a[1] * dt;
+  printf("v[0] = %.2f v[1] = %.2f \n", C->vel[0], C->vel[1]);
 }
 
 void up_position (corpo *C, float dt) {
-  C->pos[0] += C->vel[0] * dt + 0.5 * C->a[0] * pow(dt,2);
-  C->pos[1] += C->vel[1] * dt + 0.5 * C->a[1] * pow(dt,2);
-  printf("s[0] = %.2f s[1] = %.2f ", C->pos[0], C->pos[1]);
+  C->pos[0] += C->vel[0] * dt + 0.5 * C->a[0] * pow (dt, 2);
+  C->pos[1] += C->vel[1] * dt + 0.5 * C->a[1] * pow (dt, 2);
+  printf("s[0] = %.2f s[1] = %.2f \n", C->pos[0], C->pos[1]);
 }
 
 void up_acel (corpo *C, float *force) {
+    printf("f[0] = %.2f f[1] = %.2f mass = %f \n", force[0], force[1], C->mass);
     C->a[0] = force[0]/C->mass;
     C->a[1] = force[1]/C->mass;
-    printf("a[0] = %.2f a[1] = %.2f mass %.2f ", C->a[0], C->a[1], C->mass);
+    printf("a[0] = %.2f a[1] = %.2f \n", C->a[0], C->a[1]);
 }
     
 float orbtVel (float r, float M) { //velocidade de orbita

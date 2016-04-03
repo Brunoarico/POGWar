@@ -4,40 +4,32 @@
 #include "phisics.h"
 #include "utils.h"
 #include "body.h"
+#include <GL/glut.h>
 
-void update (corpo **v, int n) {
-    float **m, f, ang;
-    int i, j;
-    
-    m = allocM (n, 2);
-    
-    for (i = 0; i < n; i++) {
-	for(j = 0; j < n; j++) {
-	    if(i != j) {
-		
-		f = gravit (v[i], v[j]);
-		ang = atan2 (v[i]->pos[1] - v[j]->pos[1], v[i]->pos[0] - v[j]->pos[0]);
-		printf("%f\n",f);
-		m[i][0]  += f * sin (ang);
-		m[i][1]  += f * cos(ang);
-	    }
-	}	   
-    }
+int k = 3;
+corpo **ne;
 
-    for (i = 1; i < n; i++){
-	printf("Corpo %d ",i);
-	up_acel(v[i], m[i]);
-	up_velocity(v[i],1);
-	up_position(v[i],1);
-    }
+void drawplanet (corpo *c) {
+    glPushMatrix();
+    glTranslatef (c->pos[0], c->pos[1], 0);
+    glColor3f(1,0.8,0);
+    glutSolidSphere(0.2,40,40);
+    glPopMatrix();
     
-    /*for (i = 0; i < n; i++){ 
-      for(j = 0; j < 2; j++)
-      printf("   %f   ",m[i][j]);
-      printf("\n");
-      }*/
-    FreeM(m, n, 2);
 }
+
+void drawship (corpo *s){
+    glPushMatrix ();
+    glTranslatef (s->pos[0], s->pos[1], 0);
+    glBegin (GL_POLYGON);	
+    glColor3f (1, 0, 0);
+    glVertex3f (0, -0.05, -1);
+    glVertex3f (0, 0.05, -1);
+    glVertex3f (0.05, 0, -1);
+    glEnd ();
+    glPopMatrix ();
+}
+
 
 corpo *newPlanet (float r, float m) {
   float i, **pt;
@@ -54,8 +46,6 @@ corpo *newPlanet (float r, float m) {
     
     planet->pt[j][0] = r * cos(i);
     planet->pt[j][1] = r * sin(i);
-    
-    //printf("%d %f %f\n", j, planet->pt[j][0], planet->pt[j][1]);
   }
   return planet;
 }
@@ -77,31 +67,79 @@ corpo *newShip (char s, float x, float y, float vx, float vy, float m) {
   return ship;
 }
 
+void update (corpo **v, int n, float dt) {
+    float **m, f, ang;
+    int i, j;
+    
+    m = allocM (n, 2);
+    
+    for (i = 1; i < n; i++) 
+	for(j = 0; j < n; j++) 
+	    if(i != j) {
+		f = gravit (v[i], v[j]);
+		ang = atan2 (v[i]->pos[1] - v[j]->pos[1], v[i]->pos[0] - v[j]->pos[0]);
+		m[i][0]  += -f * cos (ang);
+		m[i][1]  += -f * sin (ang);
+	    }
+
+    for (i = 1; i < n; i++) {
+	up_acel (v[i], m[i]);
+	up_velocity (v[i], dt);
+	up_position (v[i], dt);
+    }
+    FreeM(m, n, 2);
+}
+
+void display() {
+    int i;
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+        
+    glClearColor(0,0,1,0);
+
+    drawship(ne[1]);
+    
+    drawship(ne[2]);
+   
+    drawplanet(ne[0]);
+    
+    update (ne, k, 0.01);
+    printf("%f\n",orbtVel(0.5,500000));
+    
+    glutSwapBuffers();
+
+   
+}
 
 int main (int narg, char* args[]) {
-  int tempo, k = 3, i;
-  corpo **n;
-  float MP, RP, m1, m2, x1, x2, y1, y2, vx1, vx2, vy1, vy2;
+  int tempo, i;
   char na1, na2;
 
   for (i = 0; i < k; i++)
-    n = malloc (k * sizeof(corpo*));
-  
+    ne = malloc (k * sizeof(corpo*));
+
+  ne[0] = newPlanet(, 500000);
+
+  ne[1] = newShip('A', -0.5, 0, 0, orbtVel(0.5,500000), 500000);
+
+  ne[2] = newShip('B', 0.5, 0, 0, -orbtVel(0.5,500000), 500000);
+      
+
+  glutInit (&narg, args);
+
+  glutInitDisplayMode (GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH);
+
+  glutInitWindowSize (700,700);
+    
+  glutCreateWindow ("Teste");
+
+  glutDisplayFunc (display);
+
+  glutIdleFunc(display);
+
+  glutMainLoop();
 
   
-  n[0] = newPlanet ( atof(args[1]), atof(args[2]));
-  printf("%f\n",n[0]->mass);
-  n[1] = newShip (args[4][0], atof(args[6]), atof(args[7]), atof(args[8]), atof(args[9]), atof(args[5]));
- 
-  n[2] = newShip (args[10][0], atof(args[12]), atof(args[13]), atof(args[14]), atof(args[15]) , atof(args[11]));
-  
-  for (i = 0; i < atoi(args[1]); i++){
-       update(n, k);
-       printf("\n");
-  }
 
-  printf("%f\n",orbtVel( 3830, atof(args[2])));
-  
   return EXIT_SUCCESS;
   
 }  
