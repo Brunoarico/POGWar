@@ -10,8 +10,7 @@
 #include <stdlib.h>
 #include "vector.h"
 
-/* #define G 6.674E-11 */
-#define G 1
+#define G 6.67408e-11
 
 struct body {
     double mass;

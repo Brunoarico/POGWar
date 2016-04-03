@@ -11,7 +11,7 @@ for line in sys.stdin:
 		x.append(float(l[0]))
 		y.append(float(l[1]))
 
-plt.plot(x, y, 'ro')
-plt.axis([min(x)-100, max(x)+100, min(y)-100, max(y)+100])
+plt.plot(x, y, 'r,')
+plt.axis('equal')
 plt.show()
 

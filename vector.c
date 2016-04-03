@@ -25,7 +25,6 @@ void vector_add (Vector a, Vector b) {
         a->data[i] += b->data[i];
 }
 
-
 void vector_mul (Vector a, Vector b) {
     int i;    
     for (i = 0; i < a->size; i++)

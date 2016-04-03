@@ -43,11 +43,11 @@ int main (int argc, char *argv[]) {
                 corpos[i] = NULL;
             }
         }
-        print_bodies (corpos, N, 3);
+        if (argc == 4) print_bodies (corpos, N, 3);
         stime -= interval;
     }
 
-    //print_bodies (corpos, N, argc);
+    if (argc < 4) print_bodies (corpos, N, argc);
     for (i = 0; i < N; i++) body_delete (corpos[i]);
 
     return 0;

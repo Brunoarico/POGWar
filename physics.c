@@ -41,12 +41,18 @@ Vector center_of_mass_array (Body *bodies, int N) {
 
 Vector gravitational_force (Body a, Body b) {
     Vector res;
-    double force;
+    double force, tmp;
     force = G * a->mass * b->mass;
     res = vector_zeros (a->lin_position->size);
     vector_copy (res, a->lin_position);
     vector_sub (res, b->lin_position);
-    force /= vector_norm2 (res);
+    tmp = vector_norm2 (res);
+    if (tmp == 0) {
+        fprintf (stderr, "gravitational_force: ");
+        fprintf (stderr, "Division by zero.\n");
+        exit(EXIT_FAILURE);
+    }
+    force /= tmp;
     vector_scale (res, force);
     return res;
 }
@@ -72,6 +78,9 @@ void act_force (Body c, Vector f, double sec) {
     vector_add(c->lin_position, v0);
     vector_scale (at, sec/2.0);
     vector_add(c->lin_position, at);
+
+    vector_delete (at);
+    vector_delete (v0);
 }
 
 void body_delete (Body a) {

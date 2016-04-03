@@ -15,9 +15,12 @@ void moviments_update (Body *bodies, int N, double interval) {
             if (i == j || bodies[j] == NULL) continue;
             tmp = gravitational_force (bodies[j], bodies[i]);
             vector_add (forces[i], tmp);
+            vector_delete (tmp);
         }
     }
-    for (i = 0; i < N; i++)
+    for (i = 0; i < N; i++) {
         if (bodies[i] == NULL) continue;
-        else act_force (bodies[i], forces[i], interval);
+        act_force (bodies[i], forces[i], interval);
+        vector_delete (forces[i]);
+    }
 }
