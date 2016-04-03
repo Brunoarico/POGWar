@@ -1,2 +1,2 @@
 default:
-	gcc *.c *.h -lm -g -o jogo && xargs < simulacao.txt  ./jogo
+	gcc *.c *.h -lm -lglut -lGL -lGLU -g -o jogo && xargs < simulacao.txt  ./jogo

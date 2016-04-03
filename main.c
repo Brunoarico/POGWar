@@ -4,40 +4,7 @@
 #include "phisics.h"
 #include "utils.h"
 #include "body.h"
-
-void update (corpo **v, int n) {
-    float **m, f, ang;
-    int i, j;
-    
-    m = allocM (n, 2);
-    
-    for (i = 0; i < n; i++) {
-	for(j = 0; j < n; j++) {
-	    if(i != j) {
-		
-		f = gravit (v[i], v[j]);
-		ang = atan2 (v[i]->pos[1] - v[j]->pos[1], v[i]->pos[0] - v[j]->pos[0]);
-		printf("%f\n",f);
-		m[i][0]  += f * sin (ang);
-		m[i][1]  += f * cos(ang);
-	    }
-	}	   
-    }
-
-    for (i = 1; i < n; i++){
-	printf("Corpo %d ",i);
-	up_acel(v[i], m[i]);
-	up_velocity(v[i],1);
-	up_position(v[i],1);
-    }
-    
-    /*for (i = 0; i < n; i++){ 
-      for(j = 0; j < 2; j++)
-      printf("   %f   ",m[i][j]);
-      printf("\n");
-      }*/
-    FreeM(m, n, 2);
-}
+#include <GL/glut.h>
 
 corpo *newPlanet (float r, float m) {
   float i, **pt;
@@ -54,8 +21,6 @@ corpo *newPlanet (float r, float m) {
     
     planet->pt[j][0] = r * cos(i);
     planet->pt[j][1] = r * sin(i);
-    
-    //printf("%d %f %f\n", j, planet->pt[j][0], planet->pt[j][1]);
   }
   return planet;
 }
@@ -77,31 +42,50 @@ corpo *newShip (char s, float x, float y, float vx, float vy, float m) {
   return ship;
 }
 
+void update (corpo **v, int n, float dt) {
+    float **m, f, ang;
+    int i, j;
+    
+    m = allocM (n, 2);
+    
+    for (i = 1; i < n; i++) 
+	for(j = 0; j < n; j++) 
+	    if(i != j) {
+		f = gravit (v[i], v[j]);
+		ang = atan2 (v[i]->pos[1] - v[j]->pos[1], v[i]->pos[0] - v[j]->pos[0]);
+		m[i][0]  += -f * cos (ang);
+		m[i][1]  += -f * sin (ang);
+	    }
+    for (i = 1; i < n; i++) {
+	up_acel (v[i], m[i]);
+	up_velocity (v[i], dt);
+	up_position (v[i], dt);
+    }
+    FreeM(m, n, 2);
+}
+
 
 int main (int narg, char* args[]) {
-  int tempo, k = 3, i;
-  corpo **n;
-  float MP, RP, m1, m2, x1, x2, y1, y2, vx1, vx2, vy1, vy2;
-  char na1, na2;
-
-  for (i = 0; i < k; i++)
-    n = malloc (k * sizeof(corpo*));
-  
-
-  
-  n[0] = newPlanet ( atof(args[1]), atof(args[2]));
-  printf("%f\n",n[0]->mass);
-  n[1] = newShip (args[4][0], atof(args[6]), atof(args[7]), atof(args[8]), atof(args[9]), atof(args[5]));
+    int tempo, i, j;
+    int k = 3;
+    corpo **ne;
  
-  n[2] = newShip (args[10][0], atof(args[12]), atof(args[13]), atof(args[14]), atof(args[15]) , atof(args[11]));
-  
-  for (i = 0; i < atoi(args[1]); i++){
-       update(n, k);
-       printf("\n");
-  }
+    for (i = 0; i < k; i++)
+	ne = malloc (k * sizeof(corpo*));
 
-  printf("%f\n",orbtVel( 3830, atof(args[2])));
+    ne[0] = newPlanet(atof(args[1]), atof(args[2])); //gera o planeta
+
+    tempo = atoi(args[3]); //pega o tempo
+    
+    for (i = 0, j = 1; j < 3 ; i = i + 6, j++) {//gera duas naves
+
+	ne[j] = newShip(args[4+i][0], atof(args[6+i]), atof(args[7+i]), atof(args[8+i]), atof(args[9+i]),atof(args[5+i]));
+
+	printf("%c %f %f %f %f %f \n", ne[j]->name, ne[j]->pos[0],  ne[j]->pos[1],  ne[j]->vel[0], ne[j]->vel[1], ne[j]->mass);
+    }
+    for(i=0; i < tempo; i++)   
+    update (ne, k, 0.1);
   
-  return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
   
 }  
