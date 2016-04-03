@@ -5,48 +5,38 @@
 #include "utils.h"
 #include "body.h"
 
-float ***Dmatrix(int m, int n, int k) {
-    
-    float ***mat;
-    int i, j, a;
-    mat = mallocc (m * sizeof (float***));
-    for (i = 0; i < m; i++){
-	mat[i] = mallocc (n * sizeof (float**));
-	for (j = 0; j < n; j++)
-	    mat[i][j] = mallocc (k * sizeof (float*));
-    }
-    return mat;
-}
-
-void engine (corpo **v, int n) {
-    float ***m, f, ang;
+void update (corpo **v, int n) {
+    float **m, f, ang;
     int i, j;
     
-    m = Dmatrix (n, n, 2);
+    m = allocM (n, 2);
     
     for (i = 0; i < n; i++) {
-	for(j = i; j < n; j++) {
-	    if (i == j) { 
-	    	m[i][j][0] = m[i][j][1] = 0;
-	    }
-	    else {
-	
-		f = gravit (v[i], v[j]);
+	for(j = 0; j < n; j++) {
+	    if(i != j) {
 		
+		f = gravit (v[i], v[j]);
 		ang = atan2 (v[i]->pos[1] - v[j]->pos[1], v[i]->pos[0] - v[j]->pos[0]);
-		printf("%d\n",f);
-		m[i][j][0] = m[j][i][0] = f  ;
-		m[i][j][1]= m[j][i][1] = f ;
+		printf("%f\n",f);
+		m[i][0]  += f * sin (ang);
+		m[i][1]  += f * cos(ang);
 	    }
-	}
-	   
+	}	   
     }
 
-    for (i = 0; i < n; i++){ 
-	for(j = 0; j < n; j++)
-	    printf("   %f %f   ",m[i][j][0], m[i][j][1]);
-	printf("\n");
+    for (i = 1; i < n; i++){
+	printf("Corpo %d ",i);
+	up_acel(v[i], m[i]);
+	up_velocity(v[i],1);
+	up_position(v[i],1);
     }
+    
+    /*for (i = 0; i < n; i++){ 
+      for(j = 0; j < 2; j++)
+      printf("   %f   ",m[i][j]);
+      printf("\n");
+      }*/
+    FreeM(m, n, 2);
 }
 
 corpo *newPlanet (float r, float m) {
@@ -104,9 +94,13 @@ int main (int narg, char* args[]) {
   n[1] = newShip (args[4][0], atof(args[6]), atof(args[7]), atof(args[8]), atof(args[9]), atof(args[5]));
  
   n[2] = newShip (args[10][0], atof(args[12]), atof(args[13]), atof(args[14]), atof(args[15]) , atof(args[11]));
-
-  engine(n, k);
   
+  for (i = 0; i < atoi(args[1]); i++){
+       update(n, k);
+       printf("\n");
+  }
+
+  printf("%f\n",orbtVel( 3830, atof(args[2])));
   
   return EXIT_SUCCESS;
   
