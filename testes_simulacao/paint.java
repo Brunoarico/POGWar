@@ -1,9 +1,17 @@
 /******************************************************************************
- *  Nome: Nicolas Nogueira Lopes da Silva
- *  Nº USP: 9277541
+ *  Nome:   Bruno Arico         8125459
+ *          Gabriel Capella     8962078
+ *          Nicolas Nogueira    9277541
  *
- *  Compilacao: javac-algs4 paint.java
- *  Execucao: java-algs4 paint input.txt
+ *  Projeto da disciplina de Laboratorio de Programacao MAC0211
+ *  Batalha Espacial
+ *
+ *  Compilacao: javac paint.java
+ *  Execucao: java paint input.txt
+ *  Dependencias: StdDraw.java
+
+ *  Recebe da entrada padrao as coordenadas x e y e plota em uma simulacao
+ *  grafica com uma animacao da movimentacao dos corpos.
  *
  *  % java-algs4 paint < input.txt
  *

@@ -1,7 +1,16 @@
-/* Biblioteca pa calculo de formulas fisicas */
-/* Vamos usar o mesmo principio da maca:
+/******************************************************************************
+ *  Nome:   Bruno Arico         8125459
+ *          Gabriel Capella     8962078
+ *          Nicolas Nogueira    9277541
+ *
+ *  Projeto da disciplina de Laboratorio de Programacao MAC0211
+ *  Batalha Espacial
+ *
+ *  Biblioteca para o calculo de formulas fisicas
+ *  Vamos usar o mesmo principio da maca:
  *  https://goo.gl/N8afFg
- */
+ *
+ ******************************************************************************/
 
 #ifndef _PHYSICS_H
 #define _PHYSICS_H

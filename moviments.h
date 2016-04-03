@@ -1,6 +1,16 @@
-/* Biblioteca para calcular posicao dos corpos apos t 
- * intervalode tempo. Veja mais informações sobre o
- * algoritmo em: http://arborjs.org/docs/barnes-hut */
+/******************************************************************************
+ *  Nome:   Bruno Arico         8125459
+ *          Gabriel Capella     8962078
+ *          Nicolas Nogueira    9277541
+ *
+ *  Projeto da disciplina de Laboratorio de Programacao MAC0211
+ *  Batalha Espacial
+ *
+ *  Biblioteca para calcular posicao dos corpos apos t 
+ *  intervalo de tempo. Veja mais informacoes sobre o
+ *  algoritmo em: http://arborjs.org/docs/barnes-hut
+ *
+ ******************************************************************************/
 
 #ifndef _MOVIMENTS_HUT_H
 #define _MOVIMENTS_HUT_H
