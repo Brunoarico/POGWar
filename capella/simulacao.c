@@ -3,6 +3,7 @@
 #include "moviments.h"
 
 Body body_add2d (double mass, double x, double y, double vx, double vy) ;
+void print_bodies (Body *corpos, int N, int tipo);
 
 int main (int argc, char *argv[]) {
     double planet_size, stime; /* duracao da simulacao */
@@ -33,25 +34,21 @@ int main (int argc, char *argv[]) {
         N = 4 + i;
     }
 
-
     shotlife = stime - shotlife;
     while (stime > 0) {
         moviments_update (corpos, N, interval);
+        if (stime < shotlife) {
+            for(i = 3; i < N; i++){
+                body_delete (corpos[i]);
+                corpos[i] = NULL;
+            }
+        }
+        print_bodies (corpos, N, 3);
         stime -= interval;
     }
 
-    for (i = 0; i < N; i++) {
-        if (argc == 2) {
-            printf("m: %e \t", corpos[i]->mass);
-            printf("x: %e \t", corpos[i]->lin_position->data[0]);
-            printf("y: %e \t", corpos[i]->lin_position->data[1]);
-            printf("vx: %e \t", corpos[i]->lin_speed->data[0]);
-            printf("vy: %e \n", corpos[i]->lin_speed->data[1]);
-        } else {
-            printf("%lf ", corpos[i]->lin_position->data[0]);
-            printf("%lf\n", corpos[i]->lin_position->data[1]);
-        }
-    }
+    //print_bodies (corpos, N, argc);
+    for (i = 0; i < N; i++) body_delete (corpos[i]);
 
     return 0;
 }
@@ -72,5 +69,22 @@ Body body_add2d (double mass, double x, double y, double vx, double vy) {
     b->lin_speed = speed;
     b->lin_acel = acel;
     return b;
+}
+
+void print_bodies (Body *corpos, int N, int tipo) {
+    int i;
+    for (i = 0; i < N; i++) {
+        if (corpos[i] == NULL) continue;
+        if (tipo == 2) {
+            printf("m: %e \t", corpos[i]->mass);
+            printf("x: %e \t", corpos[i]->lin_position->data[0]);
+            printf("y: %e \t", corpos[i]->lin_position->data[1]);
+            printf("vx: %e \t", corpos[i]->lin_speed->data[0]);
+            printf("vy: %e \n", corpos[i]->lin_speed->data[1]);
+        } else if (tipo == 3) {
+            printf("%lf ", corpos[i]->lin_position->data[0]);
+            printf("%lf\n", corpos[i]->lin_position->data[1]);
+        }
+    }
 }
 

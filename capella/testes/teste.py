@@ -15,4 +15,3 @@ plt.plot(x, y, 'ro')
 plt.axis([min(x)-100, max(x)+100, min(y)-100, max(y)+100])
 plt.show()
 
-plt.show()
