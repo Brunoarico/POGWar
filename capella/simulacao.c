@@ -28,11 +28,13 @@ int main (int argc, char *argv[]) {
 
     scanf ("%d %lf", &shotnumbers, &shotlife);
     for (i = 0; i < shotnumbers; i++) {
-        scanf ("%s %lf %lf %lf %lf %lf", &nave2, &mass, &x, &y, &vx, &vy);
+        scanf ("%lf %lf %lf %lf %lf", &mass, &x, &y, &vx, &vy);
         corpos[3 + i] = body_add2d (mass, x, y, vx, vy);
         N = 4 + i;
     }
 
+
+    shotlife = stime - shotlife;
     while (stime > 0) {
         moviments_update (corpos, N, interval);
         stime -= interval;
