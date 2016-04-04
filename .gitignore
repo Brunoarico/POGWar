@@ -10,3 +10,6 @@ testes/tmp/**
 **.o
 .DS_Store
 *.class
+moviments.h.gch
+physics.h.gch
+vector.h.gch
