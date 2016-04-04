@@ -73,4 +73,3 @@ void vector_copy (Vector a, Vector b) {
     for (i = 0; i < a->size; i++)
         a->data[i] = b->data[i]; 
 }
-

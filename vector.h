@@ -51,4 +51,3 @@ void vector_delete (Vector a);
 void vector_copy (Vector a, Vector b);
 
 #endif
-

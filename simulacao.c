@@ -99,4 +99,3 @@ void print_bodies (Body *corpos, int N, int tipo) {
         }
     }
 }
-

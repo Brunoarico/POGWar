@@ -51,4 +51,3 @@ void body_delete (Body a);
 Body body_new ();
 
 #endif
-

@@ -111,5 +111,3 @@ Body body_new () {
     new = malloc (sizeof (struct body));
     return new;
 }
-
-
