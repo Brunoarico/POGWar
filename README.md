@@ -6,7 +6,7 @@ Gabriel Capella     8962078
 
 Nicolas Nogueira    9277541
 
-Esse reposítório é destinado ao projeto da disciplina Laboratório de Programação (MAC0211) do Instituto de Matemática e Estatística da Universidade de São Paulo.
+Esse [reposítório](https://github.com/Brunoarico/POGWar/) é destinado ao projeto da disciplina Laboratório de Programação (MAC0211) do Instituto de Matemática e Estatística da Universidade de São Paulo.
 
 ### Estrutura do Projeto
 Nessa momento o projeto somente apresenta sua primeira parte. Nela existe o objetivo de realizar simulações físicas. Para isso modularizamos o programa nas seguintes partes:
