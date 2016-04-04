@@ -15,4 +15,5 @@ teste_orbita2:
 	./tmp $(T) < $(F)
 
 build:
+	make default
 	COPYFILE_DISABLE=1 tar -cvf parte_1.tar ./testes_simulacao *.c *.h Makefile
