@@ -94,8 +94,8 @@ void print_bodies (Body *corpos, int N, int tipo) {
             printf("vx: %e \t", corpos[i]->lin_speed->data[0]);
             printf("vy: %e \n", corpos[i]->lin_speed->data[1]);
         } else if (tipo == 3) {
-            printf("%lf ", corpos[i]->lin_position->data[0]);
-            printf("%lf\n", corpos[i]->lin_position->data[1]);
+            printf("%e ", corpos[i]->lin_position->data[0]);
+            printf("%e\n", corpos[i]->lin_position->data[1]);
         }
     }
 }
