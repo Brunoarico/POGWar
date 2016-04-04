@@ -3,8 +3,8 @@ T=0.0001
 F=testes_simulacao/orbital.txt
 
 default:
-	$(CC) $(CFLAGS) -ansi -c *.c *.h -lm
-	$(CC) $(CFLAGS) *.o -o tmp
+	$(CC) $(CFLAGS) -ansi -c *.c *.h
+	$(CC) $(CFLAGS) *.o -o tmp -lm
 
 teste_orbita:
 	make default
