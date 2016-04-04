@@ -35,4 +35,5 @@ void moviments_update (Body *bodies, int N, double interval) {
         act_force (bodies[i], forces[i], interval);
         vector_delete (forces[i]);
     }
+    free (forces);
 }
