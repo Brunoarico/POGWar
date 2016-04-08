@@ -17,14 +17,14 @@
 Vector center_of_mass (Body a, Body b) {
     Vector tmp, res;
     double total_mass_i;
-    total_mass_i = 1.0/(a->mass + b->mass);
-    res = vector_zeros (a->lin_position->size);
-    tmp = vector_zeros (a->lin_position->size);
+    total_mass_i = 1.0/(a->bbody.mass + b->bbody.mass);
+    res = vector_zeros (a->bbody.position->size);
+    tmp = vector_zeros (a->bbody.position->size);
 
-    vector_copy (tmp, a->lin_position);
-    vector_scale (tmp, a->mass);
-    vector_copy(res, b->lin_position);
-    vector_scale (res, b->mass);
+    vector_copy (tmp, a->bbody.position);
+    vector_scale (tmp, a->bbody.mass);
+    vector_copy (res, b->bbody.position);
+    vector_scale (res, b->bbody.mass);
     vector_add (res, tmp);
     vector_scale (res, total_mass_i);
     vector_delete (tmp);
@@ -38,13 +38,13 @@ Vector center_of_mass_array (Body *bodies, int N) {
     for (i = 0; i < N; i++)
         total_mass_i += bodies[i]->mass;
     total_mass_i = 1.0/(total_mass_i);
-    res = vector_zeros (bodies[0]->lin_position->size);
-    tmp = vector_zeros (bodies[0]->lin_position->size);
+    res = vector_zeros (bodies[0]->bbody.position->size);
+    tmp = vector_zeros (bodies[0]->bbody.position->size);
     
     for (i = 0; i < N; i++) {
         if (bodies[i] == NULL) continue;
-        vector_copy (tmp, bodies[i]->lin_position);
-        vector_scale (tmp, bodies[i]->mass);
+        vector_copy (tmp, bodies[i]->bbody.position);
+        vector_scale (tmp, bodies[i]->bbody.mass);
         vector_add (res, tmp);
     }
 
@@ -56,10 +56,11 @@ Vector center_of_mass_array (Body *bodies, int N) {
 Vector gravitational_force (Body a, Body b) {
     Vector res;
     double force, tmp;
-    force = G * a->mass * b->mass;
-    res = vector_zeros (a->lin_position->size);
-    vector_copy (res, a->lin_position);
-    vector_sub (res, b->lin_position);
+    force = G * a->bbody.mass * b->bbody.mass;
+    res = vector_zeros (a->bbody.position->size);
+    vector_copy (res, a->bbody.position);
+    vector_sub (res, b->bbody.position);
+
     tmp = vector_norm2 (res);
     if (tmp == 0) {
         fprintf (stderr, "gravitational_force: ");
@@ -77,21 +78,21 @@ void act_force (Body c, Vector f, double sec) {
 
     /* Impoem aceleracao */
     vector_copy (at, f);
-    vector_scale (at, 1.0/c->mass);
-    vector_copy (c->lin_acel, at);
+    vector_scale (at, 1.0/c->bbody.mass);
+    vector_copy (c->bbody.acel, at);
 
     /* Calcula nova velocidade */
     v0 = vector_zeros (f->size);
-    vector_copy (v0, c->lin_speed);
-    vector_copy (at, c->lin_acel);
+    vector_copy (v0, c->bbody.speed);
+    vector_copy (at, c->bbody.acel);
     vector_scale (at, sec);
-    vector_add(c->lin_speed, at);
+    vector_add(c->bbody.speed, at);
 
     /* calcula nova posicao */
     vector_scale (v0, sec);
-    vector_add(c->lin_position, v0);
+    vector_add(c->bbody.position, v0);
     vector_scale (at, sec/2.0);
-    vector_add(c->lin_position, at);
+    vector_add(c->bbody.position, at);
 
     vector_delete (at);
     vector_delete (v0);
@@ -99,9 +100,9 @@ void act_force (Body c, Vector f, double sec) {
 
 void body_delete (Body a) {
     if (a != NULL) {
-        vector_delete (a->lin_position);
-        vector_delete (a->lin_speed);
-        vector_delete (a->lin_acel);
+        vector_delete (a->bbody.position);
+        vector_delete (a->bbody.speed);
+        vector_delete (a->bbody.acel);
         free (a);
     }    
 }
@@ -110,4 +111,21 @@ Body body_new () {
     Body new;
     new = malloc (sizeof (struct body));
     return new;
+}
+
+
+void body_mass (Body b, double m) {
+    b->bbody.mass = m;
+}
+
+void body_pos (Body b, Vector p) {
+    b->bbody.position = p;
+}
+
+void body_spe (Body b, Vector p) {
+    b->bbody.speed = p;
+}
+
+void body_acel (Body b, Vector p) {
+    b->bbody.acel = p;
 }

@@ -17,13 +17,20 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "vector.h"
+#include "../math/vector.h"
 
 #define G 6.67408e-11
 
+struct basicbody {
+    double mass;
+    Vector position, speed, acel;
+};
+typedef struct basicbody *BasicBody;
+
 struct body {
     double mass;
-    Vector lin_position, lin_speed, lin_acel;
+    struct basicbody bbody;
+    double ang_position, ang_speed, ang_acel;
     /* Vector ang_speed;
      * Shape shape; */
 };
@@ -49,5 +56,17 @@ void body_delete (Body a);
 
 /* aloca espaco para um corpo */
 Body body_new ();
+
+/* adiciona massa a um corpo */
+void body_mass (Body b, double m);
+
+/* adiciona a posicao a um corpo */
+void body_pos (Body b, Vector p);
+
+/* adiciona a velocidade a um corpo */
+void body_spe (Body b, Vector p);
+
+/* adiciona a aceleracao a um corpo */
+void body_acel (Body b, Vector p);
 
 #endif

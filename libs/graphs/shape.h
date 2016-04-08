@@ -6,20 +6,18 @@
  *  Projeto da disciplina de Laboratorio de Programacao MAC0211
  *  Batalha Espacial
  *
- *  Biblioteca para calcular posicao dos corpos apos t 
- *  intervalo de tempo. Veja mais informacoes sobre o
- *  algoritmo em: http://arborjs.org/docs/barnes-hut
- *
  ******************************************************************************/
+struct shape {
+    Vector *pontos;
+    int N; /* Numero de pontos */
+};
+typedef struct shape *Shape;
 
-#ifndef _MOVIMENTS_HUT_H
-#define _MOVIMENTS_HUT_H
+/* n eh a resolucao do circulo */
+Shape cricle (int n);
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "physics.h"
-#include "vector.h"
+/* h eh a altura e l o tamanho do lado */
+Shape equilateral (double h, double l);
 
-void moviments_update (Body *bodies, int N, double interval);
-
-#endif
+/* adiciona um ponto a v */
+void add_point (Shape s, Vector v);
