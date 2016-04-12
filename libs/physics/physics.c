@@ -36,7 +36,7 @@ Vector center_of_mass_array (Body *bodies, int N) {
     int i;
     double total_mass_i = 0.0;
     for (i = 0; i < N; i++)
-        total_mass_i += bodies[i]->mass;
+        total_mass_i += bodies[i]->bbody.mass;
     total_mass_i = 1.0/(total_mass_i);
     res = vector_zeros (bodies[0]->bbody.position->size);
     tmp = vector_zeros (bodies[0]->bbody.position->size);
@@ -53,10 +53,10 @@ Vector center_of_mass_array (Body *bodies, int N) {
     return res;
 }
 
-Vector gravitational_force (Body a, Body b) {
+Vector gravitational_acel (Body a, Body b) {
     Vector res;
     double force, tmp;
-    force = G * a->bbody.mass * b->bbody.mass;
+    force = G * b->bbody.mass;
     res = vector_zeros (a->bbody.position->size);
     vector_copy (res, a->bbody.position);
     vector_sub (res, b->bbody.position);
@@ -69,6 +69,13 @@ Vector gravitational_force (Body a, Body b) {
     }
     force /= tmp;
     vector_scale (res, force);
+    return res;
+}
+
+Vector gravitational_force (Body a, Body b) {
+    Vector res;
+    res = gravitational_acel (a, b);
+    vector_scale (res, a->bbody.mass);
     return res;
 }
 

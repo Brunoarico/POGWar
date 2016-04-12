@@ -14,4 +14,3 @@ for line in sys.stdin:
 plt.plot(x, y, 'r,')
 plt.axis('equal')
 plt.show()
-

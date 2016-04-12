@@ -18,6 +18,12 @@ vector.o: libs/math/vector.c libs/math/vector.h
 moviments.o: libs/simulation/moviments.c libs/simulation/moviments.h
 	$(CC) $(CFLAGS) -ansi -c libs/simulation/moviments.c libs/simulation/moviments.h
 
+barnes_hut.o: libs/simulation/barnes_hut.c libs/simulation/barnes_hut.h
+	$(CC) $(CFLAGS) -ansi -c libs/simulation/barnes_hut.c libs/simulation/barnes_hut.h
+
+#2Dtext.o: libs/graphs/2Dtext.c libs/graphs/2Dtext.h
+#	$(CC) $(CFLAGS) -ansi -c libs/graphs/2Dtext.c libs/graphs/2Dtext.h
+
 teste_orbita:
 	make default
 	./jogo $(T) -k -k < $(F) | python testes_simulacao/plot.py

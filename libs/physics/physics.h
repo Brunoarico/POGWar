@@ -28,9 +28,8 @@ struct basicbody {
 typedef struct basicbody *BasicBody;
 
 struct body {
-    double mass;
     struct basicbody bbody;
-    double ang_position, ang_speed, ang_acel;
+    Vector ang_position, ang_speed, ang_acel;
     /* Vector ang_speed;
      * Shape shape; */
 };
@@ -46,6 +45,10 @@ Vector center_of_mass_array (Body *bodies, int N);
 /* Calcula a forca que o corpo b aplica em a,
  * Retorna um vetor de forcas */
 Vector gravitational_force (Body a, Body b);
+
+/* Calcula a aceleracao que o corpo b aplica em a,
+ * Retorna um vetor de forcas. Aceleracao de a */
+Vector gravitational_acel (Body a, Body b);
 
 /* Realiza uma forca f no corpo c durante sec segundos
  * Atualiza o corpo. */
