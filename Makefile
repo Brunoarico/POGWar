@@ -31,7 +31,7 @@ aabb.o: libs/simulation/aabb.c libs/simulation/aabb.h
 	$(CC) $(CFLAGS) -ansi -c libs/simulation/aabb.c libs/simulation/aabb.h
 
 shape.o: libs/graphs/shape.c libs/graphs/shape.h
-	$(CC) $(CFLAGS) -ansi -c libs/graphs/shape.c libs/graphs/shape.h
+	$(CC) $(CFLAGS) -ansi -c  -lm libs/graphs/shape.c libs/graphs/shape.h
 
 #2Dtext.o: libs/graphs/2Dtext.c libs/graphs/2Dtext.h
 #	$(CC) $(CFLAGS) -ansi -c libs/graphs/2Dtext.c libs/graphs/2Dtext.h
