@@ -7,27 +7,17 @@
  *  Batalha Espacial
  *
  ******************************************************************************/
-
-#ifndef _SHAPE_H
-#define _SHAPE_H
-
-#include <stdio.h>
-#include <stdlib.h>
-#include "../math/vector.h"
-
 struct shape {
     Vector *pontos;
-    int size; /* Numero de pontos */
+    int N; /* Numero de pontos */
 };
 typedef struct shape *Shape;
 
 /* n eh a resolucao do circulo */
-/* Shape cricle (int n); */
+Shape cricle (int n);
 
 /* h eh a altura e l o tamanho do lado */
-/* Shape equilateral (double h, double l); */
+Shape equilateral (double h, double l);
 
 /* adiciona um ponto a v */
-/* void add_point (Shape s, Vector v); */
-
-#endif
+void add_point (Shape s, Vector v);
