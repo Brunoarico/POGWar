@@ -46,13 +46,14 @@ int main (int argc, char *argv[]) {
     corpos[4] = body_add2d (1.498334e+12, -300, 0, 0, 400, 0.1, 10);
 
     glfwSetErrorCallback(error_callback);
-    if (!glfwInit())
-        exit(EXIT_FAILURE);
+    if (!glfwInit()) exit(EXIT_FAILURE);
+
     window = glfwCreateWindow(640, 480, "POGWar", NULL, NULL);
     if (!window) {
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
+    
     glfwMakeContextCurrent(window);
     /* glfwSwapInterval(1); */
 
@@ -121,7 +122,7 @@ Body body_add2d (double mass, double x, double y, double vx, double vy, double r
     body_pos (b, position);
     body_spe (b, speed);
     body_acel (b, acel);
-	 b->shape = Circle (r, n);
+     b->shape = Circle (r, n);
     return b;
 }
 
@@ -149,7 +150,7 @@ void drawCircle(Body B) {
     glTranslatef (x, y, 0.0);
     glBegin(GL_TRIANGLE_FAN);
     for (i = 0; i < B->shape->N; i++) {
-	glVertex2f(B->shape->pontos[i]->data[0],B->shape->pontos[i]->data[1]);
+       glVertex2f(B->shape->pontos[i]->data[0],B->shape->pontos[i]->data[1]);
     }
     glEnd();
     glPopMatrix();
