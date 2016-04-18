@@ -70,6 +70,20 @@ void vector_delete (Vector a) {
 
 void vector_copy (Vector a, Vector b) {
    int i;
-    for (i = 0; i < a->size; i++)
+   for (i = 0; i < a->size; i++)
         a->data[i] = b->data[i]; 
 }
+
+void vector2D_rotate (Vector a, double ang) {
+		double x = a->data[0]; 
+		double y = a->data[1];
+		a->data[0] = cos (ang) * x - sin (ang) * y;
+		a->data[1] = sin (ang) * x + cos (ang) * y;
+	}
+}
+
+
+
+
+
+
