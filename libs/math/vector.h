@@ -50,4 +50,10 @@ void vector_delete (Vector a);
 /* Copia b para a */
 void vector_copy (Vector a, Vector b);
 
+/* Rotaciona o vetor a em ang radianos */
+void vector2D_rotate (Vector a, double ang);
+
+/* Desloca o vetor a em desloc*/
+void vector2D_move (Vector a, Vector desloc); 
+ 
 #endif

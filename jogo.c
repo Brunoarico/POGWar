@@ -13,21 +13,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <GLFW/glfw3.h>
+#include "libs/graphs/shape.h"
 #include "libs/physics/physics.h"
 #include "libs/simulation/moviments.h"
-#include "libs/graphs/shape.h"
 #define FPS 120.0
 
-struct object {
-    struct body body;
-    Shape inicial;
-    Shape last;
-};
-typedef struct object *Object;
-
-Body body_add2d (double mass, double x, double y, double vx, double vy) ;
+Body body_add2d (double mass, double x, double y, double vx, double vy, double r, double n) ;
 void print_bodies (Body *corpos, int N);
-void drawCircle(float radius, double x, double y, int n) ;
+void drawCircle(Body B) ;
 
 static void error_callback(int error, const char* description) {
     fputs(description, stderr);
@@ -46,11 +39,11 @@ int main (int argc, char *argv[]) {
     GLFWwindow* window;
     double stime, interval = 0.0001;
 
-    corpos[0] = body_add2d (1.498334e+12, 100, 0, 0, 1000);
-    corpos[1] = body_add2d (1.498334e+12, -100, 0, 0, -1000);
-    corpos[2] = body_add2d (1.49833235e+16, 0, 0, 0, 0);
-    corpos[3] = body_add2d (1.498334e+12, 300, 0, 0, -400);
-    corpos[4] = body_add2d (1.498334e+12, -300, 0, 0, 400);
+    corpos[0] = body_add2d (1.498334e+12, 500, 0, 0, 1000, 0.1, 3);
+    corpos[1] = body_add2d (1.498334e+12, -500, 0, 0, -1000, 0.1, 3);
+    corpos[2] = body_add2d (1.49833235e+16, 0, 0, 0, 0, 0.1, 10);
+    corpos[3] = body_add2d (1.498334e+12, 300, 0, 0, -400, 0.1, 10);
+    corpos[4] = body_add2d (1.498334e+12, -300, 0, 0, 400, 0.1, 10);
 
     glfwSetErrorCallback(error_callback);
     if (!glfwInit())
@@ -113,7 +106,7 @@ int main (int argc, char *argv[]) {
     return 0;
 }
 
-Body body_add2d (double mass, double x, double y, double vx, double vy) {
+Body body_add2d (double mass, double x, double y, double vx, double vy, double r, double n) {
     Vector position, speed, acel;
     Body b;
     b = body_new();
@@ -128,6 +121,7 @@ Body body_add2d (double mass, double x, double y, double vx, double vy) {
     body_pos (b, position);
     body_spe (b, speed);
     body_acel (b, acel);
+	 b->shape = Circle (r, n);
     return b;
 }
 
@@ -142,20 +136,20 @@ void print_bodies (Body *corpos, int N) {
         printf("vy: %e \n", corpos[i]->bbody.speed->data[1]); */
         /*printf("%e ", corpos[i]->bbody.position->data[0]);
         printf("%e\n", corpos[i]->bbody.position->data[1]);*/
-        drawCircle(0.01, corpos[i]->bbody.position->data[0], corpos[i]->bbody.position->data[1], 20);
+        drawCircle(corpos[i]);
     }
 }
 
-void drawCircle(float radius, double x, double y, int n) {
+void drawCircle(Body B) {
     int i;
-    x /= 600;
-    y /= 600;
+    double x, y;
+    x = B->bbody.position->data[0] / 600;
+    y = B->bbody.position->data[1] / 600;
     glPushMatrix();
     glTranslatef (x, y, 0.0);
     glBegin(GL_TRIANGLE_FAN);
-    for (i = 0; i < n; i++) {
-        float degInRad = i * 3.14159 * 2.0/n;
-        glVertex2f(cos(degInRad)*radius,sin(degInRad)*radius);
+    for (i = 0; i < B->shape->N; i++) {
+	glVertex2f(B->shape->pontos[i]->data[0],B->shape->pontos[i]->data[1]);
     }
     glEnd();
     glPopMatrix();
