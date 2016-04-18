@@ -75,15 +75,8 @@ void vector_copy (Vector a, Vector b) {
 }
 
 void vector2D_rotate (Vector a, double ang) {
-		double x = a->data[0]; 
-		double y = a->data[1];
-		a->data[0] = cos (ang) * x - sin (ang) * y;
-		a->data[1] = sin (ang) * x + cos (ang) * y;
-	}
+    double x = a->data[0]; 
+    double y = a->data[1];
+    a->data[0] = cos (ang) * x - sin (ang) * y;
+    a->data[1] = sin (ang) * x + cos (ang) * y;
 }
-
-
-
-
-
-
