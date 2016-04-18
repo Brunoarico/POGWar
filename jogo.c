@@ -15,7 +15,15 @@
 #include <GLFW/glfw3.h>
 #include "libs/physics/physics.h"
 #include "libs/simulation/moviments.h"
+#include "libs/graphs/shape.h"
 #define FPS 120.0
+
+struct object {
+    struct body body;
+    Shape inicial;
+    Shape last;
+};
+typedef struct object *Object;
 
 Body body_add2d (double mass, double x, double y, double vx, double vy) ;
 void print_bodies (Body *corpos, int N);

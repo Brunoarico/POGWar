@@ -3,11 +3,17 @@ CFLAGS  = -g -Wall -Wno-unused-result -O2 -pedantic
 T=0.0001
 F=testes_simulacao/orbital.txt
 
-default: physics.o vector.o moviments.o jogo.o 
-	$(CC) $(CFLAGS) -lglfw3 -framework OpenGL *.o -o jogo -lm
+ifeq ($(shell uname),Linux)
+    GLFWFLAGS = -lglfw3 -lXrandr -lXi -lX11 -lXxf86vm -lpthread -ldl -lXcursor -lXinerama
+else
+    GLFWFLAGS = -lglfw3 -framework OpenGL
+endif
+
+default: physics.o vector.o moviments.o shape.o aabb.o jogo.o 
+	$(CC) $(CFLAGS) $(GLFWFLAGS) *.o -o jogo -lm
 
 jogo.o: jogo.c
-	$(CC) $(CFLAGS) -ansi -c  -lglfw3 -framework OpenGL *.c 
+	$(CC) $(CFLAGS) -ansi -c  *.c 
 
 physics.o: libs/physics/*.c libs/physics/*.h
 	$(CC) $(CFLAGS) -ansi -c libs/physics/*.c libs/physics/*.h
@@ -20,6 +26,12 @@ moviments.o: libs/simulation/moviments.c libs/simulation/moviments.h
 
 barnes_hut.o: libs/simulation/barnes_hut.c libs/simulation/barnes_hut.h
 	$(CC) $(CFLAGS) -ansi -c libs/simulation/barnes_hut.c libs/simulation/barnes_hut.h
+
+aabb.o: libs/simulation/aabb.c libs/simulation/aabb.h
+	$(CC) $(CFLAGS) -ansi -c libs/simulation/aabb.c libs/simulation/aabb.h
+
+shape.o: libs/graphs/shape.c libs/graphs/shape.h
+	$(CC) $(CFLAGS) -ansi -c libs/graphs/shape.c libs/graphs/shape.h
 
 #2Dtext.o: libs/graphs/2Dtext.c libs/graphs/2Dtext.h
 #	$(CC) $(CFLAGS) -ansi -c libs/graphs/2Dtext.c libs/graphs/2Dtext.h
