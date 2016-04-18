@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../math/vector.h"
+#include "../graphs/shape.h"
 
 #define G 6.67408e-11
 
@@ -30,6 +31,8 @@ typedef struct basicbody *BasicBody;
 struct body {
     struct basicbody bbody;
     Vector ang_position, ang_speed, ang_acel;
+    /* Vector ang_speed;*/
+    Shape shape;
 };
 typedef struct body *Body;
 
