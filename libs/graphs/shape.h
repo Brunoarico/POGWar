@@ -28,7 +28,7 @@ typedef struct shape *Shape;
 /* n eh a resolucao do circulo */
 Shape Circle (double r, int n);
 
-/* adiciona um ponto a v */
+/* adiciona um ponto a v  */
 void add_point (Shape s, Vector v);
 
 #endif
