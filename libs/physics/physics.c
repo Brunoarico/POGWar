@@ -129,10 +129,33 @@ void body_pos (Body b, Vector p) {
     b->bbody.position = p;
 }
 
+Vector body_posg (Body b) {
+    return b->bbody.position;
+}
+
 void body_spe (Body b, Vector p) {
     b->bbody.speed = p;
 }
 
 void body_acel (Body b, Vector p) {
     b->bbody.acel = p;
+}
+
+Body body2d_new (double mass, double x, double y, double vx, 
+                 double vy) {
+    Vector position, speed, acel;
+    Body b;
+    b = body_new();
+    speed = vector_zeros (2);
+    position = vector_zeros (2);
+    acel = vector_zeros (2);
+    position->data[0] = x;
+    position->data[1] = y;
+    speed->data[0] = vx;
+    speed->data[1] = vy;
+    body_mass (b, mass);
+    body_pos (b, position);
+    body_spe (b, speed);
+    body_acel (b, acel);
+    return b;
 }

@@ -32,7 +32,6 @@ struct body {
     struct basicbody bbody;
     Vector ang_position, ang_speed, ang_acel;
     /* Vector ang_speed;*/
-    Shape shape;
 };
 typedef struct body *Body;
 
@@ -67,10 +66,16 @@ void body_mass (Body b, double m);
 /* adiciona a posicao a um corpo */
 void body_pos (Body b, Vector p);
 
+/* pega a posicao a um corpo */
+Vector body_posg (Body b);
+
 /* adiciona a velocidade a um corpo */
 void body_spe (Body b, Vector p);
 
 /* adiciona a aceleracao a um corpo */
 void body_acel (Body b, Vector p);
+
+Body body2d_new (double mass, double x, double y, double vx, 
+                 double vy);
 
 #endif

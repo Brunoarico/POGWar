@@ -74,6 +74,13 @@ void vector_copy (Vector a, Vector b) {
         a->data[i] = b->data[i]; 
 }
 
+Vector vector_copy2 (Vector a) {
+   Vector newv;
+   newv = vector_zeros (a->size);
+   vector_copy (newv, a);
+   return newv;
+}
+
 void vector2D_rotate (Vector a, double ang) {
     double x = a->data[0]; 
     double y = a->data[1];

@@ -15,24 +15,33 @@
  
 #include "moviments.h"
 
-void moviments_update (Body *bodies, int N, double interval) {
+void moviments_update (double interval) {
     Vector *forces;
     Vector tmp;
     int i, j;
-    forces = malloc (sizeof (Vector) * N);
-    for (i = 0; i < N; i++) {
-        if (bodies[i] == NULL) continue;
+    Object tmpobji, tmpobjj;
+
+    forces = malloc (sizeof (Vector) * obj_numberof ());
+    for (i = 0; i < obj_numberof (); i++) {
+        tmpobji = obj_get (i);
+        if (tmpobji == NULL || tmpobji->body == NULL)
+            continue;
         forces[i] = vector_zeros (2);
-        for (j = 0; j < N; j++) {
-            if (i == j || bodies[j] == NULL) continue;
-            tmp = gravitational_force (bodies[j], bodies[i]);
+
+        for (j = 0; j < obj_numberof (); j++) {
+            tmpobjj = obj_get (j);
+            if (i == j || tmpobjj == NULL) continue;
+            if (tmpobjj->body == NULL) continue;
+            tmp = gravitational_force (tmpobjj->body, tmpobji->body);
             vector_add (forces[i], tmp);
             vector_delete (tmp);
         }
     }
-    for (i = 0; i < N; i++) {
-        if (bodies[i] == NULL) continue;
-        act_force (bodies[i], forces[i], interval);
+    for (i = 0; i < obj_numberof (); i++) {
+        tmpobji = obj_get (i);
+        if (tmpobji == NULL || tmpobji->body == NULL)
+            continue;
+        act_force (tmpobji->body, forces[i], interval);
         vector_delete (forces[i]);
     }
     free (forces);

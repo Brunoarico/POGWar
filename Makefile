@@ -9,7 +9,7 @@ else
     GLFWFLAGS = -lglfw3 -framework OpenGL
 endif
 
-default: physics.o vector.o moviments.o shape.o aabb.o jogo.o 
+default: physics.o vector.o moviments.o shape.o object.o draw.o vertices.o bsp.o jogo.o 
 	$(CC) $(CFLAGS) $(GLFWFLAGS) *.o -o jogo -lm
 
 jogo.o: jogo.c
@@ -27,11 +27,20 @@ moviments.o: libs/simulation/moviments.c libs/simulation/moviments.h
 barnes_hut.o: libs/simulation/barnes_hut.c libs/simulation/barnes_hut.h
 	$(CC) $(CFLAGS) -ansi -c libs/simulation/barnes_hut.c libs/simulation/barnes_hut.h
 
-aabb.o: libs/simulation/aabb.c libs/simulation/aabb.h
-	$(CC) $(CFLAGS) -ansi -c libs/simulation/aabb.c libs/simulation/aabb.h
+bsp.o: libs/simulation/bsp.c libs/simulation/bsp.h
+	$(CC) $(CFLAGS) -ansi -c libs/simulation/bsp.c libs/simulation/bsp.h
+
+vertices.o: libs/simulation/vertices.c libs/simulation/vertices.h
+	$(CC) $(CFLAGS) -ansi -c libs/simulation/vertices.c libs/simulation/vertices.h
 
 shape.o: libs/graphs/shape.c libs/graphs/shape.h
 	$(CC) $(CFLAGS) -ansi -c libs/graphs/shape.c libs/graphs/shape.h
+
+draw.o: libs/graphs/draw.c libs/graphs/draw.h
+	$(CC) $(CFLAGS) -ansi -c libs/graphs/draw.c libs/graphs/draw.h
+
+object.o: libs/engine/object.c libs/engine/object.h
+	$(CC) $(CFLAGS) -ansi -c libs/engine/object.c libs/engine/object.h
 
 #2Dtext.o: libs/graphs/2Dtext.c libs/graphs/2Dtext.h
 #	$(CC) $(CFLAGS) -ansi -c libs/graphs/2Dtext.c libs/graphs/2Dtext.h
@@ -48,5 +57,6 @@ build:
 	COPYFILE_DISABLE=1 tar -cvf parte_1.tar ./testes_simulacao *.c *.h Makefile
 
 clean:
-	$(RM) *.gch
+	$(RM) jogo
 	$(RM) *.o
+	find . -name "*.gch" -exec $(RM) -rf {} \;

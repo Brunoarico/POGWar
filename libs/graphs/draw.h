@@ -6,21 +6,19 @@
  *  Projeto da disciplina de Laboratorio de Programacao MAC0211
  *  Batalha Espacial
  *
- *  Biblioteca para calcular posicao dos corpos apos t 
- *  intervalo de tempo. Veja mais informacoes sobre o
- *  algoritmo em: http://arborjs.org/docs/barnes-hut
- *
  ******************************************************************************/
-
-#ifndef _MOVIMENTS_HUT_H
-#define _MOVIMENTS_HUT_H
+#ifndef DRAW_H
+#define DRAW_H
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "../physics/physics.h"
+#include <GLFW/glfw3.h>
 #include "../math/vector.h"
+#include "../graphs/shape.h"
 #include "../engine/object.h"
 
-void moviments_update (double interval);
+void draw2d_shape (Shape s, Vector position);
+
+void draw_objects ();
 
 #endif

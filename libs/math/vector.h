@@ -50,6 +50,9 @@ void vector_delete (Vector a);
 /* Copia b para a */
 void vector_copy (Vector a, Vector b);
 
+/* cria um elemento identico a a */
+Vector vector_copy2 (Vector a);
+
 /* Rotaciona o vetor a em ang radianos */
 void vector2D_rotate (Vector a, double ang);
 

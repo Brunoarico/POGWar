@@ -20,15 +20,25 @@
 #include "../math/vector.h"
 
 struct shape {
-    Vector *pontos;
-    int N; /* Numero de pontos */
+    Vector *points;
+    int size; /* Numero de pontos */
 };
 typedef struct shape *Shape;
 
 /* n eh a resolucao do circulo */
-Shape Circle (double r, int n);
+Shape shape2d_circle (double r, int n);
+
+Shape shape_new ();
+
+void shape_rotate (Shape s, int ang);
+
+void shape_move (Shape s, Vector desloc);
 
 /* adiciona um ponto a v  */
-void add_point (Shape s, Vector v);
+void shape_add_point (Shape s, Vector v);
+
+void shape_delete (Shape s);
+
+Shape shape_copy (Shape s);
 
 #endif
