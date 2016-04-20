@@ -17,7 +17,7 @@
 #include "../graphs/shape.h"
 #include "../engine/object.h"
 
-void draw2d_shape (Shape s, Vector position);
+void draw2d_shape (Shape s, Vector position, double angle);
 
 void draw_objects ();
 
