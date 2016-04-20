@@ -32,6 +32,7 @@ unsigned int obj_new () {
         AllObjects = realloc(AllObjects, N * sizeof (Object));
     }
     AllObjects[n - 1] = obj_add ();
+    AllObjects[n - 1]->id = n - 1;
     return n - 1;
 }
 
@@ -55,4 +56,5 @@ void obj_delete_all () {
     int i;
     for (i = 0; i < obj_numberof (); i++)
         obj_delete (i);
+    free (AllObjects);
 }

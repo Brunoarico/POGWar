@@ -30,10 +30,13 @@ void vertices_insert (Vertices stack, Vertice v) {
 }
 
 int vertices_size (Vertices stack) {
+    if (stack == NULL) return 0;
     return stack->n;
 }
 
 Vertice vertices_get (Vertices stack, int i) {
+    if (stack == NULL) return NULL;
+    if (stack->vertices == NULL) return NULL;
     if (i < stack->n) return stack->vertices[i];
     return NULL;
 }
@@ -49,14 +52,19 @@ Vertice vertice_new (Vector a, Vector b, Object o) {
 
 void vertice_delete (Vertice v) {
     if (v == NULL) return;
+    vector_delete (v->a);
     free (v);
 }
 
 void vertices_delete (Vertices v) {
     int i;
     if (v == NULL) return;
-    for (i = 0; i < v->n; i++)
-        vertice_delete (v->vertices[i]);
+    for (i = 0; i < v->n; i++) {
+        if (v->vertices[i] != NULL) 
+            vertice_delete (v->vertices[i]);
+        v->vertices[i] == NULL;
+    }
+    free (v->vertices);
     free (v);
 }
 

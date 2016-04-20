@@ -8,7 +8,7 @@
  *
  ******************************************************************************/
 #include "bsp.h"
-#define MAX_DEPTH 5
+#define MAX_DEPTH 10
 #define MIN_LEAF_SIZE 1
 #define PLANE_THICKNESS_EPSILON 1.0e-10
 #define FLT_MAX 10
@@ -81,12 +81,10 @@ Vector LineInter (Line la, Line lb) {
 
 void BSPTree_delete (BSPNode node) {
     if (node == NULL) return;
-    if (node->vertices != NULL) {
-        vertices_delete (node->vertices);
-    } else {
-        BSPTree_delete (node->right);
-        BSPTree_delete (node->left);
-    }
+    BSPTree_delete (node->right);
+    BSPTree_delete (node->left);
+    vertices_delete (node->vertices);
+    
     free (node);
 }
 
@@ -226,6 +224,10 @@ BSPNode BuildBSPTree(Vertices vertices, int depth) {
     /*
     printf("-> %d - frontPart %d, backPart %d\n", depth, vertices_size(frontPart), vertices_size(backPart));
 */
+    if (depth != 0) {
+        free (vertices->vertices);
+        free (vertices);
+    }
     if (vertices_size(frontPart) == 0) {
         vertices_delete (frontPart);
         newnode->vertices = backPart;
@@ -243,13 +245,12 @@ BSPNode BuildBSPTree(Vertices vertices, int depth) {
     return newnode;
 }
 
-int Collision (Vertice vertice, BSPNode node) {
+Object Collision (Vertice vertice, BSPNode node) {
     /* Não é folha */
     Vertice tmpb;
     BSPNode atual;
+    Object obj;
     int i;
-
-    printf("-(%lf,%lf) (%lf,%lf)\n", vertice->a->data[0], vertice->a->data[1], vertice->b->data[0], vertice->b->data[1]);
 
     atual = node;
     while (atual->vertices == NULL) {
@@ -263,13 +264,15 @@ int Collision (Vertice vertice, BSPNode node) {
                 atual = atual->left;
                 break;
             case INTERSECTION:
-                printf("%e\n", atual->line.a*vertice->a->data[0] +atual->line.b*vertice->a->data[1]+ atual->line.c);
+                /* printf("%e\n", atual->line.a*vertice->a->data[0] +atual->line.b*vertice->a->data[1]+ atual->line.c); */
                 tmpb = SplitVerticeF (vertice, atual->line);
-                if (Collision (tmpb, atual->right)) return 1;
+                obj = Collision (tmpb, atual->right);
+                if (obj != NULL) return obj;
                 tmpb = SplitVerticeB (vertice, atual->line);
-                if (Collision (tmpb, atual->left)) return 1;
+                obj = Collision (tmpb, atual->left);
+                if (obj != NULL) return obj;
                 break;
-            return 0;
+            return NULL;
         }
     }
     /* Now at a leaf, inside/outside status determined by solid flag */
@@ -277,9 +280,9 @@ int Collision (Vertice vertice, BSPNode node) {
         tmpb = vertices_get(atual->vertices, i);
         if (tmpb->o == vertice->o) continue;
         if (ClassifyVerticeToline (vertice, GetLineFromVertice (tmpb))
-            == INTERSECTION) return 1;
+            == INTERSECTION) return tmpb->o;
     }
-    return 0;
+    return NULL;
 }
 
 void BSP () {
@@ -303,15 +306,21 @@ void BSP () {
             vertmp = vertice_new (stmp->points[j], stmp->points[k], tmp);
             vertices_insert (vertices, vertmp); 
         }
+        free (stmp->points); 
         free (stmp); 
     }
     
     tree = BuildBSPTree(vertices, 0);
 
-    for (i = 0; i < vertices_size (vertices); i++) {
+    for (i = 0; i < 1; i++) {
         vertmp = vertices_get (vertices, i);
-        printf("%d\n", Collision (vertmp, tree)); 
+        tmp = Collision (vertmp, tree);
+        if (tmp != NULL) {
+            printf("%d, %d\n", tmp->id, vertmp->o->id); 
+            obj_delete (vertmp->o->id); 
+        }
     }
+    free (vertices->vertices);
     free (vertices);
     BSPTree_delete (tree);
 }

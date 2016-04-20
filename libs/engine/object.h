@@ -34,6 +34,7 @@ struct object {
     Shape shape;
     Shot shot;
     Ship ship;
+    int id;
 };
 typedef struct object *Object;
 
