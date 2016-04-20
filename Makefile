@@ -1,5 +1,5 @@
 # Utilizado para gerar nosso executável.
-CFLAGS  = -g -Wall -Wno-unused-result -O2 -pedantic
+CFLAGS  = -g -Wall -Wno-unused-result -O0 -pedantic
 T=0.0001
 F=testes_simulacao/orbital.txt
 

@@ -47,16 +47,22 @@ int main (int argc, char *argv[]) {
     tmp->shape = shape2d_circle (100, 3);
 
     tmp = obj_get(obj_new ());
+    tmp->body = body2d_new (1.498334e+12, -500, 0, 0, 1000);
+    tmp->shape = shape2d_circle (100, 3);
+
+    tmp = obj_get(obj_new ());
     tmp->body = body2d_new (1.49833235e+16, 0, 0, 0, 0);
     tmp->shape = shape2d_circle (100, 4);
-/*
+
     tmp = obj_get(obj_new ());
     tmp->body = body2d_new (1.498334e+12, 300, 0, 0, -400);
-    tmp->shape = shape2d_circle ( 0.1, 10);
+    tmp->shape = shape2d_circle ( 20, 10);
 
     tmp = obj_get(obj_new ());
     tmp->body = body2d_new (1.498334e+12, -300, 0, 0, 400);
-    tmp->shape = shape2d_circle (0.1, 10);*/
+    tmp->shape = shape2d_circle (20, 10);
+
+
     glfwSetErrorCallback(error_callback);
     if (!glfwInit()) exit(EXIT_FAILURE);
 
@@ -87,8 +93,9 @@ int main (int argc, char *argv[]) {
                     moviments_update (stime);
                 else 
                     moviments_update (interval);
-                BSP ();
                 stime -= interval;
+            BSP ();
+
             }
 
             glfwGetFramebufferSize(window, &width, &height);
@@ -106,7 +113,7 @@ int main (int argc, char *argv[]) {
             /*glRotatef((float) glfwGetTime() * 50.f, 0.f, 0.f, 1.f);*/
 
             draw_objects ();
-
+            
             glfwSwapBuffers(window);
             glfwPollEvents();
             last = atual;

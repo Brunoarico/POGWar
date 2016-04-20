@@ -62,7 +62,7 @@ void vertices_delete (Vertices v) {
     for (i = 0; i < v->n; i++) {
         if (v->vertices[i] != NULL) 
             vertice_delete (v->vertices[i]);
-        v->vertices[i] == NULL;
+        v->vertices[i] = NULL;
     }
     free (v->vertices);
     free (v);
