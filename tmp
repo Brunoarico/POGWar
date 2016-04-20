@@ -1,0 +1,58 @@
+glfwSetErrorCallback(error_callback);
+    if (!glfwInit()) exit(EXIT_FAILURE);
+
+    window = glfwCreateWindow(640, 480, "POGWar", NULL, NULL);
+    if (!window) {
+        glfwTerminate();
+        exit(EXIT_FAILURE);
+    }
+
+    glfwMakeContextCurrent(window);
+    /* glfwSwapInterval(1); */
+
+    glfwSetKeyCallback(window, key_callback);
+
+    last = glfwGetTime();
+
+
+    while (!glfwWindowShouldClose(window)) {
+        atual = glfwGetTime();
+        delta = atual-last;
+        /* printf("%lf \n",delta); */
+
+        if (delta > 1.0/FPS) {
+            
+            stime = delta;
+            while (stime > 0) {
+                if (stime < interval)
+                    moviments_update (stime);
+                else 
+                    moviments_update (interval);
+
+                stime -= interval;
+            }
+
+            glfwGetFramebufferSize(window, &width, &height);
+            ratio = width / (float) height;
+            glViewport(0, 0, width, height);
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            glMatrixMode(GL_PROJECTION);
+            glLoadIdentity();
+            glOrtho(-ratio, ratio, -1.f, 1.f, 1.f, -1.f);
+            glScalef(.001f, .001f, 1.f);
+
+            glMatrixMode(GL_MODELVIEW);
+            glLoadIdentity();
+            /*glRotatef((float) glfwGetTime() * 50.f, 0.f, 0.f, 1.f);*/
+
+            draw_objects ();
+            BSP ();
+
+            glfwSwapBuffers(window);
+            glfwPollEvents();
+            last = atual;
+        }
+    }
+    glfwDestroyWindow(window);
+    glfwTerminate();

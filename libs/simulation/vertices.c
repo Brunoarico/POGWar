@@ -20,6 +20,7 @@ Vertices vertices_new () {
 }
 
 void vertices_insert (Vertices stack, Vertice v) {
+    if (v == NULL) return;
     stack->n += 1;
     if (stack->n > stack->N) {
         stack->N *= 2;
@@ -46,12 +47,16 @@ Vertice vertice_new (Vector a, Vector b, Object o) {
     return v;
 }
 
-
 void vertice_delete (Vertice v) {
+    if (v == NULL) return;
     free (v);
 }
 
 void vertices_delete (Vertices v) {
+    int i;
+    if (v == NULL) return;
+    for (i = 0; i < v->n; i++)
+        vertice_delete (v->vertices[i]);
     free (v);
 }
 

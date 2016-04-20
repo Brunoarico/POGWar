@@ -8,9 +8,9 @@
  *
  ******************************************************************************/
 #include "bsp.h"
-#define MAX_DEPTH 10
+#define MAX_DEPTH 5
 #define MIN_LEAF_SIZE 1
-#define PLANE_THICKNESS_EPSILON 0.0
+#define PLANE_THICKNESS_EPSILON 1.0e-10
 #define FLT_MAX 10
 
 typedef enum {
@@ -29,7 +29,6 @@ struct node {
     Vertices vertices;
     struct node *right, *left;
     Line line;
-    int isleaf;
 };
 typedef struct node *BSPNode;
 
@@ -42,45 +41,56 @@ BSPNode bsp_new (Vertices vertices) {
     return n;
 }
 
-status ClassifyPointToPlane(double x, double y, Line linea) {
+status ClassifyPointToLine (double x, double y, Line linea) {
     double dist = linea.a * x + linea.b * y + linea.c;
     if (dist > PLANE_THICKNESS_EPSILON) return POSITIVE;
-    if (dist < PLANE_THICKNESS_EPSILON) return NEGATIVE;
+    if (dist < -PLANE_THICKNESS_EPSILON) return NEGATIVE;
     return INTERSECTION;
 }
 
 status ClassifyVerticeToline (Vertice v, Line linea) {
-    int numInFront = 0, numBehind = 0;
-    status s1 = ClassifyPointToPlane(v->a->data[0], v->a->data[1], linea);
-    status s2 = ClassifyPointToPlane(v->b->data[0], v->b->data[1], linea);
-    if (s1 == POSITIVE) numInFront++;
-    if (s1 == NEGATIVE) numInFront--;
-    if (s2 == POSITIVE) numInFront++;
-    if (s2 == NEGATIVE) numInFront--;
+    status s1 = ClassifyPointToLine (v->a->data[0], v->a->data[1], linea);
+    status s2 = ClassifyPointToLine (v->b->data[0], v->b->data[1], linea);
 
-    if (numBehind != 0 && numInFront != 0) return INTERSECTION;
-    if (numInFront != 0) return POSITIVE;
-    if (numBehind != 0) return NEGATIVE;
-    return COLINEAR;
+    if (s1 == INTERSECTION && s2 == INTERSECTION) return COLINEAR;
+    if (s1 == POSITIVE && s2 == NEGATIVE) return INTERSECTION;
+    if (s1 == NEGATIVE && s2 == POSITIVE) return INTERSECTION;
+
+    if (s1  != INTERSECTION) return s1;
+    return s2;
 }
 
 Line GetLineFromVertice (Vertice v) {
     Line line;
-    line.a = v->a->data[0] - v->b->data[0];
-    line.b = v->a->data[1] - v->b->data[1];
-    line.c = - line.a - line.b;
+    line.a =  v->a->data[1] - v->b->data[1];
+    line.b = v->b->data[0] - v->a->data[0];
+    line.c =  v->a->data[0] * v->b->data[1] - v->a->data[1] * v->b->data[0];
     return line;
 }
 
 Vector LineInter (Line la, Line lb) {
+    /* la.a = A1, la.b = B1, lb.a = A2, lb.b = B2 */
     Vector nv;
+    double det;
     nv = vector_zeros (2);
-    nv->data[0] = la.b * lb.c - lb.b * la.c;
-    nv->data[1] = la.a * lb.c - lb.a * la.c;
+    det = la.a * lb.b - lb.a * la.b;
+    nv->data[0] = (la.b * lb.c - lb.b * la.c)/det;
+    nv->data[1] = (lb.a * la.c - la.a * lb.c)/det;
     return nv;
 }
 
-Line PickSplittingPlane (Vertices vertices) {
+void BSPTree_delete (BSPNode node) {
+    if (node == NULL) return;
+    if (node->vertices != NULL) {
+        vertices_delete (node->vertices);
+    } else {
+        BSPTree_delete (node->right);
+        BSPTree_delete (node->left);
+    }
+    free (node);
+}
+
+Line PickSplittingLine (Vertices vertices) {
     int i, j;
     float score;
     int numInFront;
@@ -101,11 +111,15 @@ Line PickSplittingPlane (Vertices vertices) {
         numStraddling = 0;
         vert = vertices_get (vertices, i);
         line = GetLineFromVertice (vert);
+
+        /* printf("(%lf,%lf) (%lf,%lf)\n", vert->a->data[0], vert->a->data[1], vert->b->data[0], vert->b->data[1]); */
+        /* printf("%lf * x + %lf * y + %lf = 0\n", line.a, line.b, line.c); */
+        
         /* Test against all other vertices */
         for (j = 0; j < vertices_size (vertices); j++) {
             /* Ignore testing against self */
             if (i == j) continue;
-            /* Keep standing count of the various poly-line relationships */
+            /* Keep standing count of the various poly-line relationships */ 
             switch (ClassifyVerticeToline (vertices_get (vertices, j), line)) {
                 case COLINEAR:
                 /* Coplanar vertices treated as being in front of line */
@@ -127,14 +141,17 @@ Line PickSplittingPlane (Vertices vertices) {
             bestScore = score;
             bestline = line;
         }
-    }/*
+        /* printf("%lf\n", score); */
+    }
+/*
+    printf("%lf * x + %lf * y + %lf = 0\n", bestline.a, bestline.b, bestline.c);
     glLineWidth(1); 
     glBegin(GL_LINES);
     glVertex2f(-1000,(1000*bestline.a-bestline.c)/bestline.b);
     glVertex2f(1000,(-1000*bestline.a-bestline.c)/bestline.b);
-    glEnd();*/
+    glEnd();
 
-
+*/
     return bestline;
 }
 
@@ -154,33 +171,42 @@ Vertice SplitVerticeB (Vertice vertice, Line line) {
     Vertice v;
     n = GetLineFromVertice (vertice);
     k = LineInter (n, line);
-    v = vertice_new (k, vertice->b,vertice->o);
+    v = vertice_new (k, vertice->b, vertice->o);
     return v;
 }
 
-/* Controi a arvore bst com um vetor de vertices */
+/* Constroi a arvore bst com um vetor de vertices */
 BSPNode BuildBSPTree(Vertices vertices, int depth) {
     BSPNode newnode;
     Vertice tmp, tmpa;
     Vertices frontPart, backPart;
-    int i;
-    if (vertices_size (vertices) == 0) return NULL;
+    Line line;
+    int i, size;
 
-    /* É uma folha */
-    if (depth >= MAX_DEPTH || vertices_size (vertices) <= MIN_LEAF_SIZE)
-        return bsp_new (vertices);
+    size = vertices_size (vertices);
+    /*printf("%d\n", size);*/
+
+    if (size == 0) return NULL;
 
     newnode = malloc (sizeof (struct node));
     newnode->vertices = NULL;
+    newnode->right = NULL;
+    newnode->left = NULL;
 
-    newnode->line = PickSplittingPlane(vertices);
+    /* É uma folha */
+    if (depth >= MAX_DEPTH || size <= MIN_LEAF_SIZE) {
+       newnode->vertices = vertices;
+       return newnode;
+    }
+
+    line = PickSplittingLine (vertices);
     frontPart = vertices_new ();
     backPart = vertices_new ();
 
-    for (i = 0; i < vertices_size (vertices); i++) {
+    for (i = 0; i < size; i++) {
         /* Keep standing count of the various poly-line relationships */
         tmp = vertices_get (vertices, i);
-        switch (ClassifyVerticeToline (tmp, newnode->line)) {
+        switch (ClassifyVerticeToline (tmp, line)) {
             case COLINEAR:
             /* Coplanar vertices treated as being in front of line */
             case POSITIVE:
@@ -189,44 +215,71 @@ BSPNode BuildBSPTree(Vertices vertices, int depth) {
             case NEGATIVE:
                 vertices_insert (backPart, tmp);
                 break;
-            case INTERSECTION:
-                tmpa = SplitVerticeF (tmp, newnode->line);
+            case INTERSECTION: 
+                tmpa = SplitVerticeF (tmp, line);
                 vertices_insert (frontPart, tmpa);
-                tmpa = SplitVerticeB (tmp, newnode->line);
+                tmpa = SplitVerticeB (tmp, line);
                 vertices_insert (backPart, tmpa);
                 break;
         }
     }
+    /*
+    printf("-> %d - frontPart %d, backPart %d\n", depth, vertices_size(frontPart), vertices_size(backPart));
+*/
+    if (vertices_size(frontPart) == 0) {
+        vertices_delete (frontPart);
+        newnode->vertices = backPart;
+        return newnode;
+    }
+    if (vertices_size(backPart) == 0) {
+        vertices_delete (backPart);
+        newnode->vertices = frontPart;
+        return newnode;
+    }
 
-    newnode->right = BuildBSPTree(frontPart, depth + 1);
-    newnode->left = BuildBSPTree(backPart, depth + 1);
+    newnode->line = line;
+    newnode->right = BuildBSPTree (frontPart, depth + 1);
+    newnode->left = BuildBSPTree (backPart, depth + 1);
     return newnode;
 }
 
 int Collision (Vertice vertice, BSPNode node) {
     /* Não é folha */
-    Vertice tmpb, tmpa;
-    while (node->vertices == NULL) {
-        switch (ClassifyVerticeToline (vertice, node->line)) {
+    Vertice tmpb;
+    BSPNode atual;
+    int i;
+
+    printf("-(%lf,%lf) (%lf,%lf)\n", vertice->a->data[0], vertice->a->data[1], vertice->b->data[0], vertice->b->data[1]);
+
+    atual = node;
+    while (atual->vertices == NULL) {
+        switch (ClassifyVerticeToline (vertice, atual->line)) {
             case COLINEAR:
             /* Coplanar vertices treated as being in front of line */
             case POSITIVE:
-                node = node->right;
+                atual = atual->right;
                 break;
             case NEGATIVE:
-                node = node->left;
+                atual = atual->left;
                 break;
             case INTERSECTION:
-                tmpa = SplitVerticeF (vertice, node->line);
-                tmpb = SplitVerticeB (vertice, node->line);
-                if (Collision (tmpa, node->right)) return 1;
-                if (Collision (tmpb, node->left)) return 1;
+                printf("%e\n", atual->line.a*vertice->a->data[0] +atual->line.b*vertice->a->data[1]+ atual->line.c);
+                tmpb = SplitVerticeF (vertice, atual->line);
+                if (Collision (tmpb, atual->right)) return 1;
+                tmpb = SplitVerticeB (vertice, atual->line);
+                if (Collision (tmpb, atual->left)) return 1;
                 break;
             return 0;
         }
     }
     /* Now at a leaf, inside/outside status determined by solid flag */
-    return 1;
+    for (i = 0; i < vertices_size(atual->vertices); i++) {
+        tmpb = vertices_get(atual->vertices, i);
+        if (tmpb->o == vertice->o) continue;
+        if (ClassifyVerticeToline (vertice, GetLineFromVertice (tmpb))
+            == INTERSECTION) return 1;
+    }
+    return 0;
 }
 
 void BSP () {
@@ -235,7 +288,7 @@ void BSP () {
     Object tmp;
     BSPNode tree;
     Shape stmp;
-    int i, j;
+    int i, j, k;
     vertices = vertices_new ();
     for (i = 0; i < obj_numberof (); i++) {
         tmp = obj_get (i);
@@ -246,15 +299,19 @@ void BSP () {
         shape_rotate (stmp, 0.0);
         shape_move (stmp, body_posg (tmp->body));
         for (j = 0; j < stmp->size; j++) {
-            vertmp = vertice_new (stmp->points[j], stmp->points[j%stmp->size], tmp);
-            vertices_insert (vertices, vertmp);
+            k = (j + 1) % stmp->size;
+            vertmp = vertice_new (stmp->points[j], stmp->points[k], tmp);
+            vertices_insert (vertices, vertmp); 
         }
+        free (stmp); 
     }
+    
     tree = BuildBSPTree(vertices, 0);
 
     for (i = 0; i < vertices_size (vertices); i++) {
         vertmp = vertices_get (vertices, i);
-        printf ("%d \n", Collision (vertmp, tree));
+        printf("%d\n", Collision (vertmp, tree)); 
     }
-
+    free (vertices);
+    BSPTree_delete (tree);
 }

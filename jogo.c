@@ -16,10 +16,10 @@
 #include "libs/graphs/shape.h"
 #include "libs/physics/physics.h"
 #include "libs/simulation/moviments.h"
-#include "libs/simulation/bsp.h"
 #include "libs/graphs/draw.h"
+#include "libs/simulation/bsp.h"
 #include "libs/engine/object.h"
-#define FPS 120.0
+#define FPS 120
 
 
 Body body_add2d (double mass, double x, double y, double vx, double vy, double r, double n) ;
@@ -42,17 +42,17 @@ int main (int argc, char *argv[]) {
     Object tmp;
 
     /* adicionar objetos */
-    tmp = obj_get(obj_new ());
+   /* tmp = obj_get(obj_new ());
     tmp->body = body2d_new (1.498334e+12, 500, 0, 0, 1000);
+    tmp->shape = shape2d_circle (100, 3);
+*/
+    tmp = obj_get(obj_new ());
+    tmp->body = body2d_new (1.498334e+12, -500, 0, 0, 1000);
     tmp->shape = shape2d_circle (100, 3);
 
     tmp = obj_get(obj_new ());
-    tmp->body = body2d_new (1.498334e+12, -500, 0, 0, 1000);
-    tmp->shape = shape2d_circle (100, 4);
-
-    tmp = obj_get(obj_new ());
     tmp->body = body2d_new (1.49833235e+16, 0, 0, 0, 0);
-    tmp->shape = shape2d_circle (100, 10);
+    tmp->shape = shape2d_circle (100, 4);
 /*
     tmp = obj_get(obj_new ());
     tmp->body = body2d_new (1.498334e+12, 300, 0, 0, -400);
@@ -61,7 +61,6 @@ int main (int argc, char *argv[]) {
     tmp = obj_get(obj_new ());
     tmp->body = body2d_new (1.498334e+12, -300, 0, 0, 400);
     tmp->shape = shape2d_circle (0.1, 10);*/
-
     glfwSetErrorCallback(error_callback);
     if (!glfwInit()) exit(EXIT_FAILURE);
 
@@ -78,13 +77,13 @@ int main (int argc, char *argv[]) {
 
     last = glfwGetTime();
 
+
     while (!glfwWindowShouldClose(window)) {
         atual = glfwGetTime();
         delta = atual-last;
         /* printf("%lf \n",delta); */
 
         if (delta > 1.0/FPS) {
-            /* printf("%d \n",glfwGetWindowAttrib(window, GLFW_VISIBLE)); */
             
             stime = delta;
             while (stime > 0) {
@@ -95,7 +94,6 @@ int main (int argc, char *argv[]) {
 
                 stime -= interval;
             }
-            BSP ();
 
             glfwGetFramebufferSize(window, &width, &height);
             ratio = width / (float) height;
@@ -112,6 +110,7 @@ int main (int argc, char *argv[]) {
             /*glRotatef((float) glfwGetTime() * 50.f, 0.f, 0.f, 1.f);*/
 
             draw_objects ();
+            BSP ();
 
 
             glfwSwapBuffers(window);

@@ -38,13 +38,13 @@ void shape_move (Shape s, Vector desloc) {
 }
 
 void shape_add_point (Shape s, Vector v) {
-    s->size += 1;
+    s->size = s->size + 1;
     s->points = realloc(s->points, s->size * sizeof (Vector));
     s->points[s->size - 1] = v;
 }
 
 Shape shape_new () {
-    Shape s = malloc (sizeof (Shape));
+    Shape s = malloc (sizeof (struct shape));
     s->size = 0; 
     s->points = NULL;
     return s;
