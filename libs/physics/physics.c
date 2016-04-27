@@ -117,6 +117,7 @@ void body_delete (Body a) {
 Body body_new () {
     Body new;
     new = malloc (sizeof (struct body));
+    new->ang_position = 0;
     return new;
 }
 

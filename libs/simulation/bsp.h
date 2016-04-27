@@ -5,7 +5,6 @@
  *
  *  Projeto da disciplina de Laboratorio de Programacao MAC0211
  *  Batalha Espacial
- *  Baseado em http://kreationsedge.net/?page_id=27
  *
  ******************************************************************************/
 

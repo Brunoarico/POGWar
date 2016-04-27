@@ -23,7 +23,7 @@ void draw_objects () {
     for (i = 0; i < obj_numberof (); i++) {
         tmp = obj_get (i);
         if (tmp != NULL && tmp->shape != NULL && tmp->body != NULL) {
-            draw2d_shape (tmp->shape, body_posg (tmp->body), 45);
+            draw2d_shape (tmp->shape, body_posg (tmp->body), 0);
         }
     }
 }

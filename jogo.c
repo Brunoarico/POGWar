@@ -47,17 +47,17 @@ int main (int argc, char *argv[]) {
     tmp->shape = shape2d_circle (100, 3);
 
     tmp = obj_get(obj_new ());
-    tmp->body = body2d_new (1.498334e+12, -500, 0, 0, 1000);
+    tmp->body = body2d_new (1.498334e+12, -500, 0, 0, -1000);
     tmp->shape = shape2d_circle (100, 3);
 
     tmp = obj_get(obj_new ());
     tmp->body = body2d_new (1.49833235e+16, 0, 0, 0, 0);
     tmp->shape = shape2d_circle (100, 4);
-/*
-    tmp = obj_get(obj_new ());
-    tmp->body = body2d_new (1.498334e+12, 300, 0, 0, -400);
-    tmp->shape = shape2d_circle ( 20, 10);
 
+    tmp = obj_get(obj_new ());
+    tmp->body = body2d_new (1.098334e+12, 300, 0, 0, -1000);
+    tmp->shape = shape2d_circle ( 20, 10);
+/*
     tmp = obj_get(obj_new ());
     tmp->body = body2d_new (1.498334e+12, -300, 0, 0, 400);
     tmp->shape = shape2d_circle (20, 10);
@@ -88,6 +88,7 @@ int main (int argc, char *argv[]) {
         if (delta > 1.0/FPS) {
             
             stime = delta;
+            BSP ();
             while (stime > 0) {
                 if (stime < interval)
                     moviments_update (stime);
@@ -95,7 +96,6 @@ int main (int argc, char *argv[]) {
                     moviments_update (interval);
                 stime -= interval;
             }
-            BSP ();
 
             glfwGetFramebufferSize(window, &width, &height);
             ratio = width / (float) height;
@@ -109,6 +109,7 @@ int main (int argc, char *argv[]) {
 
             glMatrixMode(GL_MODELVIEW);
             glLoadIdentity();
+            
             /*glRotatef((float) glfwGetTime() * 50.f, 0.f, 0.f, 1.f);*/
 
             draw_objects ();

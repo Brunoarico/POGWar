@@ -10,7 +10,7 @@
 #include "bsp.h"
 #define MAX_DEPTH 10
 #define MIN_LEAF_SIZE 1
-#define PLANE_THICKNESS_EPSILON 1.0e-1
+#define PLANE_THICKNESS_EPSILON 0.01
 #define FLT_MAX 10
 
 typedef enum {
@@ -48,9 +48,6 @@ status ClassifyPointToLine (double x, double y, Line linea) {
 }
 
 status ClassifyVerticeToline (Vertice v, Line linea) {
-    if (v == NULL) printf("SOCORRO\n");
-    if (v->a == NULL) printf("SOCORROA\n");
-    if (v->b == NULL) printf("SOCORROB\n");
     status s1 = ClassifyPointToLine (v->a->data[0], v->a->data[1], linea);
     status s2 = ClassifyPointToLine (v->b->data[0], v->b->data[1], linea);
 
@@ -150,8 +147,8 @@ Line PickSplittingLine (Vertices vertices) {
     glVertex2f(-1000,(1000*bestline.a-bestline.c)/bestline.b);
     glVertex2f(1000,(-1000*bestline.a-bestline.c)/bestline.b);
     glEnd();
-
 */
+
     return bestline;
 }
 
