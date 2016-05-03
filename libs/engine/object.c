@@ -13,6 +13,7 @@ static Object obj_add () {
     a->body = NULL;
     a->shot = NULL;
     a->ship = NULL;
+    a->img = NULL;
     return a;
 }
 
@@ -44,6 +45,7 @@ void obj_delete (int i) {
     if (AllObjects[i] == NULL) return;
     shape_delete (AllObjects[i]->shape);
     body_delete (AllObjects[i]->body);
+    image_delete (AllObjects[i]->img);
     free (AllObjects[i]);
     AllObjects[i] = NULL;
 }

@@ -15,6 +15,7 @@
 #include <GLFW/glfw3.h>
 #include "../math/vector.h"
 #include "../graphs/shape.h"
+#include "../graphs/image.h"
 #include "../physics/physics.h"
 
 struct ship {
@@ -34,6 +35,7 @@ struct object {
     Shape shape;
     Shot shot;
     Ship ship;
+    Image img;
     int id;
 };
 typedef struct object *Object;

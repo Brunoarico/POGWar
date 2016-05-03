@@ -111,7 +111,9 @@ int main (int argc, char *argv[]) {
             glLoadIdentity();
             
             /*glRotatef((float) glfwGetTime() * 50.f, 0.f, 0.f, 1.f);*/
-
+            
+            
+            draw_back ();
             draw_objects ();
 
             glfwSwapBuffers(window);

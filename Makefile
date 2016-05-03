@@ -9,41 +9,48 @@ else
     GLFWFLAGS = -lglfw3 -framework OpenGL
 endif
 
-default: physics.o vector.o moviments.o shape.o object.o draw.o vertices.o bsp.o jogo.o 
-	$(CC) $(CFLAGS) $(GLFWFLAGS) *.o -o jogo -lm
+default: image.o physics.o vector.o moviments.o shape.o object.o draw.o vertices.o bsp.o jogo.o 
+	$(CC) $(CFLAGS) $(GLFWFLAGS) -ljpeg *.o -o jogo -lm
 
 jogo.o: jogo.c
 	$(CC) $(CFLAGS) -ansi -c  *.c 
 
+image.o: libs/graphs/image.c libs/graphs/image.h
+	$(CC) $(CFLAGS) -ansi -c $^
+
 physics.o: libs/physics/*.c libs/physics/*.h
-	$(CC) $(CFLAGS) -ansi -c libs/physics/*.c libs/physics/*.h
+	$(CC) $(CFLAGS) -ansi -c $^
 
 vector.o: libs/math/vector.c libs/math/vector.h
-	$(CC) $(CFLAGS) -ansi -c libs/math/vector.c libs/math/vector.h
+	$(CC) $(CFLAGS) -ansi -c $^
 
 moviments.o: libs/simulation/moviments.c libs/simulation/moviments.h
-	$(CC) $(CFLAGS) -ansi -c libs/simulation/moviments.c libs/simulation/moviments.h
+	$(CC) $(CFLAGS) -ansi -c $^
 
 barnes_hut.o: libs/simulation/barnes_hut.c libs/simulation/barnes_hut.h
-	$(CC) $(CFLAGS) -ansi -c libs/simulation/barnes_hut.c libs/simulation/barnes_hut.h
+	$(CC) $(CFLAGS) -ansi -c $^
 
 bsp.o: libs/simulation/bsp.c libs/simulation/bsp.h
-	$(CC) $(CFLAGS) -ansi -c libs/simulation/bsp.c libs/simulation/bsp.h
+	$(CC) $(CFLAGS) -ansi -c $^
 
 vertices.o: libs/simulation/vertices.c libs/simulation/vertices.h
-	$(CC) $(CFLAGS) -ansi -c libs/simulation/vertices.c libs/simulation/vertices.h
+	$(CC) $(CFLAGS) -ansi -c $^
 
 shape.o: libs/graphs/shape.c libs/graphs/shape.h
-	$(CC) $(CFLAGS) -ansi -c libs/graphs/shape.c libs/graphs/shape.h
+	$(CC) $(CFLAGS) -ansi -c $^
 
 draw.o: libs/graphs/draw.c libs/graphs/draw.h
-	$(CC) $(CFLAGS) -ansi -c libs/graphs/draw.c libs/graphs/draw.h
+	$(CC) $(CFLAGS) -ansi -c $^
 
 object.o: libs/engine/object.c libs/engine/object.h
-	$(CC) $(CFLAGS) -ansi -c libs/engine/object.c libs/engine/object.h
+	$(CC) $(CFLAGS) -ansi -c $^
 
 #2Dtext.o: libs/graphs/2Dtext.c libs/graphs/2Dtext.h
 #	$(CC) $(CFLAGS) -ansi -c libs/graphs/2Dtext.c libs/graphs/2Dtext.h
+.PHONY: build clean teste teste_orbita all
+
+all:
+	echo $(targets)
 
 teste_orbita:
 	make default
