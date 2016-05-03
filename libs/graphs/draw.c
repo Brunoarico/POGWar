@@ -1,5 +1,4 @@
 #include "draw.h"
-#include "../engine/object.h"
 
 static Image back = NULL;
 
@@ -8,41 +7,47 @@ void draw2d_shape (Shape s, Vector position, double angle) {
     double x, y;
     x = position->data[0];
     y = position->data[1];
-/*
-    GLuint tex;
-    GLint uniform_mytexture;
-    glGenTextures(1, &tex);
-    glBindTexture(GL_TEXTURE_2D, tex);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    float pixels[] = {
-        5.0f, 0.0f, 0.0f,   1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,   5.0f, 0.0f, 0.0f
-    };
-    glTexImage2D(GL_TEXTURE_2D, 0, 3,2,2, 0, GL_RGB, GL_FLOAT,pixels);
-*/
-/*
-    if (img == NULL) {
-        img = image_read ("img/teste.jpg"); 
-    }*/
 
     glPushMatrix();
     glTranslatef (x, y, 0.0);
     glRotatef(angle, 0, 0, 1);
 
-    glBegin(GL_POLYGON); 
-    /*glBindTexture(GL_TEXTURE_2D, tex);*/
-
+    
+    glBegin(GL_LINE_LOOP); 
     for (i = 0; i < s->size; i++) {
-        if (i == 0) glTexCoord2d(0.0f, 0.0f);
-        if (i == 1) glTexCoord2d(1.0f, 0.0f);
-        if (i == 2) glTexCoord2d(1.0f, 1.0f);
-        if (i == 3) glTexCoord2d(0.0f, 1.0f);
         glVertex2f(s->points[i]->data[0],s->points[i]->data[1]);
     }
-   
     glEnd();
+    
+    glFlush();
     glPopMatrix();
+}
+
+void draw2d_image (Image img, Vector position, double angle) {
+    double x, y, img_radio;
+
+    x = position->data[0];
+    y = position->data[1];
+
+    if (img != NULL) {
+        img_radio = (img->w/(float)img->h);
+
+        glPushMatrix();
+        glTranslatef (x, y, 0.0);
+        glRotatef(angle, 0, 0, 1);
+        glEnable(GL_TEXTURE_2D);
+        image_set_texture (img);
+        glBegin(GL_POLYGON);
+        glTexCoord2f(0.0, 1.0); glVertex2f(-0.2*img_radio*OPENGL_SCALE, -0.2*OPENGL_SCALE);
+        glTexCoord2f(1.0, 1.0); glVertex2f(0.2*OPENGL_SCALE*img_radio, -0.2*OPENGL_SCALE);
+        glTexCoord2f(1.0, 0.0); glVertex2f(0.2*OPENGL_SCALE*img_radio, 0.2*OPENGL_SCALE);
+        glTexCoord2f(0.0, 0.0); glVertex2f(-0.2*OPENGL_SCALE*img_radio, 0.2*OPENGL_SCALE);
+        glEnd();
+        glDisable(GL_TEXTURE_2D);
+    
+        glFlush();
+        glPopMatrix();
+    }
 }
 
 void draw_objects () {
@@ -51,7 +56,10 @@ void draw_objects () {
     for (i = 0; i < obj_numberof (); i++) {
         tmp = obj_get (i);
         if (tmp != NULL && tmp->shape != NULL && tmp->body != NULL) {
-            draw2d_shape (tmp->shape, body_posg (tmp->body), 0);
+            if (SHOW_GL_LINE_LOOP || tmp->img == NULL) {
+                draw2d_shape (tmp->shape, body_posg (tmp->body), 0);
+            }
+            draw2d_image (tmp->img, body_posg (tmp->body), 0);
         }
     }
 }
@@ -59,7 +67,7 @@ void draw_objects () {
 void draw_back () {
     float img_radio;
     if (back == NULL) {
-        back = image_read ("img/galaxy.jpg"); 
+        back = image_read (BACKGROUD_IMAGE); 
     }
     img_radio = (back->w/(float)back->h);
     glEnable(GL_TEXTURE_2D);
@@ -67,10 +75,10 @@ void draw_back () {
     glBindTexture(GL_TEXTURE_2D, back->texture);
 
     glBegin(GL_POLYGON);
-    glTexCoord2f(0.0, 1.0); glVertex2f(-1000.0*img_radio, -1000.0);
-    glTexCoord2f(1.0, 1.0); glVertex2f(1000.0*img_radio, -1000.0);
-    glTexCoord2f(1.0, 0.0); glVertex2f(1000.0*img_radio, 1000.0);
-    glTexCoord2f(0.0, 0.0); glVertex2f(-1000.0*img_radio, 1000.0);
+    glTexCoord2f(0.0, 1.0); glVertex2f(-1.0*img_radio*OPENGL_SCALE, -1.0*OPENGL_SCALE);
+    glTexCoord2f(1.0, 1.0); glVertex2f(1.0*OPENGL_SCALE*img_radio, -1.0*OPENGL_SCALE);
+    glTexCoord2f(1.0, 0.0); glVertex2f(1.0*OPENGL_SCALE*img_radio, 1.0*OPENGL_SCALE);
+    glTexCoord2f(0.0, 0.0); glVertex2f(-1.0*OPENGL_SCALE*img_radio, 1.0*OPENGL_SCALE);
 
     glEnd();
     glFlush();

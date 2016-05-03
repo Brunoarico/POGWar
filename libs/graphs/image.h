@@ -12,12 +12,13 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <jpeglib.h>
+#include <png.h>
 #include <GLFW/glfw3.h>
 
 struct image {
     int w, h;
     GLuint texture;
+    int zoom;
 };
 typedef struct image *Image;
 

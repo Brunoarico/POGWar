@@ -19,8 +19,8 @@
 #include "libs/graphs/draw.h"
 #include "libs/simulation/bsp.h"
 #include "libs/engine/object.h"
+#include "config.h"
 #define FPS 120
-
 
 Body body_add2d (double mass, double x, double y, double vx, double vy, double r, double n) ;
 void print_bodies (Body *corpos, int N);
@@ -45,6 +45,7 @@ int main (int argc, char *argv[]) {
     tmp = obj_get(obj_new ());
     tmp->body = body2d_new (1.498334e+12, 500, 0, 0, 1000);
     tmp->shape = shape2d_circle (100, 3);
+    tmp->img = image_read ("img/DeathStar.png"); 
 
     tmp = obj_get(obj_new ());
     tmp->body = body2d_new (1.498334e+12, -500, 0, 0, -1000);
@@ -105,7 +106,7 @@ int main (int argc, char *argv[]) {
             glMatrixMode(GL_PROJECTION);
             glLoadIdentity();
             glOrtho(-ratio, ratio, -1.f, 1.f, 1.f, -1.f);
-            glScalef(.001f, .001f, 1.f);
+            glScalef(1.0f/OPENGL_SCALE, 1.0f/OPENGL_SCALE, 1.f);
 
             glMatrixMode(GL_MODELVIEW);
             glLoadIdentity();

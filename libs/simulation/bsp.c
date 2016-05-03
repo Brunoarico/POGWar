@@ -331,7 +331,7 @@ void BSP () {
         tmp = Collision (vertmp, tree);
         if (tmp != NULL) {
             printf("%d, %d\n", tmp->id, vertmp->o->id); 
-            obj_delete (vertmp->o->id); 
+            /* obj_delete (vertmp->o->id); */
         }
     }
     free (vertices->vertices);

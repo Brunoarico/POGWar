@@ -19,8 +19,13 @@
 #include <stdlib.h>
 #include "../math/vector.h"
 #include "../graphs/shape.h"
+#include "../../config.h"
 
-#define G 6.67408e-11
+#ifndef GRAV_CONST
+ 	#define G 6.67408e-11
+#else
+ 	#define G GRAV_CONST
+#endif
 
 struct basicbody {
     double mass;

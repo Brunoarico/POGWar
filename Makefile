@@ -10,7 +10,7 @@ else
 endif
 
 default: image.o physics.o vector.o moviments.o shape.o object.o draw.o vertices.o bsp.o jogo.o 
-	$(CC) $(CFLAGS) $(GLFWFLAGS) -ljpeg *.o -o jogo -lm
+	$(CC) $(CFLAGS) $(GLFWFLAGS) -lpng *.o -o jogo -lm
 
 jogo.o: jogo.c
 	$(CC) $(CFLAGS) -ansi -c  *.c 
