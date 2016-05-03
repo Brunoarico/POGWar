@@ -45,19 +45,26 @@ int main (int argc, char *argv[]) {
     tmp = obj_get(obj_new ());
     tmp->body = body2d_new (1.498334e+12, 500, 0, 0, 1000);
     tmp->shape = shape2d_circle (100, 3);
-    tmp->img = image_read ("img/DeathStar.png"); 
+    tmp->img = image_create ("img/F6.png");
+    image_zoom (tmp->img, 0.1); 
 
     tmp = obj_get(obj_new ());
     tmp->body = body2d_new (1.498334e+12, -500, 0, 0, -1000);
     tmp->shape = shape2d_circle (100, 3);
+    tmp->img = image_create ("img/F5.png");
+    image_zoom (tmp->img, 0.1); 
 
     tmp = obj_get(obj_new ());
     tmp->body = body2d_new (1.49833235e+16, 0, 0, 0, 0);
-    tmp->shape = shape2d_circle (100, 4);
+    tmp->shape = shape2d_circle (200, 30);
+    tmp->img = image_create ("img/DeathStar.png");
+    image_zoom (tmp->img, 0.2); 
 
     tmp = obj_get(obj_new ());
-    tmp->body = body2d_new (1.098334e+12, 300, 0, 0, -1000);
+    tmp->body = body2d_new (1.098334e+12, 300, 0, 10, -1000);
     tmp->shape = shape2d_circle ( 20, 10);
+    tmp->img = image_create ("img/mars.png");
+    image_zoom (tmp->img, 0.04); 
 /*
     tmp = obj_get(obj_new ());
     tmp->body = body2d_new (1.498334e+12, -300, 0, 0, 400);

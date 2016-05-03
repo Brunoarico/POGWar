@@ -24,13 +24,17 @@ void draw2d_shape (Shape s, Vector position, double angle) {
 }
 
 void draw2d_image (Image img, Vector position, double angle) {
-    double x, y, img_radio;
+    double x, y, img_radio, zoom;
 
     x = position->data[0];
     y = position->data[1];
 
     if (img != NULL) {
+        if (img->w == 0) {
+            image_load (img);
+        }
         img_radio = (img->w/(float)img->h);
+        zoom = OPENGL_SCALE*img->zoom;
 
         glPushMatrix();
         glTranslatef (x, y, 0.0);
@@ -38,10 +42,10 @@ void draw2d_image (Image img, Vector position, double angle) {
         glEnable(GL_TEXTURE_2D);
         image_set_texture (img);
         glBegin(GL_POLYGON);
-        glTexCoord2f(0.0, 1.0); glVertex2f(-0.2*img_radio*OPENGL_SCALE, -0.2*OPENGL_SCALE);
-        glTexCoord2f(1.0, 1.0); glVertex2f(0.2*OPENGL_SCALE*img_radio, -0.2*OPENGL_SCALE);
-        glTexCoord2f(1.0, 0.0); glVertex2f(0.2*OPENGL_SCALE*img_radio, 0.2*OPENGL_SCALE);
-        glTexCoord2f(0.0, 0.0); glVertex2f(-0.2*OPENGL_SCALE*img_radio, 0.2*OPENGL_SCALE);
+        glTexCoord2f(0.0, 1.0); glVertex2f(-zoom*img_radio, -zoom);
+        glTexCoord2f(1.0, 1.0); glVertex2f(zoom*img_radio, -zoom);
+        glTexCoord2f(1.0, 0.0); glVertex2f(zoom*img_radio, zoom);
+        glTexCoord2f(0.0, 0.0); glVertex2f(-zoom*img_radio, zoom);
         glEnd();
         glDisable(GL_TEXTURE_2D);
     
@@ -67,7 +71,8 @@ void draw_objects () {
 void draw_back () {
     float img_radio;
     if (back == NULL) {
-        back = image_read (BACKGROUD_IMAGE); 
+        back = image_create (BACKGROUD_IMAGE);
+        image_load (back); 
     }
     img_radio = (back->w/(float)back->h);
     glEnable(GL_TEXTURE_2D);

@@ -18,13 +18,18 @@
 struct image {
     int w, h;
     GLuint texture;
-    int zoom;
+    double zoom;
+    char *filename;
 };
 typedef struct image *Image;
 
-Image image_read (char *filename);
+Image image_create (char *filename);
+
+void image_load (Image img);
 
 void image_delete (Image img);
+
+void image_zoom (Image img, double z);
 
 void image_set_texture (Image img);
 

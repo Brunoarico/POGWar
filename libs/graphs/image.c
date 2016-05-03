@@ -5,10 +5,23 @@ void image_delete (Image img) {
     free (img);
 }
 
-Image image_read (char *filename) {
+void image_zoom (Image img, double z) {
+    img->zoom = z;
+}
+
+Image image_create (char *filename) {
+    Image img;
+    img = malloc (sizeof (struct image));
+    img->zoom = 1.0;
+    img->h = 0;
+    img->w = 0;
+    img->filename = filename;
+    return img;
+}
+
+void image_load (Image img) {
 
     FILE *fp;
-    Image img;
     float *data;
     int y, x;
     unsigned long location = 0;
@@ -19,8 +32,7 @@ Image image_read (char *filename) {
     png_structp png;
     png_infop info;
 
-    fp = fopen(filename, "rb");
-    img = malloc (sizeof (struct image));
+    fp = fopen(img->filename, "rb");
 
     png = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
     info = png_create_info_struct(png);
@@ -78,7 +90,8 @@ Image image_read (char *filename) {
     img->h = height;
 
     data = malloc(img->w * img->h * 4 *sizeof(float));
-    printf("Lendo %s \tW: %d\tH: %d\tD: %d\n", filename, img->w, img->h , 4);
+    printf("Lendo %s \t", img->filename);
+    printf("W: %d\tH: %d\tD: %d\n", img->w, img->h , 4);
     for(y = 0; y < height; y++) {
         png_bytep row = row_pointers[y];
         for(x = 0; x < width * 4; x++) {
@@ -99,7 +112,6 @@ Image image_read (char *filename) {
 
     free (data);
     png_destroy_read_struct(&png, &info, NULL);
-    return img;
 }
 
 void image_set_texture (Image img) {
