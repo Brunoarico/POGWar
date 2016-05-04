@@ -27,6 +27,7 @@ typedef struct ship *Ship;
 struct shot {
     double disapear_time;
     double damage;
+    int id_origem;
 };
 typedef struct shot *Shot;
 

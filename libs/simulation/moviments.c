@@ -41,7 +41,8 @@ void moviments_update (double interval) {
         tmpobji = obj_get (i);
         if (tmpobji == NULL || tmpobji->body == NULL)
             continue;
-        act_force (tmpobji->body, forces[i], interval);
+        tmp = vector_zeros (2);
+        act_force (tmpobji->body, forces[i], tmp, interval);
         vector_delete (forces[i]);
     }
     free (forces);

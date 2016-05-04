@@ -20,6 +20,7 @@
 #include "../engine/object.h"
 #include "../../config.h"
 
+/* angle em radianos */
 void draw2d_shape (Shape s, Vector position, double angle);
 
 void draw2d_image (Image img, Vector position, double angle);

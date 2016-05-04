@@ -56,14 +56,16 @@ void draw2d_image (Image img, Vector position, double angle) {
 
 void draw_objects () {
     int i;
+    double ang;
     Object tmp;
     for (i = 0; i < obj_numberof (); i++) {
         tmp = obj_get (i);
+        ang = body_ang_position_degress (tmp->body);
         if (tmp != NULL && tmp->shape != NULL && tmp->body != NULL) {
             if (SHOW_GL_LINE_LOOP || tmp->img == NULL) {
-                draw2d_shape (tmp->shape, body_posg (tmp->body), 0);
+                draw2d_shape (tmp->shape, body_posg (tmp->body), ang);
             }
-            draw2d_image (tmp->img, body_posg (tmp->body), 0);
+            draw2d_image (tmp->img, body_posg (tmp->body), ang);
         }
     }
 }

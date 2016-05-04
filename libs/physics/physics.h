@@ -57,7 +57,13 @@ Vector gravitational_acel (Body a, Body b);
 
 /* Realiza uma forca f no corpo c durante sec segundos
  * Atualiza o corpo. */
-void act_force (Body c, Vector f, double sec);
+void act_force_center (Body c, Vector f, double sec);
+
+/* Realiza uma forca f no corpo c durante sec segundos
+ * Atualiza o corpo. Essa força é aplicada em p. Para
+ * o caso gravitacional, p = (0, 0)
+ AVISO: PRECISA PROGRAMAR P!!!! */
+void act_force (Body c, Vector f, Vector p, double sec);
 
 /* Desaloca um corpo */
 void body_delete (Body a);
@@ -74,8 +80,19 @@ void body_pos (Body b, Vector p);
 /* pega a posicao a um corpo */
 Vector body_posg (Body b);
 
+double body_ang_position_degress (Body b);
+
 /* adiciona a velocidade a um corpo */
 void body_spe (Body b, Vector p);
+
+/* adiciona a velocidade a um corpo */
+void body_ang_spe (Body b, Vector p);
+
+/* adiciona a velocidade a um corpo */
+void body_ang_spe2d (Body b, double p);
+
+/* adiciona a posicao angular em graus */
+void body_pos_spe2d_degree (Body b, double p);
 
 /* adiciona a aceleracao a um corpo */
 void body_acel (Body b, Vector p);

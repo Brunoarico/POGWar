@@ -79,10 +79,11 @@ Vector gravitational_force (Body a, Body b) {
     return res;
 }
 
-void act_force (Body c, Vector f, double sec) {
+void act_force (Body c, Vector f, Vector p, double sec) {
     Vector at, v0;
     at = vector_zeros (f->size);
 
+    /* para o caso linear */
     /* Impoem aceleracao */
     vector_copy (at, f);
     vector_scale (at, 1.0/c->bbody.mass);
@@ -101,6 +102,12 @@ void act_force (Body c, Vector f, double sec) {
     vector_scale (at, sec/2.0);
     vector_add(c->bbody.position, at);
 
+    /* para o caso angular */
+    /* Impoem aceleracao */
+    /* Calcula nova velocidade */
+    /* calcula nova posicao */
+    c->ang_position->data[0] += (c->ang_speed->data[0]) * sec;
+
     vector_delete (at);
     vector_delete (v0);
 }
@@ -110,6 +117,8 @@ void body_delete (Body a) {
         vector_delete (a->bbody.position);
         vector_delete (a->bbody.speed);
         vector_delete (a->bbody.acel);
+        vector_delete (a->ang_position);
+        vector_delete (a->ang_speed);
         free (a);
     }    
 }
@@ -138,6 +147,17 @@ void body_spe (Body b, Vector p) {
     b->bbody.speed = p;
 }
 
+void body_ang_spe (Body b, Vector p) {
+    b->ang_speed = p;
+}
+
+void body_ang_spe2d (Body b, double p) {
+    Vector a = vector_zeros (1);
+    a->data[0] = p;
+    vector_delete (b->ang_speed);
+    b->ang_speed = a;
+}
+
 void body_acel (Body b, Vector p) {
     b->bbody.acel = p;
 }
@@ -158,5 +178,15 @@ Body body2d_new (double mass, double x, double y, double vx,
     body_pos (b, position);
     body_spe (b, speed);
     body_acel (b, acel);
+    b->ang_position = vector_zeros (1);
+    body_ang_spe(b, vector_zeros (1));
     return b;
+}
+
+double body_ang_position_degress (Body b) {
+    return b->ang_position->data[0]*180.0/M_PI;
+}
+
+void body_pos_spe2d_degree (Body b, double p) {
+    b->ang_position->data[0] = p*M_PI/180.0;
 }
