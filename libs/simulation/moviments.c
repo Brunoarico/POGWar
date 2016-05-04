@@ -59,10 +59,10 @@ void check_screen_edges (double x, double y) {
         bx = &tmpobj->body->bbody.position->data[0];
         by = &tmpobj->body->bbody.position->data[1];
         if (*bx > x || *bx < -x) {
-            *bx = -x;
+            *bx = -*bx;
         }
         if (*by > y || *by < -y) {
-            *by = -y;
+            *by = -*by;
         }
     }
 }
