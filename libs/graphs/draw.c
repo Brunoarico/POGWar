@@ -34,7 +34,7 @@ void draw2d_image (Image img, Vector position, double angle) {
             image_load (img);
         }
         img_radio = (img->w/(float)img->h);
-        zoom = OPENGL_SCALE*img->zoom;
+        zoom = img->zoom;
 
         glPushMatrix();
         glTranslatef (x, y, 0.0);
@@ -60,8 +60,8 @@ void draw_objects () {
     Object tmp;
     for (i = 0; i < obj_numberof (); i++) {
         tmp = obj_get (i);
-        ang = body_ang_position_degress (tmp->body);
         if (tmp != NULL && tmp->shape != NULL && tmp->body != NULL) {
+            ang = body_ang_position_degress (tmp->body);
             if (SHOW_GL_LINE_LOOP || tmp->img == NULL) {
                 draw2d_shape (tmp->shape, body_posg (tmp->body), ang);
             }

@@ -45,6 +45,10 @@ draw.o: libs/graphs/draw.c libs/graphs/draw.h
 object.o: libs/engine/object.c libs/engine/object.h
 	$(CC) $(CFLAGS) -ansi -c $^
 
+build: config.h
+	make clean
+	make
+
 #2Dtext.o: libs/graphs/2Dtext.c libs/graphs/2Dtext.h
 #	$(CC) $(CFLAGS) -ansi -c libs/graphs/2Dtext.c libs/graphs/2Dtext.h
 .PHONY: build clean teste teste_orbita all
@@ -59,7 +63,7 @@ teste_orbita:
 teste:
 	./jogo $(T) < $(F)
 
-build:
+tar:
 	make default
 	COPYFILE_DISABLE=1 tar -cvf parte_1.tar ./testes_simulacao *.c *.h Makefile
 

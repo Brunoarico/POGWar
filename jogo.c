@@ -20,7 +20,6 @@
 #include "libs/simulation/bsp.h"
 #include "libs/engine/object.h"
 #include "config.h"
-#define FPS 120
 
 Body body_add2d (double mass, double x, double y, double vx, double vy, double r, double n) ;
 void print_bodies (Body *corpos, int N);
@@ -34,7 +33,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 }
 
 int main (int argc, char *argv[]) {
-    double last, atual, delta;
+    double lastgravidade, lastfps, atual, deltagravidade, deltafps;
     float ratio;
     int width, height;
     GLFWwindow* window;
@@ -43,36 +42,64 @@ int main (int argc, char *argv[]) {
 
     /* adicionar objetos */
     tmp = obj_get(obj_new ());
-    tmp->body = body2d_new (1.498334e+12, 500, 0, 0, 1000);
-    tmp->shape = shape2d_circle (100, 4);
+    tmp->body = body2d_new (1.498334e+12, 500, 0, 400, 0);
+    tmp->shape = shape_new ();
+    shape_add_point (tmp->shape, vector2D_new (-100, -70));
+    shape_add_point (tmp->shape, vector2D_new (-100, -55));
+    shape_add_point (tmp->shape, vector2D_new (-28, 10));
+    shape_add_point (tmp->shape, vector2D_new (-28, 45));
+    shape_add_point (tmp->shape, vector2D_new (0, 100));
+    shape_add_point (tmp->shape, vector2D_new (28, 45));
+    shape_add_point (tmp->shape, vector2D_new (28, 10));
+    shape_add_point (tmp->shape, vector2D_new (100, -55));
+    shape_add_point (tmp->shape, vector2D_new (100, -70));
+    shape_add_point (tmp->shape, vector2D_new (0, -100));
     tmp->img = image_create ("img/F6.png");
-    image_zoom (tmp->img, 0.1); 
+    image_zoom (tmp->img, 100); 
     body_ang_spe2d (tmp->body, 2);
+
 
     tmp = obj_get(obj_new ());
     tmp->body = body2d_new (1.498334e+12, -500, 0, 0, -1000);
-    tmp->shape = shape2d_circle (100, 4);
+    tmp->shape = shape_new ();
+    shape_add_point (tmp->shape, vector2D_new (-55, -80));
+    shape_add_point (tmp->shape, vector2D_new (-55, -40));
+    shape_add_point (tmp->shape, vector2D_new (-28, -10));
+    shape_add_point (tmp->shape, vector2D_new (-28, 53));
+    shape_add_point (tmp->shape, vector2D_new (0, 98));
+    shape_add_point (tmp->shape, vector2D_new (28, 53));
+    shape_add_point (tmp->shape, vector2D_new (28, -10));
+    shape_add_point (tmp->shape, vector2D_new (55, -40));
+    shape_add_point (tmp->shape, vector2D_new (55, -80));
     tmp->img = image_create ("img/F5.png");
-    image_zoom (tmp->img, 0.1);
-    body_ang_spe2d (tmp->body, 2.0);
-    body_pos_spe2d_degree (tmp->body, 180);
+    image_zoom (tmp->img, 100);
+    body_ang_spe2d (tmp->body, 2);
+    body_pos2d_degree (tmp->body, 180);
 
     tmp = obj_get(obj_new ());
     tmp->body = body2d_new (1.49833235e+16, 0, 0, 0, 0);
     tmp->shape = shape2d_circle (200, 30);
     tmp->img = image_create ("img/DeathStar.png");
-    image_zoom (tmp->img, 0.2);
+    image_zoom (tmp->img, 200);
 
     tmp = obj_get(obj_new ());
     tmp->body = body2d_new (1.098334e+12, 900, 0, 100, -950);
-    tmp->shape = shape2d_circle ( 20, 10);
+    tmp->shape = shape2d_circle ( 40, 10);
     tmp->img = image_create ("img/mars.png");
-    image_zoom (tmp->img, 0.04); 
-/*
+    image_zoom (tmp->img, 40);
+
+
+    tmp = obj_get(obj_new ());
+    tmp->body = body2d_new (1.49833235e+15, 1000, 200, 0, 0);
+    tmp->shape = shape2d_circle ( 60, 10);
+    tmp->img = image_create ("img/earth.png");
+    image_zoom (tmp->img, 60);
+
+
     tmp = obj_get(obj_new ());
     tmp->body = body2d_new (1.498334e+12, -300, 0, 0, 400);
     tmp->shape = shape2d_circle (20, 10);
-*/
+
 
     glfwSetErrorCallback(error_callback);
     if (!glfwInit()) exit(EXIT_FAILURE);
@@ -88,29 +115,34 @@ int main (int argc, char *argv[]) {
 
     glfwSetKeyCallback(window, key_callback);
 
-    last = glfwGetTime();
+    lastfps = glfwGetTime();
+    lastgravidade = lastfps;
 
 
     while (!glfwWindowShouldClose(window)) {
         atual = glfwGetTime();
-        delta = atual-last;
-        /* printf("%lf \n",delta); */
+        deltagravidade = atual - lastgravidade;
+        deltafps = atual - lastfps;
+        stime = deltagravidade;
 
-        if (delta > 1.0/FPS) {
-            
-            stime = delta;
-            BSP ();
-            while (stime > 0) {
-                if (stime < interval)
-                    moviments_update (stime);
-                else 
-                    moviments_update (interval);
-                stime -= interval;
-            }
+        glfwGetFramebufferSize(window, &width, &height);
+        ratio = width / (float) height;
 
-            glfwGetFramebufferSize(window, &width, &height);
-            ratio = width / (float) height;
+        while (stime > 0) {
+            if (stime < interval) 
+                moviments_update (stime);
+            else 
+                moviments_update (interval);
+            /* verifica margem */
+            check_screen_edges (OPENGL_SCALE*ratio, OPENGL_SCALE);
+            stime -= interval;
+        }
+        lastgravidade = atual;
+
+        if (deltafps >= 1.0/FPS) {
+
             glViewport(0, 0, width, height);
+            
             glClear(GL_COLOR_BUFFER_BIT);
 
             glMatrixMode(GL_PROJECTION);
@@ -121,15 +153,13 @@ int main (int argc, char *argv[]) {
             glMatrixMode(GL_MODELVIEW);
             glLoadIdentity();
             
-            /*glRotatef((float) glfwGetTime() * 50.f, 0.f, 0.f, 1.f);*/
-            
-            
-            draw_back ();
-            draw_objects ();
+            BSP ();             /* Verifica colissoes */
+            draw_back ();       /* Desenha fundo */
+            draw_objects ();    /* Desenha objetos */
 
             glfwSwapBuffers(window);
             glfwPollEvents();
-            last = atual;
+            lastfps = atual;
         }
     }
     glfwDestroyWindow(window);

@@ -65,7 +65,8 @@ Vector gravitational_acel (Body a, Body b) {
     if (tmp == 0) {
         fprintf (stderr, "gravitational_force: ");
         fprintf (stderr, "Division by zero.\n");
-        exit(EXIT_FAILURE);
+        /* exit(EXIT_FAILURE); */
+        tmp = 0.00001;
     }
     force /= tmp;
     vector_scale (res, force);
@@ -187,6 +188,6 @@ double body_ang_position_degress (Body b) {
     return b->ang_position->data[0]*180.0/M_PI;
 }
 
-void body_pos_spe2d_degree (Body b, double p) {
+void body_pos2d_degree (Body b, double p) {
     b->ang_position->data[0] = p*M_PI/180.0;
 }

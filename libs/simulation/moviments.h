@@ -23,4 +23,7 @@
 
 void moviments_update (double interval);
 
+/* recebe o tamanho máximo da tela */
+void check_screen_edges (double x, double y);
+
 #endif

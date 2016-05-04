@@ -56,6 +56,8 @@ Vector vector_copy2 (Vector a);
 /* Rotaciona o vetor a em ang radianos */
 void vector2D_rotate (Vector a, double ang);
 
+Vector vector2D_new (double x, double y);
+
 /* Desloca o vetor a em desloc*/
 void vector2D_move (Vector a, Vector desloc); 
  

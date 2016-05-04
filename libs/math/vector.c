@@ -87,3 +87,11 @@ void vector2D_rotate (Vector a, double ang) {
     a->data[0] = cos (ang) * x - sin (ang) * y;
     a->data[1] = sin (ang) * x + cos (ang) * y;
 }
+
+Vector vector2D_new (double x, double y) {
+    Vector newv = vector_zeros(2);
+    newv->data[0] = x;
+    newv->data[1] = y;
+    return newv;
+}
+

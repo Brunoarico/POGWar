@@ -92,7 +92,7 @@ void body_ang_spe (Body b, Vector p);
 void body_ang_spe2d (Body b, double p);
 
 /* adiciona a posicao angular em graus */
-void body_pos_spe2d_degree (Body b, double p);
+void body_pos2d_degree (Body b, double p);
 
 /* adiciona a aceleracao a um corpo */
 void body_acel (Body b, Vector p);

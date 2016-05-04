@@ -13,3 +13,6 @@
 #define GRAV_CONST 6.67408e-11
 
 #define BACKGROUD_IMAGE "img/galaxy.png"
+
+#define FPS 120
+
