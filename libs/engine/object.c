@@ -1,9 +1,23 @@
+/******************************************************************************
+ *  Nome:   Bruno Arico         8125459
+ *          Gabriel Capella     8962078
+ *          Nicolas Nogueira    9277541
+ *
+ *  Projeto da disciplina de Laboratorio de Programacao MAC0211
+ *  Batalha Espacial
+ *
+ *  Manipula objetos da cena
+ *
+ *  Contem um vetor de objetos que indicam todos os objetos da cena
+ *
+ ******************************************************************************/
+
 #include "object.h"
 
-/* vetor de ponteiros para objetos de todos objetos */
+/* Vetor de ponteiros para objetos que guardam todos os objetos da cena */
 static Object *AllObjects;
 
-/* n numero de objetos, N tamanho de votor */
+/* n numero de objetos, N tamanho de vetor */
 static n = 0, N = 0;
 
 static Object obj_add () {

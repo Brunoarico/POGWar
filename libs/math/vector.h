@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <math.h>
 
+/* Estrutura que representa um vetor */
 struct vector {
     double *data;
     unsigned int size;

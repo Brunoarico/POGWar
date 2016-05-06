@@ -6,9 +6,7 @@
  *  Projeto da disciplina de Laboratorio de Programacao MAC0211
  *  Batalha Espacial
  *
- *  Biblioteca para calcular posicao dos corpos apos t 
- *  intervalo de tempo. Veja mais informacoes sobre o
- *  algoritmo em: http://arborjs.org/docs/barnes-hut
+ *  Interface que cuida do calculo dos movimentos dos corpos
  *
  ******************************************************************************/
 
@@ -21,9 +19,10 @@
 #include "../math/vector.h"
 #include "../engine/object.h"
 
+/* Atualiza o movimento dos corpos apos um intervalo de tempo interval */
 void moviments_update (double interval);
 
-/* recebe o tamanho máximo da tela */
+/* Recebe o tamanho máximo da tela */
 void check_screen_edges (double x, double y);
 
 #endif

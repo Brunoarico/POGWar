@@ -6,6 +6,8 @@
  *  Projeto da disciplina de Laboratorio de Programacao MAC0211
  *  Batalha Espacial
  *
+ *  Interface que define algumas constantes a serem aplicadas no jogo.
+ *
  ******************************************************************************/
 #define OPENGL_SCALE 1000.0
 #define SHOW_GL_LINE_LOOP 1 		/* Mostra os vertices dos shaps */

@@ -6,10 +6,9 @@
  *  Projeto da disciplina de Laboratorio de Programacao MAC0211
  *  Batalha Espacial
  *
- *  Biblioteca destinada a operacoes vetoriais 
+ *  Operacoes vetoriais 
  *
  ******************************************************************************/
-
 
 #include "vector.h"
 

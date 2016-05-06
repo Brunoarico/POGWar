@@ -6,6 +6,8 @@
  *  Projeto da disciplina de Laboratorio de Programacao MAC0211
  *  Batalha Espacial
  *
+ *  Manipulacao de shape
+ *
  ******************************************************************************/
 
 #include "shape.h"

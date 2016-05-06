@@ -1,3 +1,16 @@
+/******************************************************************************
+ *  Nome:   Bruno Arico         8125459
+ *          Gabriel Capella     8962078
+ *          Nicolas Nogueira    9277541
+ *
+ *  Projeto da disciplina de Laboratorio de Programacao MAC0211
+ *  Batalha Espacial
+ *
+ *  Implementacao do calculo das forcas entre os corpos baseado no algoritmo
+ *  barnes-hut (EM CONSTRUCAO)
+ *
+ ******************************************************************************/
+
 #include "barnes_hut.h"
 
 static Node new_with_body (Body b) {

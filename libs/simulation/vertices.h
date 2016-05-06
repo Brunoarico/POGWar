@@ -6,6 +6,8 @@
  *  Projeto da disciplina de Laboratorio de Programacao MAC0211
  *  Batalha Espacial
  *
+ *  Interface para manipulacao de vertices
+ *
  ******************************************************************************/
 
 #ifndef _VERTICES_H
@@ -16,6 +18,7 @@
 #include "../math/vector.h"
 #include "../engine/object.h"
 
+/* Estrutura que representa um vertice */
 struct vertice {
     Vector a, b;
     Object o;

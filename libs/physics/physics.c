@@ -6,8 +6,7 @@
  *  Projeto da disciplina de Laboratorio de Programacao MAC0211
  *  Batalha Espacial
  *
- *  Biblioteca para o calculo de formulas fisicas
- *  Vamos usar o mesmo principio da maca:
+ *  Calculo de formulas fisicas
  *  https://goo.gl/N8afFg
  *
  ******************************************************************************/
@@ -184,7 +183,7 @@ Body body2d_new (double mass, double x, double y, double vx,
     return b;
 }
 
-double body_ang_position_degress (Body b) {
+double body_ang_position_degrees (Body b) {
     return b->ang_position->data[0]*180.0/M_PI;
 }
 

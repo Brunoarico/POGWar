@@ -153,7 +153,7 @@ int main (int argc, char *argv[]) {
             glMatrixMode(GL_MODELVIEW);
             glLoadIdentity();
             
-            BSP ();             /* Verifica colissoes */
+            BSP ();             /* Verifica colisoes */
             draw_back ();       /* Desenha fundo */
             draw_objects ();    /* Desenha objetos */
 

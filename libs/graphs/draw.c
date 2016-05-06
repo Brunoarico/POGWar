@@ -1,5 +1,18 @@
+/******************************************************************************
+ *  Nome:   Bruno Arico         8125459
+ *          Gabriel Capella     8962078
+ *          Nicolas Nogueira    9277541
+ *
+ *  Projeto da disciplina de Laboratorio de Programacao MAC0211
+ *  Batalha Espacial
+ *
+ *  Desenho de elementos na cena
+ *
+ ******************************************************************************/
+
 #include "draw.h"
 
+//imagem de background
 static Image back = NULL;
 
 void draw2d_shape (Shape s, Vector position, double angle) {
@@ -61,7 +74,7 @@ void draw_objects () {
     for (i = 0; i < obj_numberof (); i++) {
         tmp = obj_get (i);
         if (tmp != NULL && tmp->shape != NULL && tmp->body != NULL) {
-            ang = body_ang_position_degress (tmp->body);
+            ang = body_ang_position_degrees (tmp->body);
             if (SHOW_GL_LINE_LOOP || tmp->img == NULL) {
                 draw2d_shape (tmp->shape, body_posg (tmp->body), ang);
             }

@@ -1,4 +1,17 @@
-/* https://gist.github.com/niw/5963798 */
+/******************************************************************************
+ *  Nome:   Bruno Arico         8125459
+ *          Gabriel Capella     8962078
+ *          Nicolas Nogueira    9277541
+ *
+ *  Projeto da disciplina de Laboratorio de Programacao MAC0211
+ *  Batalha Espacial
+ *
+ *  Manipulacao de imagens
+ *
+ *  https://gist.github.com/niw/5963798
+ *
+ ******************************************************************************/
+
 #include "image.h"
 
 void image_delete (Image img) {

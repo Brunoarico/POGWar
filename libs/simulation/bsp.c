@@ -172,7 +172,7 @@ Vertice SplitVerticeB (Vertice vertice, Line line) {
     return v;
 }
 
-/* Constroi a arvore bst com um vetor de vertices */
+/* Constroi a arvore bsp com um vetor de vertices */
 BSPNode BuildBSPTree(Vertices vertices, int depth) {
     BSPNode newnode;
     Vertice tmp, tmpa;
