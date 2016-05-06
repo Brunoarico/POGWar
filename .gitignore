@@ -1,0 +1,17 @@
+capella/testes/tmp/**
+testes/tmp/**
+*.rasc
+**.rasc
+.gch
+*.h.gch
+*.gch
+!*.*
+*.o
+**.o
+.DS_Store
+*.class
+moviments.h.gch
+physics.h.gch
+vector.h.gch
+*.tar
+jogo
