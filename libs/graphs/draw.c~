@@ -12,7 +12,7 @@
 
 #include "draw.h"
 
-/* imagem de background */
+//imagem de background
 static Image back = NULL;
 
 void draw2d_shape (Shape s, Vector position, double angle) {
