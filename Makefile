@@ -4,7 +4,7 @@ T=0.0001
 F=testes_simulacao/orbital.txt
 
 ifeq ($(shell uname),Linux)
-    GLFWFLAGS = # -lglfw3 -lXrandr -lXi -lX11 -lXxf86vm -lpthread -ldl -lXcursor -lXinerama
+    GLFWFLAGS = -lglfw3 -lXrandr -lXi -lX11 -lXxf86vm -lpthread -ldl -lXcursor -lXinerama
 else
     GLFWFLAGS = -lglfw3 -framework OpenGL
 endif

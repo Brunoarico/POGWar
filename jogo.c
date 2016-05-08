@@ -6,7 +6,7 @@
  *  Projeto da disciplina de Laboratorio de Programacao MAC0211
  *  Batalha Espacial
  *
- *  Primeira fase: simulacao das orbitas.
+ *  Segunda fase: geracao de imagens.
  *
  ******************************************************************************/
 
