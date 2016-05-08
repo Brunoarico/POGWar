@@ -42,7 +42,7 @@ int main (int argc, char *argv[]) {
 
     /* adicionar objetos */
     tmp = obj_get(obj_new ());
-    tmp->body = body2d_new (1.498334e+12, 500, 0, 400, 0);
+    tmp->body = body2d_new (1.498334e+12, 500, 0, 0, 1000);
     tmp->shape = shape_new ();
     shape_add_point (tmp->shape, vector2D_new (-100, -70));
     shape_add_point (tmp->shape, vector2D_new (-100, -55));
@@ -81,25 +81,25 @@ int main (int argc, char *argv[]) {
     tmp->shape = shape2d_circle (200, 30);
     tmp->img = image_create ("img/DeathStar.png");
     image_zoom (tmp->img, 200);
-
+    /*
     tmp = obj_get(obj_new ());
     tmp->body = body2d_new (1.098334e+12, 900, 0, 100, -950);
     tmp->shape = shape2d_circle ( 40, 10);
     tmp->img = image_create ("img/mars.png");
     image_zoom (tmp->img, 40);
-
-
+    */
+    /*
     tmp = obj_get(obj_new ());
     tmp->body = body2d_new (1.49833235e+15, 1000, 200, 0, 0);
     tmp->shape = shape2d_circle ( 60, 10);
     tmp->img = image_create ("img/earth.png");
     image_zoom (tmp->img, 60);
-
-
+    */
+    /*
     tmp = obj_get(obj_new ());
     tmp->body = body2d_new (1.498334e+12, -300, 0, 0, 400);
     tmp->shape = shape2d_circle (20, 10);
-
+    */
 
     glfwSetErrorCallback(error_callback);
     if (!glfwInit()) exit(EXIT_FAILURE);
