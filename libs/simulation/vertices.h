@@ -25,6 +25,7 @@ struct vertice {
 };
 typedef struct vertice *Vertice;
 
+/* Estrutura que representa uma pilha de vertices */
 struct vertices {
     Vertice *vertices;
     int n, N;
