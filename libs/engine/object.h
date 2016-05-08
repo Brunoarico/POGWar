@@ -63,6 +63,8 @@ void obj_delete_all ();
 /* Numero total de objetos */
 unsigned int obj_numberof ();
 
+/* Toma a atitude de ois objetos que se tocaram. a e b são ids */
+/* No momento só imprime na tela. */ 
 void obj_impact (int a, int b);
 
 #endif
