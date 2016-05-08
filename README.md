@@ -47,7 +47,8 @@ Para o jogo ser consistente e eficiente tomamos a decisão de executar o process
 
 - Retirar moviments e implementar o algorítimo de [Barnes Hut](http://www.cs.princeton.edu/courses/archive/fall03/cs126/assignments/barnes-hut.html). Os cálculos são qudráticos ao número de objetos no sistema.
 - Inserir função que trata e responde a colisão dos objetos de tipos diferentes.
-- Completar physics. Vamos incluir no futuro fórmulas para a dinâmica angular, pois atualmente estamos usando uma adaptação defeituosa (rever 'physics:act_force()').
+- Completar physics. Vamos incluir no futuro fórmulas para a dinâmica angular, pois atualmente estamos usando uma adaptação defeituosa (rever `physics:act_force()`).
+- Inserir sistema de interação (sistema de controle)
 
 
 
