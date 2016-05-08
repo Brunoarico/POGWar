@@ -9,12 +9,12 @@
  *  Interface que define algumas constantes a serem aplicadas no jogo.
  *
  ******************************************************************************/
-#define OPENGL_SCALE 1000.0
-#define SHOW_GL_LINE_LOOP 1 		/* Mostra os vertices dos shaps */
+#define OPENGL_SCALE 1000.0		/* Escala de zoom da camera do jogo */
+#define SHOW_GL_LINE_LOOP 1 	/* Mostra os vertices dos shapes */
 
-#define GRAV_CONST 6.67408e-11
+#define GRAV_CONST 6.67408e-11		/* Constante gravitacional */
 
-#define BACKGROUD_IMAGE "img/galaxy.png"
+#define BACKGROUD_IMAGE "img/galaxy.png"	/* Localizacao da imagem de background */
 
-#define FPS 120
+#define FPS 120		/* Quantidade de frames (atualizacao de imagem) por segundo */
 
