@@ -64,10 +64,11 @@ teste:
 	./jogo $(T) < $(F)
 
 tar:
-	make default
-	COPYFILE_DISABLE=1 tar -cvf parte_1.tar ./testes_simulacao *.c *.h Makefile
+	make clean
+	COPYFILE_DISABLE=1 tar -cvf parte_2.tar ./*
 
 clean:
 	$(RM) jogo
 	$(RM) *.o
 	find . -name "*.gch" -exec $(RM) -rf {} \;
+	find . -name "*~" -exec $(RM) -rf {} \;
