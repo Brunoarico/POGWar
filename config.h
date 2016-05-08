@@ -8,7 +8,7 @@
  *
  ******************************************************************************/
 #define OPENGL_SCALE 1000.0
-#define SHOW_GL_LINE_LOOP 1 		/* Mostra os vertices dos shaps */
+#define SHOW_GL_LINE_LOOP 0		/* Mostra os vertices dos shaps */
 
 #define GRAV_CONST 6.67408e-11
 
