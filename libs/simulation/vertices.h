@@ -31,13 +31,25 @@ struct vertices {
 };
 typedef struct vertices *Vertices;
 
+/* cria uma pilha de vertices */
 Vertices vertices_new ();
+
+/* insere um vertice em uma pilha */
 void vertices_insert (Vertices stack, Vertice v);
+
+/* retorna o tamanho de uma pilha de vertices */
 int vertices_size (Vertices stack);
+
+/* desaloca uma pilha de vertices */
 void vertices_delete (Vertices v);
 
+/* retorna um vertice de indice i em uma pilha de vertices */
 Vertice vertices_get (Vertices stack, int i);
+
+/* retorna um vertice composto pelos vetores a e b, alem do objeto o */
 Vertice vertice_new (Vector a, Vector b, Object o);
+
+/* desaloca um vertice */
 void vertice_delete (Vertice v);
 
 #endif
