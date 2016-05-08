@@ -11,52 +11,44 @@ Esse [reposítório](https://github.com/Brunoarico/POGWar/) é destinado ao proj
 ### Estrutura do Projeto
 Nessa momento o projeto somente apresenta sua primeira parte. Nela existe o objetivo de realizar simulações físicas. Para isso modularizamos o programa nas seguintes partes:
 
-- vector: responável por conter todas as operações vetoriais envolvidas nos processos.
-- physics: contém todas as fórmulas de físicas necessárias para essa parte do projeto. Também apresenta formulas de cálculo de centro de massa - para posterior uso.
-- moviments: responsável por calcular uma interação entre as partículas.
+- math/vector: responável por conter todas as operações vetoriais envolvidas nos processos.
+- physics/physics: contém todas as fórmulas de físicas necessárias para essa parte do projeto. Também apresenta formulas de cálculo de centro de massa - para posterior uso.
+- engine/object: biblioteca que administras todos os objetos presentes no jogo. Ela classifica dada tipo de objeto e atribui ids para eles.
+- graphs/image: carrega as imagens para um struct e para o opengl. No momento imprime o nome e as dimensões das imagens carregadas.
+- graphs/shape: os objetos no jogo possuiem uma forma (shape) composta por vértices. Essa biblioteca administras essas formas.
+- simulation/moviments: responsável por calcular uma interação entre as partículas. Nessa biblioteca também há uma função que arruma as partículas caso elas estejam fora da tela.
+- simulation/bsp: algorítimo responsável por calcular colisões no jogo. Ele realiza de forma não quadrática todas as colisões existentes no jogo, comparando os vértices dos shapes. No momento imprime o id dos objetos quando há uma colisão.
+- simulation/vertices: utilizada por simulation/bsp em seus cálculos.
 
-#### simulacao.c
-Esse código foi implementado especialmente para a primeira parte do projeto. Ele recebe na entrada padrão as seguintes informações:
+#### Instalação
+Para rodar o nosso programa é necessário que tenha instalado as seguinter bibliotecas: [png](http://www.libpng.org/pub/png/libpng.html) e [glfw](http://www.glfw.org/). É importante executar com precissão todos os procedimentos, [descritos aqui](http://www.glfw.org/docs/latest/compile.html), para instalar o glfw.
 
-A entrada será fornecida em um arquivo com o seguinte formato:
-- A primeira linha tem os parâmetros globais, separados por espaço:
-	1. Tamanho do planeta (raio).
-	2. Massa do planeta.
-	3. Tempo total de simulação.
-- A segunda linha contém a descrição da primeira nave, com os seguintes campos separados por espaço:
-	1. nome — nome da nave, para referência posterior.
-	2. massa — massa da nave.
-	3. pos x — coordenada x da posição da nave.
-	4. pos y — coordenada y da posição da nave.
-	5. vel x — componente x da velocidade da nave.
-	6. vel y — componente y da velocidade da nave.
-- A terceira linha descreve a segunda nave, da mesma forma.
-- A quarta linha indicará o número de projéteis e a duração (tempo de vida) deles.
-- As linhas seguintes conterão a descrição de cada projétil, da mesma
-forma que nas naves, mas sem o campo nome.
+#### Copilar
+Para copilar nosso programa basta executar:
+```
+make clean
+make
+```
 
-O resultado desse programa são linhas da seguinte forma:
-	
-	m: 1.498332e+16 	x: 0.000000e+00 	y: 0.000000e+00 	vx: 0.000000e+00 	vy: 0.000000e+00 
-	m: 1.498334e+12 	x: 4.986434e+01 	y: 8.781620e+01 	vx: -8.691832e+02 	vy: 4.946798e+02 
-	m: 1.498334e+12 	x: -4.986434e+01 	y: -8.781620e+01 	vx: 8.691832e+02 	vy: -4.946798e+02 
+#### Executar
+```
+./jogo
+```
 
-m é a massa do corpo, x e y a posição e vx e vj a velocidade após as interações.
+Nota: para inserir um novo corpo or remover, edite o arquivo `jogo.c`. Retiramos o formato de inserção de dados na entrada padrão, pois no jogo os objeto serão determinados pelo sistema, não pelo usuário.
 
-É importante resaltar que esse programa possui um argumento na linha de entrada, que é o tempo de duração de cada interação do programa. Ou seja, o tempo que a força criada pela gravidade irá exercer no sistema. Qunto menor esse número melhor e mais devagar a simulação.
+Existem outras opções do jogo que podem ser editadas em `config.h`, lembrando que caso haja alteração desse arquivo é necessário copilá-lo novamente.
 
-Obs: se o tempo de duração dos projéteis for menor do que o tempo total da simulação, eles não irão aparecer na saída final, pois vão desaparecer.
+### Nota sobre parte gráfica
 
-##### Testes desse simulacao.c
-Veja mais informações dentro da pasta testes. Existem outros argumentos de comando desse módulos descrito nessa pasta.
+Para o jogo ser consistente e eficiente tomamos a decisão de executar o processo de cálculo da gravidade em uma frequencia maior que o número de quadros desenhados por segundo. Além disso forçamos que cada quadro de cálculos gravitacionais tenha no máximo 0.0001s. O cálculo de colisões estão juntos com a parte gráfica, ou seja em uma frequência menor. Já a verificação de outside bordes está junto com os cálculos gravitacionais.
 
 ### Para fazer
 
 - Retirar moviments e implementar o algorítimo de [Barnes Hut](http://www.cs.princeton.edu/courses/archive/fall03/cs126/assignments/barnes-hut.html). Os cálculos são qudráticos ao número de objetos no sistema.
-- Criar módulo de shape (formato). Cada corpo físico deve ter um formato, ou seja um vetor composto por vértices do objeto. Vamos usar posteriormente esse vetor para as colisões e a parte gráfica. Uma implementação comercial dessa técnica pode ser vista [aqui](https://developer.apple.com/library/ios/documentation/GraphicsAnimation/Conceptual/SpriteKit_PG/Physics/Physics.html).
-- Criar algorítmo de identificação de colisão entre os corpos.
-- Mecanismo de tratamento dos projéteis.
-- Completar physics. Vamos incluir no futuro fórmulas para a dinâmica angular.
-- Criar interface gráfica e mecanismo de jogo.
+- Inserir função que trata e responde a colisão dos objetos de tipos diferentes.
+- Completar physics. Vamos incluir no futuro fórmulas para a dinâmica angular, pois atualmente estamos usando uma adaptação defeituosa (rever 'physics:act_force()').
+
+
 
 
