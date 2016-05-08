@@ -20,6 +20,10 @@
 #include "../simulation/vertices.h"
 #include "../engine/object.h"
 
-void BSP();
+/* Essa função recebe um ponteiro de uma função e o chama.
+   Essa função chamada recebe dois inteiros (ids) dos objetos
+   colididos. 
+*/ 
+void BSP(void (*impact)());
 
 #endif

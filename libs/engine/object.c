@@ -74,3 +74,7 @@ void obj_delete_all () {
         obj_delete (i);
     free (AllObjects);
 }
+
+void obj_impact (int a, int b) {
+    printf("%d, %d\n", a, b); 
+}

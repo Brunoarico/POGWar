@@ -299,7 +299,7 @@ Object Collision (Vertice vertice, BSPNode node) {
     return NULL;
 }
 
-void BSP () {
+void BSP(void (*impact)()) {
     Vertices vertices;
     Vertice vertmp;
     Object tmp;
@@ -330,7 +330,7 @@ void BSP () {
         vertmp = vertices_get (vertices, i);
         tmp = Collision (vertmp, tree);
         if (tmp != NULL) {
-            printf("%d, %d\n", tmp->id, vertmp->o->id); 
+            impact (tmp->id, vertmp->o->id); 
             /* obj_delete (vertmp->o->id); */
         }
     }
