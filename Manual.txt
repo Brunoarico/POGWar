@@ -1,0 +1,25 @@
+Manual de usuário - Batalha Espacial (2ª fase)
+
+- Descrição
+
+O programa apresenta uma simulação de uma cena espacial com duas naves e um planeta no centro da cena, simulando como esses corpos interagem entre si. O diferencial é que a tela representa uma superfície toroidal, isto é, a linha superior e a linha inferior são a mesma. O mesmo ocorre com as linhas das extremidades direita e esquerda da tela. 
+
+- Instalação
+
+Para rodar o nosso programa é necessário que tenha instalado as seguinter bibliotecas: png (http://www.libpng.org/pub/png/libpng.html) e glfw (http://www.glfw.org/). É importante executar com precisão todos os procedimentos, descritos no link (http://www.glfw.org/docs/latest/compile.html), para instalar o glfw.
+
+* Compilar
+
+Para compilar nosso programa basta executar:
+
+make clean
+make
+
+- Execução
+
+Para executar o jogo basta executar o seguinte comando:
+
+./jogo
+
+Para fechar o jogo basta pressionar ESC.
+

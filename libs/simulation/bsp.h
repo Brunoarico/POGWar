@@ -6,6 +6,9 @@
  *  Projeto da disciplina de Laboratorio de Programacao MAC0211
  *  Batalha Espacial
  *
+ *  Interface que calcula colisoes do jogo atraves da construcao de uma arvore
+ *  BSP
+ *
  ******************************************************************************/
 
 #ifndef _BSP_H
