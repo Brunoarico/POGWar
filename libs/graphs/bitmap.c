@@ -8,14 +8,17 @@ http://kvazars.com/littera/
 Font initText2D (char * texturePath) {
     Font font;
     FILE *infofile;
-    char img[256];
+    char buffer[50], * img;
     int id, i;
 
-    infofile = fopen(texturePath, "rb");
-    fscanf(infofile, "%s", img);
+
+    infofile = fopen(texturePath, "r");
+    fscanf(infofile, "%s", buffer);
+    img = malloc((1+strlen(buffer))*sizeof(char));
+    strcpy (img, buffer);
     font = malloc (sizeof (struct font));
     printf("%s\n", img);
-    font->img = image_create ("fonts/basic.png");
+    font->img = image_create (img);
     printf("%s\n", font->img->filename);
 
     for (i = 0; i < 256; ++i) {

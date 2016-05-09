@@ -5,6 +5,7 @@ https://github.com/olikraus/u8glib/wiki/fontsize
 #include <stdio.h>
 #include <stdlib.h>
 #include <GLFW/glfw3.h>
+#include <string.h>
 #include "../graphs/image.h"
 
 struct font {

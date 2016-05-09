@@ -41,7 +41,7 @@ int main (int argc, char *argv[]) {
     double stime, interval = 0.0001;
     Object tmp;
     char buffer [50];
-    Font basic;
+    Font basic, font2;
 
     /* adicionar objetos */
     tmp = obj_get(obj_new ());
@@ -106,6 +106,7 @@ int main (int argc, char *argv[]) {
     */
 
     basic = initText2D ("fonts/basic.txt");
+    font2 = initText2D ("fonts/font2.txt");
 
     glfwSetErrorCallback(error_callback);
     if (!glfwInit()) exit(EXIT_FAILURE);
@@ -162,9 +163,10 @@ int main (int argc, char *argv[]) {
             BSP (&obj_impact);   /* Verifica colisoes */
             draw_back ();       /* Desenha fundo */
             draw_objects ();    /* Desenha objetos */
-            printText2D (basic, "POGWar", -OPENGL_SCALE*ratio+20, OPENGL_SCALE-20, 1);
-            sprintf(buffer, "%f fps", 1.0/deltafps);
-            printText2D (basic, buffer, -OPENGL_SCALE*ratio+20, OPENGL_SCALE-100, 1);
+            printText2D (font2, "POGWar", -OPENGL_SCALE*ratio+20, OPENGL_SCALE-20, 2);
+            sprintf(buffer, "%3.5f fps", 1.0/deltafps);
+            printText2D (basic, buffer, -OPENGL_SCALE*ratio+20, OPENGL_SCALE-150, 1);
+            printf("%f\n", 1.0/deltafps);
 
             glfwSwapBuffers(window);
             glfwPollEvents();
