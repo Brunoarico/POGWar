@@ -2,7 +2,7 @@ Manual de usuário - Batalha Espacial (2ª fase)
 
 - Descrição
 
-O programa apresenta uma simulação de uma cena espacial com duas naves e um planeta no centro da cena, deste modo simula como esses corpos interagem entre si. O diferencial é que a tela representa uma superfície toroidal, isto é, a linha superior e a linha inferior são a mesma. O mesmo ocorre com as linhas das extremidades direita e esquerda da tela. 
+O programa apresenta uma simulação de uma cena espacial com duas naves e um planeta no centro da cena, simulando como esses corpos interagem entre si. O diferencial é que a tela representa uma superfície toroidal, isto é, a linha superior e a linha inferior são a mesma. O mesmo ocorre com as linhas das extremidades direita e esquerda da tela. 
 
 - Instalação
 
