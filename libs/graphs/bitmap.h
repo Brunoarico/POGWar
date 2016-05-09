@@ -22,3 +22,4 @@ typedef struct font *Font;
 
 Font initText2D (char * texturePath);
 void printText2D (Font f, char * text, double x, double y, double h);
+void deleteText2D (Font j);

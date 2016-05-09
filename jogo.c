@@ -166,7 +166,6 @@ int main (int argc, char *argv[]) {
             printText2D (font2, "POGWar", -OPENGL_SCALE*ratio+20, OPENGL_SCALE-20, 2);
             sprintf(buffer, "%3.5f fps", 1.0/deltafps);
             printText2D (basic, buffer, -OPENGL_SCALE*ratio+20, OPENGL_SCALE-150, 1);
-            printf("%f\n", 1.0/deltafps);
 
             glfwSwapBuffers(window);
             glfwPollEvents();
@@ -177,6 +176,8 @@ int main (int argc, char *argv[]) {
     glfwTerminate();
     
     obj_delete_all ();
+    deleteText2D (basic);
+    deleteText2D (font2);
 
     return 0;
 }

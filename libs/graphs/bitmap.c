@@ -17,9 +17,7 @@ Font initText2D (char * texturePath) {
     img = malloc((1+strlen(buffer))*sizeof(char));
     strcpy (img, buffer);
     font = malloc (sizeof (struct font));
-    printf("%s\n", img);
     font->img = image_create (img);
-    printf("%s\n", font->img->filename);
 
     for (i = 0; i < 256; ++i) {
         font->x[i] = 0;
@@ -94,3 +92,7 @@ void printText2D (Font f, char * text, double x, double y, double h) {
     glDisable(GL_TEXTURE_2D);
 }
 
+void deleteText2D (Font j) {
+    image_delete (j->img);
+    free (j);
+}
