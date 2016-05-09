@@ -17,6 +17,7 @@
 #include "libs/physics/physics.h"
 #include "libs/simulation/moviments.h"
 #include "libs/graphs/draw.h"
+#include "libs/graphs/bitmap.h"
 #include "libs/simulation/bsp.h"
 #include "libs/engine/object.h"
 #include "config.h"
@@ -39,6 +40,8 @@ int main (int argc, char *argv[]) {
     GLFWwindow* window;
     double stime, interval = 0.0001;
     Object tmp;
+    char buffer [50];
+    Font basic;
 
     /* adicionar objetos */
     tmp = obj_get(obj_new ());
@@ -81,6 +84,7 @@ int main (int argc, char *argv[]) {
     tmp->shape = shape2d_circle (200, 30);
     tmp->img = image_create ("img/DeathStar.png");
     image_zoom (tmp->img, 200);
+
     /*
     tmp = obj_get(obj_new ());
     tmp->body = body2d_new (1.098334e+12, 900, 0, 100, -950);
@@ -90,7 +94,7 @@ int main (int argc, char *argv[]) {
     */
     /*
     tmp = obj_get(obj_new ());
-    tmp->body = body2d_new (1.49833235e+15, 1000, 200, 0, 0);
+    tmp->body = body2d_new (1.49833235e+10, 1000, 200, 0, 0);
     tmp->shape = shape2d_circle ( 60, 10);
     tmp->img = image_create ("img/earth.png");
     image_zoom (tmp->img, 60);
@@ -100,6 +104,8 @@ int main (int argc, char *argv[]) {
     tmp->body = body2d_new (1.498334e+12, -300, 0, 0, 400);
     tmp->shape = shape2d_circle (20, 10);
     */
+
+    basic = initText2D ("fonts/basic.txt");
 
     glfwSetErrorCallback(error_callback);
     if (!glfwInit()) exit(EXIT_FAILURE);
@@ -156,6 +162,9 @@ int main (int argc, char *argv[]) {
             BSP (&obj_impact);   /* Verifica colisoes */
             draw_back ();       /* Desenha fundo */
             draw_objects ();    /* Desenha objetos */
+            printText2D (basic, "POGWar", -OPENGL_SCALE*ratio+20, OPENGL_SCALE-20, 1);
+            sprintf(buffer, "%f fps", 1.0/deltafps);
+            printText2D (basic, buffer, -OPENGL_SCALE*ratio+20, OPENGL_SCALE-100, 1);
 
             glfwSwapBuffers(window);
             glfwPollEvents();

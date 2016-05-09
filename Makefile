@@ -1,5 +1,5 @@
 # Utilizado para gerar nosso executável.
-CFLAGS  = -g -Wall -Wno-unused-result -O3 -pedantic
+CFLAGS  = -g -Wall -Wno-unused-result -O0 -pedantic
 T=0.0001
 F=testes_simulacao/orbital.txt
 
@@ -45,12 +45,15 @@ draw.o: libs/graphs/draw.c libs/graphs/draw.h
 object.o: libs/engine/object.c libs/engine/object.h
 	$(CC) $(CFLAGS) -ansi -c $^
 
+draw.o: libs/graphs/bitmap.c libs/graphs/bitmap.h
+	$(CC) $(CFLAGS) -ansi -c $^
+
 build: config.h
 	make clean
 	make
 
-#2Dtext.o: libs/graphs/2Dtext.c libs/graphs/2Dtext.h
-#	$(CC) $(CFLAGS) -ansi -c libs/graphs/2Dtext.c libs/graphs/2Dtext.h
+#bitmap.o: libs/graphs/bitmap.c libs/graphs/bitmap.h
+#	$(CC) $(CFLAGS) -ansi -c libs/graphs/bitmap.c libs/graphs/bitmap.h
 .PHONY: build clean teste teste_orbita all
 
 all:
