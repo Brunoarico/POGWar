@@ -4,13 +4,13 @@ T=0.0001
 F=testes_simulacao/orbital.txt
 
 ifeq ($(shell uname),Linux)
-    GLFWFLAGS = -lglfw3 -lXrandr -lXi -lX11 -lXxf86vm -lpthread -ldl -lXcursor -lXinerama
+    GLFWFLAGS = -lm -lglfw3 -lGL -lXrandr -lXi -lX11 -lXxf86vm -lpthread -ldl -lXcursor -lXinerama
 else
     GLFWFLAGS = -lglfw3 -framework OpenGL
 endif
 
 default: image.o physics.o vector.o moviments.o shape.o object.o draw.o vertices.o bsp.o jogo.o 
-	$(CC) $(CFLAGS) $(GLFWFLAGS) -lpng *.o -o jogo -lm
+	$(CC) $(CFLAGS) *.o -o jogo -lm $(GLFWFLAGS) -lpng16
 
 jogo.o: jogo.c
 	$(CC) $(CFLAGS) -ansi -c  *.c 

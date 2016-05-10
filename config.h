@@ -14,7 +14,7 @@
 
 #define GRAV_CONST 6.67408e-11				/* Constante gravitacional */
 
-#define BACKGROUD_IMAGE "img/galaxy.png"	/* Localizacao da imagem de background */
+#define BACKGROUD_IMAGE "img/background.png"	/* Localizacao da imagem de background */
 
 #define FPS 120								/* Quantidade de frames (atualizacao de 
 											   imagem) por segundo */
