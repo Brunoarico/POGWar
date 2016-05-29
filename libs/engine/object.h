@@ -68,8 +68,13 @@ unsigned int obj_numberof ();
 /* No momento só imprime na tela. */ 
 void obj_impact (int a, int b);
 
-unsigned int Ship_new(int life, double mass, double x, double y, double vx, double vy, double angspd, double begang, char type);
+/*Cria uma nave*/
+Ship Ship_new (int life, double mass, double x, double y, double vx, double vy, double angspd, double begang, char type);
 
-void delete_ship (unsigned int i);
+/*Deleta uma nave*/
+void delete_ship (unsigned int id);
+
+/*dispara uma "bala"*/
+void bullet (Ship nave);
 
 #endif
