@@ -44,66 +44,17 @@ int main (int argc, char *argv[]) {
     Font basic, font2;
 
     /* adicionar objetos */
-    tmp = obj_get(obj_new ());
-    tmp->body = body2d_new (1.498334e+12, 500, 0, 0, 1000);
-    tmp->shape = shape_new ();
-    shape_add_point (tmp->shape, vector2D_new (-100, -70));
-    shape_add_point (tmp->shape, vector2D_new (-100, -55));
-    shape_add_point (tmp->shape, vector2D_new (-28, 10));
-    shape_add_point (tmp->shape, vector2D_new (-28, 45));
-    shape_add_point (tmp->shape, vector2D_new (0, 100));
-    shape_add_point (tmp->shape, vector2D_new (28, 45));
-    shape_add_point (tmp->shape, vector2D_new (28, 10));
-    shape_add_point (tmp->shape, vector2D_new (100, -55));
-    shape_add_point (tmp->shape, vector2D_new (100, -70));
-    shape_add_point (tmp->shape, vector2D_new (0, -100));
-    tmp->img = image_create ("img/F6.png");
-    image_zoom (tmp->img, 100); 
-    body_ang_spe2d (tmp->body, 2);
 
+   
+    Ship_new (4, 1.498334e+12, -500, 0, 0, -1000, 2, 180, 'c');
 
-    tmp = obj_get(obj_new ());
-    tmp->body = body2d_new (1.498334e+12, -500, 0, 0, -1000);
-    tmp->shape = shape_new ();
-    shape_add_point (tmp->shape, vector2D_new (-55, -80));
-    shape_add_point (tmp->shape, vector2D_new (-55, -40));
-    shape_add_point (tmp->shape, vector2D_new (-28, -10));
-    shape_add_point (tmp->shape, vector2D_new (-28, 53));
-    shape_add_point (tmp->shape, vector2D_new (0, 98));
-    shape_add_point (tmp->shape, vector2D_new (28, 53));
-    shape_add_point (tmp->shape, vector2D_new (28, -10));
-    shape_add_point (tmp->shape, vector2D_new (55, -40));
-    shape_add_point (tmp->shape, vector2D_new (55, -80));
-    tmp->img = image_create ("img/F5.png");
-    image_zoom (tmp->img, 100);
-    body_ang_spe2d (tmp->body, 2);
-    body_pos2d_degree (tmp->body, 180);
+    delete_ship( Ship_new (4, 1.498334e+12, 500, 0, 0, 1000, 2, 0, 'b'));
 
     tmp = obj_get(obj_new ());
     tmp->body = body2d_new (1.49833235e+16, 0, 0, 0, 0);
     tmp->shape = shape2d_circle (200, 30);
     tmp->img = image_create ("img/DeathStar.png");
     image_zoom (tmp->img, 200);
-
-    /*
-    tmp = obj_get(obj_new ());
-    tmp->body = body2d_new (1.098334e+12, 900, 0, 100, -950);
-    tmp->shape = shape2d_circle ( 40, 10);
-    tmp->img = image_create ("img/mars.png");
-    image_zoom (tmp->img, 40);
-    */
-    /*
-    tmp = obj_get(obj_new ());
-    tmp->body = body2d_new (1.49833235e+10, 1000, 200, 0, 0);
-    tmp->shape = shape2d_circle ( 60, 10);
-    tmp->img = image_create ("img/earth.png");
-    image_zoom (tmp->img, 60);
-    */
-    /*
-    tmp = obj_get(obj_new ());
-    tmp->body = body2d_new (1.498334e+12, -300, 0, 0, 400);
-    tmp->shape = shape2d_circle (20, 10);
-    */
 
     basic = initText2D ("fonts/basic.txt");
     font2 = initText2D ("fonts/font2.txt");

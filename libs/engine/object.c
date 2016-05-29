@@ -18,7 +18,7 @@
 static Object *AllObjects;
 
 /* n numero de objetos, N tamanho de vetor */
-static n = 0, N = 0;
+static int n = 0, N = 0;
 
 static Object obj_add () {
     Object a;
@@ -48,6 +48,7 @@ unsigned int obj_new () {
     }
     AllObjects[n - 1] = obj_add ();
     AllObjects[n - 1]->id = n - 1;
+    
     return n - 1;
 }
 
@@ -78,3 +79,51 @@ void obj_delete_all () {
 void obj_impact (int a, int b) {
     printf("%d, %d\n", a, b); 
 }
+
+unsigned int Ship_new(int life, double mass, double x, double y, double vx, double vy, double angspd, double begang, char type) {
+    Ship nave;
+    Object tmp;
+    nave = malloc (sizeof (Ship));
+    nave->id = obj_new ();
+    nave->life = life;
+    nave->fuel = 100;
+    tmp = obj_get (nave->id);
+    tmp->body = body2d_new(mass, x, y, vx, vy);
+    tmp->shape = shape_new();
+    if (type == 'b'){
+	shape_add_point (tmp->shape, vector2D_new (-100, -70));
+	shape_add_point (tmp->shape, vector2D_new (-100, -55));
+	shape_add_point (tmp->shape, vector2D_new (-28, 10));
+	shape_add_point (tmp->shape, vector2D_new (-28, 45));
+	shape_add_point (tmp->shape, vector2D_new (0, 100));
+	shape_add_point (tmp->shape, vector2D_new (28, 45));
+	shape_add_point (tmp->shape, vector2D_new (28, 10));
+	shape_add_point (tmp->shape, vector2D_new (100, -55));
+	shape_add_point (tmp->shape, vector2D_new (100, -70));
+	shape_add_point (tmp->shape, vector2D_new (0, -100));
+	tmp->img = image_create ("img/F6.png");
+    }
+    else if(type == 'c'){
+	shape_add_point (tmp->shape, vector2D_new (-55, -80));
+	shape_add_point (tmp->shape, vector2D_new (-55, -40));
+	shape_add_point (tmp->shape, vector2D_new (-28, -10));
+	shape_add_point (tmp->shape, vector2D_new (-28, 53));
+	shape_add_point (tmp->shape, vector2D_new (0, 98));
+	shape_add_point (tmp->shape, vector2D_new (28, 53));
+	shape_add_point (tmp->shape, vector2D_new (28, -10));
+	shape_add_point (tmp->shape, vector2D_new (55, -40));
+	shape_add_point (tmp->shape, vector2D_new (55, -80));
+	tmp->img = image_create ("img/F5.png");
+    }
+    image_zoom (tmp->img, 100);
+    body_ang_spe2d (tmp->body, angspd);
+    body_pos2d_degree (tmp->body, begang);
+    return nave->id;
+}
+
+void delete_ship (unsigned int i) {
+    free(AllObjects[i]->ship);
+    obj_delete (i);
+}
+    
+	

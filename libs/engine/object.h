@@ -26,6 +26,7 @@
 struct ship {
     double fuel;
     double life;
+    unsigned int id;
 };
 typedef struct ship *Ship;
 
@@ -66,5 +67,9 @@ unsigned int obj_numberof ();
 /* Toma a atitude sobre os objetos que se tocaram. a e b são ids */
 /* No momento só imprime na tela. */ 
 void obj_impact (int a, int b);
+
+unsigned int Ship_new(int life, double mass, double x, double y, double vx, double vy, double angspd, double begang, char type);
+
+void delete_ship (unsigned int i);
 
 #endif
