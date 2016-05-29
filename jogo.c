@@ -45,10 +45,11 @@ int main (int argc, char *argv[]) {
 
     /* adicionar objetos */
 
-   
-    Ship_new (4, 1.498334e+12, -500, 0, 0, -1000, 2, 180, 'c');
+    
+    bullet(Ship_new (4, 1.498334e+12, -500, 0, 0, -1000, 2, 180, 'c'));
 
-    delete_ship( Ship_new (4, 1.498334e+12, 500, 0, 0, 1000, 2, 0, 'b'));
+    bullet(Ship_new (4, 1.498334e+12, 500, 0, 0, 1000, 2, 45, 'b'));
+
 
     tmp = obj_get(obj_new ());
     tmp->body = body2d_new (1.49833235e+16, 0, 0, 0, 0);
