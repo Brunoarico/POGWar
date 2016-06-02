@@ -26,6 +26,7 @@
 struct ship {
     double fuel;
     double life;
+    unsigned int id;
 };
 typedef struct ship *Ship;
 
@@ -77,5 +78,14 @@ void obj_impact (int a, int b);
 
 /* Verifica tempo de vida */
 void object_lifetime (double last_time); 
+
+/*Cria uma nave*/
+Ship Ship_new (int life, double mass, double x, double y, double vx, double vy, double angspd, double begang, char type);
+
+/*Deleta uma nave*/
+void delete_ship (unsigned int id);
+
+/*dispara uma "bala"*/
+void bullet (Ship nave);
 
 #endif

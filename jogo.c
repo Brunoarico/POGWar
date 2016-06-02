@@ -34,40 +34,12 @@ void add_objects () {
     Object tmp;
 
     /* adicionar objetos */
-    tmp = obj_get(obj_new ());
-    tmp->body = body2d_new (1.498334e+12, 500, 0, 0, 1000);
-    tmp->shape = shape_new ();
-    shape_add_point (tmp->shape, vector2D_new (-100, -70));
-    shape_add_point (tmp->shape, vector2D_new (-100, -55));
-    shape_add_point (tmp->shape, vector2D_new (-28, 10));
-    shape_add_point (tmp->shape, vector2D_new (-28, 45));
-    shape_add_point (tmp->shape, vector2D_new (0, 100));
-    shape_add_point (tmp->shape, vector2D_new (28, 45));
-    shape_add_point (tmp->shape, vector2D_new (28, 10));
-    shape_add_point (tmp->shape, vector2D_new (100, -55));
-    shape_add_point (tmp->shape, vector2D_new (100, -70));
-    shape_add_point (tmp->shape, vector2D_new (0, -100));
-    tmp->img = image_create ("img/F6.png");
-    image_zoom (tmp->img, 100); 
-    body_ang_spe2d (tmp->body, 2);
 
+    
+    bullet(Ship_new (4, 1.498334e+12, -500, 0, 0, -1000, 2, 180, 'c'));
 
-    tmp = obj_get(obj_new ());
-    tmp->body = body2d_new (1.498334e+12, -500, 0, 0, -1000);
-    tmp->shape = shape_new ();
-    shape_add_point (tmp->shape, vector2D_new (-55, -80));
-    shape_add_point (tmp->shape, vector2D_new (-55, -40));
-    shape_add_point (tmp->shape, vector2D_new (-28, -10));
-    shape_add_point (tmp->shape, vector2D_new (-28, 53));
-    shape_add_point (tmp->shape, vector2D_new (0, 98));
-    shape_add_point (tmp->shape, vector2D_new (28, 53));
-    shape_add_point (tmp->shape, vector2D_new (28, -10));
-    shape_add_point (tmp->shape, vector2D_new (55, -40));
-    shape_add_point (tmp->shape, vector2D_new (55, -80));
-    tmp->img = image_create ("img/F5.png");
-    image_zoom (tmp->img, 100);
-    body_ang_spe2d (tmp->body, 2);
-    body_pos2d_degree (tmp->body, 180);
+    bullet(Ship_new (4, 1.498334e+12, 500, 0, 0, 1000, 2, 45, 'b'));
+
 
     tmp = obj_get(obj_new ());
     tmp->body = body2d_new (1.49833235e+16, 0, 0, 0, 0);
