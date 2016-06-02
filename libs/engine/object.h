@@ -37,6 +37,13 @@ struct shot {
 };
 typedef struct shot *Shot;
 
+/* Estrutura que representa sujeira */
+struct dust {
+    double appear_time;
+    double disappear_time;
+};
+typedef struct dust *Dust;
+
 /* Estrutura basica que representa qualquer objeto da cena */
 struct object {
     Body body;
@@ -44,6 +51,7 @@ struct object {
     Shot shot;
     Ship ship;
     Image img;
+    Dust dust;
     int id;
 };
 typedef struct object *Object;
@@ -66,5 +74,8 @@ unsigned int obj_numberof ();
 /* Toma a atitude sobre os objetos que se tocaram. a e b são ids */
 /* No momento só imprime na tela. */ 
 void obj_impact (int a, int b);
+
+/* Verifica tempo de vida */
+void object_lifetime (double last_time); 
 
 #endif

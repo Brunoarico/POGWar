@@ -41,6 +41,7 @@ typedef struct basicbody *BasicBody;
 struct body {
     struct basicbody bbody;
     Vector ang_position, ang_speed, ang_acel;
+    Vector ang_force, force;
 };
 typedef struct body *Body;
 

@@ -28,6 +28,7 @@ static Object obj_add () {
     a->shot = NULL;
     a->ship = NULL;
     a->img = NULL;
+    a->dust = NULL;
     return a;
 }
 
@@ -77,4 +78,15 @@ void obj_delete_all () {
 
 void obj_impact (int a, int b) {
     printf("%d, %d\n", a, b); 
+}
+
+void object_lifetime (double last_time) {
+    int i;
+    for (i = 0; i < obj_numberof (); i++) {
+        if (AllObjects[i] != NULL &&
+            AllObjects[i]->dust != NULL) {
+            if(AllObjects[i]->dust->disappear_time>=last_time)
+                obj_delete (i);
+        }
+    }
 }
