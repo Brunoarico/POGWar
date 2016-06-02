@@ -10,7 +10,7 @@
  *
  ******************************************************************************/
 #define OPENGL_SCALE 1000.0					/* Escala de zoom da camera do jogo */
-#define SHOW_GL_LINE_LOOP 0					/* Mostra os vertices dos shapes */
+#define SHOW_GL_LINE_LOOP 1 				/* Mostra os vertices dos shapes */
 
 #define GRAV_CONST 6.67408e-11				/* Constante gravitacional */
 
@@ -18,7 +18,4 @@
 
 #define FPS 120								/* Quantidade de frames (atualizacao de 
 											   imagem) por segundo */
-
-/* Intervalo mínimo entre passos do modelo gravitacional */
-#define MIN_INTERVAL 0.001					/* 0.0001 */
 

@@ -28,7 +28,6 @@ static Object obj_add () {
     a->shot = NULL;
     a->ship = NULL;
     a->img = NULL;
-    a->dust = NULL;
     return a;
 }
 
@@ -145,15 +144,4 @@ void bullet (Ship nave) {
     obj = &obj_get (nave->id)->body->bbody;
     tmp->body = body2d_new (500, obj->position->data[0]-135*sin(ang), obj->position->data[1]+135*cos(ang), obj->speed->data[0], obj->speed->data[1]);
 
-}
-
-void object_lifetime (double last_time) {
-    int i;
-    for (i = 0; i < obj_numberof (); i++) {
-        if (AllObjects[i] != NULL &&
-            AllObjects[i]->dust != NULL) {
-            if(AllObjects[i]->dust->disappear_time>=last_time)
-                obj_delete (i);
-        }
-    }
 }

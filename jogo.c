@@ -22,6 +22,9 @@
 #include "libs/engine/object.h"
 #include "config.h"
 
+Body body_add2d (double mass, double x, double y, double vx, double vy, double r, double n) ;
+void print_bodies (Body *corpos, int N);
+
 static void error_callback(int error, const char* description) {
     fputs(description, stderr);
 }
@@ -30,8 +33,15 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         glfwSetWindowShouldClose(window, GL_TRUE);
 }
 
-void add_objects () {
+int main (int argc, char *argv[]) {
+    double lastgravidade, lastfps, atual, deltagravidade, deltafps;
+    float ratio;
+    int width, height;
+    GLFWwindow* window;
+    double stime, interval = 0.0001;
     Object tmp;
+    char buffer [50];
+    Font basic, font2;
 
     /* adicionar objetos */
 
@@ -47,17 +57,29 @@ void add_objects () {
     tmp->img = image_create ("img/DeathStar.png");
     image_zoom (tmp->img, 200);
 
-    /*int i;
-    for (i = 0 ; i < 10; i++) {
-        tmp = obj_get(obj_new ());
-        tmp->body = body2d_new (0, 10*i, 0, 100, 0);
-        tmp->shape = shape2d_circle (1, 2);
-    }*/
+    /*
+    tmp = obj_get(obj_new ());
+    tmp->body = body2d_new (1.098334e+12, 900, 0, 100, -950);
+    tmp->shape = shape2d_circle ( 40, 10);
+    tmp->img = image_create ("img/mars.png");
+    image_zoom (tmp->img, 40);
+    */
+    /*
+    tmp = obj_get(obj_new ());
+    tmp->body = body2d_new (1.49833235e+10, 1000, 200, 0, 0);
+    tmp->shape = shape2d_circle ( 60, 10);
+    tmp->img = image_create ("img/earth.png");
+    image_zoom (tmp->img, 60);
+    */
+    /*
+    tmp = obj_get(obj_new ());
+    tmp->body = body2d_new (1.498334e+12, -300, 0, 0, 400);
+    tmp->shape = shape2d_circle (20, 10);
+    */
 
-}
+    basic = initText2D ("fonts/basic.txt");
+    font2 = initText2D ("fonts/font2.txt");
 
-GLFWwindow * create_window () {
-    GLFWwindow* window;
     glfwSetErrorCallback(error_callback);
     if (!glfwInit()) exit(EXIT_FAILURE);
 
@@ -66,26 +88,11 @@ GLFWwindow * create_window () {
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
+
     glfwMakeContextCurrent(window);
+    /* glfwSwapInterval(1); */
+
     glfwSetKeyCallback(window, key_callback);
-    return window;
-}
-
-int main (int argc, char *argv[]) {
-    double lastgravidade, lastfps, atual, deltagravidade, deltafps;
-    float ratio;
-    int width, height;
-    GLFWwindow* window;
-    double stime;
-    char buffer [50];
-    Font basic, font2;
-
-    add_objects ();
-    window = create_window ();
-
-
-    basic = initText2D ("fonts/basic.txt");
-    font2 = initText2D ("fonts/title.txt");
 
     lastfps = glfwGetTime();
     lastgravidade = lastfps;
@@ -101,13 +108,13 @@ int main (int argc, char *argv[]) {
         ratio = width / (float) height;
 
         while (stime > 0) {
-            if (stime < MIN_INTERVAL) 
+            if (stime < interval) 
                 moviments_update (stime);
             else 
-                moviments_update (MIN_INTERVAL);
+                moviments_update (interval);
             /* verifica margem */
             check_screen_edges (OPENGL_SCALE*ratio, OPENGL_SCALE);
-            stime -= MIN_INTERVAL;
+            stime -= interval;
         }
         lastgravidade = atual;
 
@@ -126,11 +133,10 @@ int main (int argc, char *argv[]) {
             glLoadIdentity();
             
             BSP (&obj_impact);   /* Verifica colisoes */
-            object_lifetime (atual);
             draw_back ();       /* Desenha fundo */
             draw_objects ();    /* Desenha objetos */
-            printText2D (font2, "POGWar", -OPENGL_SCALE*ratio+20, OPENGL_SCALE-20, 1);
-            sprintf(buffer, "%3.2f fps", 1.0/deltafps);
+            printText2D (font2, "POGWar", -OPENGL_SCALE*ratio+20, OPENGL_SCALE-20, 2);
+            sprintf(buffer, "%3.5f fps", 1.0/deltafps);
             printText2D (basic, buffer, -OPENGL_SCALE*ratio+20, OPENGL_SCALE-150, 1);
 
             glfwSwapBuffers(window);

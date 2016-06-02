@@ -330,7 +330,7 @@ void BSP(void (*impact)()) {
         vertmp = vertices_get (vertices, i);
         tmp = Collision (vertmp, tree);
         if (tmp != NULL) {
-            impact (tmp->id, vertmp->o->id);
+            impact (tmp->id, vertmp->o->id); 
             /* obj_delete (vertmp->o->id); */
         }
     }

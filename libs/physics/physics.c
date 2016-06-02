@@ -81,16 +81,13 @@ Vector gravitational_force (Body a, Body b) {
 
 void act_force (Body c, Vector f, Vector p, double sec) {
     Vector at, v0;
-    at = NULL;
+    at = vector_zeros (f->size);
 
     /* para o caso linear */
     /* Impoem aceleracao */
-    at = vector_zeros (f->size);
-    if (c->bbody.mass > 0) {
-        vector_copy (at, f);
-        vector_scale (at, 1.0/c->bbody.mass);
-        vector_copy (c->bbody.acel, at);
-    }
+    vector_copy (at, f);
+    vector_scale (at, 1.0/c->bbody.mass);
+    vector_copy (c->bbody.acel, at);
 
     /* Calcula nova velocidade */
     v0 = vector_zeros (f->size);
@@ -132,6 +129,7 @@ Body body_new () {
     new->ang_position = 0;
     return new;
 }
+
 
 void body_mass (Body b, double m) {
     b->bbody.mass = m;

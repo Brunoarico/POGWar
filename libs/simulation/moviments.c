@@ -25,11 +25,9 @@ void moviments_update (double interval) {
     for (i = 0; i < obj_numberof (); i++) {
         tmpobji = obj_get (i);
 
-        if (tmpobji == NULL || tmpobji->body == NULL)
+        if (tmpobji == NULL || tmpobji->body == NULL || tmpobji->body->bbody.mass == 0.0)
             continue;
         forces[i] = vector_zeros (2);
-
-        if (tmpobji->body->bbody.mass == 0.0)continue;
 
         for (j = 0; j < obj_numberof (); j++) {
             tmpobjj = obj_get (j);
@@ -42,7 +40,7 @@ void moviments_update (double interval) {
     }
     for (i = 0; i < obj_numberof (); i++) {
         tmpobji = obj_get (i);
-        if (tmpobji == NULL || tmpobji->body == NULL)
+        if (tmpobji == NULL || tmpobji->body == NULL || tmpobji->body->bbody.mass == 0.0)
             continue;
         tmp = vector_zeros (2);
         act_force (tmpobji->body, forces[i], tmp, interval);

@@ -38,13 +38,6 @@ struct shot {
 };
 typedef struct shot *Shot;
 
-/* Estrutura que representa sujeira */
-struct dust {
-    double appear_time;
-    double disappear_time;
-};
-typedef struct dust *Dust;
-
 /* Estrutura basica que representa qualquer objeto da cena */
 struct object {
     Body body;
@@ -52,7 +45,6 @@ struct object {
     Shot shot;
     Ship ship;
     Image img;
-    Dust dust;
     int id;
 };
 typedef struct object *Object;
@@ -76,6 +68,7 @@ unsigned int obj_numberof ();
 /* No momento só imprime na tela. */ 
 void obj_impact (int a, int b);
 
+<<<<<<< HEAD
 /* Verifica tempo de vida */
 void object_lifetime (double last_time); 
 
@@ -88,4 +81,6 @@ void delete_ship (unsigned int id);
 /*dispara uma "bala"*/
 void bullet (Ship nave);
 
+=======
+>>>>>>> parent of 83dfd40... Modificacoes aleatorias
 #endif
