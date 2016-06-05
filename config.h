@@ -28,11 +28,11 @@
 #define SHOT_DURATION 1 /* duraçao do tiro*/
 #define SHOT_INTERVAL 0.1 /* intervalo minimo entre os tiros */
 #define SHOT_SPEED 800 /* velocidade do tiro */
-#define SHOT_MASS 1.498334e+8
-#define INI_MASS 1.498334e+12
+#define SHOT_MASS 10
+#define INI_MASS 1000
 #define MIN_MASS 0.1 /* porcentagem mínima da massa */
 
-#define PROPELLANT_SPEED 1e+16
+#define PROPELLANT_SPEED 1000
 
 /* Sobre os controles */
 #define SHIP1_JET1 GLFW_KEY_A
