@@ -117,7 +117,8 @@ void obj_delete_all () {
 }
 
 void obj_impact (int a, int b) {
-    if (AllObjects[a] != NULL && AllObjects[b] != NULL) {
+    if (AllObjects[a] != NULL && AllObjects[b] != NULL
+        && !AllObjects[a]->kill && !AllObjects[b]->kill) {
         if (AllObjects[a]->type == SHOT
             && AllObjects[b]->type == PLANET)
             AllObjects[a]->kill = 1;
@@ -128,12 +129,16 @@ void obj_impact (int a, int b) {
 
         if (AllObjects[b]->type == SHIP
             && AllObjects[a]->type == SHOT
-            && AllObjects[b]->id != AllObjects[a]->info.shot->id_origem)
+            && AllObjects[b]->id != AllObjects[a]->info.shot->id_origem) {
             AllObjects[b]->info.ship->life -= SHOT_DEMAGE;
+            AllObjects[a]->kill = 1;
+        }
         if (AllObjects[a]->type == SHIP
             && AllObjects[b]->type == SHOT
-            && AllObjects[a]->id != AllObjects[b]->info.shot->id_origem)
+            && AllObjects[a]->id != AllObjects[b]->info.shot->id_origem) {
             AllObjects[a]->info.ship->life -= SHOT_DEMAGE;
+            AllObjects[b]->kill = 1;
+        }
     }
 }
 
@@ -161,7 +166,7 @@ void obj_validate () {
             
             case SHIP:
                 if (entidade->info.ship->life <= 0) {
-                    obj_delete (i);
+                    //obj_delete (i);
                 } else if (AllObjects[i]->info.ship->gum1) {
                     delta = t - AllObjects[i]->info.ship->last_shot_gum1;
                     if (delta > SHOT_INTERVAL) {
@@ -188,7 +193,7 @@ void obj_validate () {
                             vb->data[1], 
                             va->data[0], 
                             va->data[1]);
-                        tmp->shape = shape2d_circle (20, 10);
+                        tmp->shape = shape2d_circle (15, 3);
                         tmp->img = AllObjects[i]->info.ship->shot_gum1;
                         shot_origem (i, objid);
                         vector_delete (va);

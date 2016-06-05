@@ -110,7 +110,6 @@ void draw_bar (double x, double y, double width, double height, double cr,
               double cg, double cb, double p) {
     int m = 5;
 
-
     glBegin(GL_QUADS);
     glColor4f(1,1,1, 0.5);
     glVertex2f (x,y);
@@ -119,14 +118,16 @@ void draw_bar (double x, double y, double width, double height, double cr,
     glVertex2f (x, y + height);
     glEnd ();
 
-    glBegin(GL_QUADS);
-    glColor4f(cr,cg,cb, 0.8);
-    glVertex2f(x+m,y+m);
-    glVertex2f(x+p*width - m + 1, y + m);
-    glVertex2f(x+p*width - m + 1, y + height - m + 1);
-    glVertex2f(x + m, y+height - m + 1);
-    glColor3f(1,1,1);
-    glEnd();
+    if (p > 0) {
+        glBegin(GL_QUADS);
+        glColor4f(cr,cg,cb, 0.8);
+        glVertex2f(x+m,y+m);
+        glVertex2f(x+p*width - m + 1, y + m);
+        glVertex2f(x+p*width - m + 1, y + height - m + 1);
+        glVertex2f(x + m, y+height - m + 1);
+        glColor3f(1,1,1);
+        glEnd();
+    }
 
 }
 
