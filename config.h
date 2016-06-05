@@ -11,6 +11,7 @@
  ******************************************************************************/
 #define OPENGL_SCALE 1000.0					/* Escala de zoom da camera do jogo */
 #define SHOW_GL_LINE_LOOP 0					/* Mostra os vertices dos shapes */
+#define DEBUG 0
 
 #define GRAV_CONST 6.67408e-11				/* Constante gravitacional */
 
@@ -32,7 +33,7 @@
 #define MIN_MASS 0.1 /* porcentagem mínima da massa */
 
 #define PROPELLANT_SPEED 2
-#define PROPELLANT_MASSRATE 1e+11
+#define PROPELLANT_MASSRATE 2e+10
 
 
 /* Sobre os controles */
@@ -41,12 +42,13 @@
 #define SHIP1_JET3 GLFW_KEY_W
 #define SHIP1_GUM1 GLFW_KEY_S
 
-#define SHIP2_JET1 GLFW_KEY_H
+#define SHIP2_JET1 GLFW_KEY_L
 #define SHIP2_JET2 GLFW_KEY_J
 #define SHIP2_JET3 GLFW_KEY_I
 #define SHIP2_GUM1 GLFW_KEY_K
 
 #define PAUSE GLFW_KEY_P
 #define RESTART GLFW_KEY_R
+
 
 

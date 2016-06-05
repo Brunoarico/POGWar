@@ -126,6 +126,16 @@ void obj_impact (int a, int b) {
             && AllObjects[a]->type == PLANET)
             AllObjects[b]->kill = 1;
 
+        if (AllObjects[a]->type == SHIP
+            && AllObjects[b]->type == PLANET) {
+            AllObjects[a]->info.ship->life = 0;
+            AllObjects[a]->kill = 1;
+        }
+        if (AllObjects[b]->type == SHIP
+            && AllObjects[a]->type == PLANET) {
+            AllObjects[b]->info.ship->life = 0;
+            AllObjects[b]->kill = 1;
+        }
 
         if (AllObjects[b]->type == SHIP
             && AllObjects[a]->type == SHOT
@@ -171,7 +181,7 @@ void obj_validate () {
             
             case SHIP:
                 if (entidade->info.ship->life <= 0) {
-                    //obj_delete (i);
+                    obj_delete (i);
                 } else if (AllObjects[i]->info.ship->gum1) {
                     delta = t - AllObjects[i]->info.ship->last_shot_gum1;
                     if (delta > SHOT_INTERVAL) {

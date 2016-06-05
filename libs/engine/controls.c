@@ -15,7 +15,7 @@
 #include "controls.h"
 
 static Ship ship1, ship2;
-static int pause = 0, restart = 0;
+static int pause = 0, restart = 0, gameover = 0;
 
 void control_callback (GLFWwindow* window, int key, int scancode, int action, int mods) {
     if (key == SHIP1_JET1 && action == GLFW_PRESS)
@@ -70,12 +70,31 @@ void control_set_ship2 (Ship s) {
 }
 
 int control_stade () {
+    if (pause) {
+        ship2->jet1 = 0;
+        ship2->jet2 = 0;
+        ship2->jet3 = 0;
+        ship2->gum1 = 0;
+        ship1->jet1 = 0;
+        ship1->jet2 = 0;
+        ship1->jet3 = 0;
+        ship1->gum1 = 0;
+    }
     return pause;
 }
 
 int control_restart () {
     if (restart) {
         restart = 0;
+        ship2->jet1 = 0;
+        ship2->jet2 = 0;
+        ship2->jet3 = 0;
+        ship2->gum1 = 0;
+        ship1->jet1 = 0;
+        ship1->jet2 = 0;
+        ship1->jet3 = 0;
+        ship1->gum1 = 0;
+        pause = 1;
         return 1;
     } 
     return 0;

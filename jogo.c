@@ -39,7 +39,7 @@ void add_objects () {
     /* deixar as naves como primeiros objetos */
     /* adicionar objetos */
     tmp = obj_get(obj_new (SHIP));
-    tmp->body = body2d_new (INI_MASS, 500, 0, 0, 1000);
+    tmp->body = body2d_new (INI_MASS, 500, 0, 0, 100);
     tmp->shape = shape_new ();
     shape_add_point (tmp->shape, vector2D_new (-100, -70));
     shape_add_point (tmp->shape, vector2D_new (-100, -55));
@@ -54,12 +54,12 @@ void add_objects () {
     tmp->img = image_create ("img/F6.png");
     image_zoom (tmp->img, 100); 
     tmp->info.ship->shot_gum1 = fire;
-    body_ang_spe2d (tmp->body, 2);
+    body_ang_spe2d (tmp->body, 0.2);
     control_set_ship1(tmp->info.ship);
 
 
     tmp = obj_get(obj_new (SHIP));
-    tmp->body = body2d_new (INI_MASS, -500, 0, 0, -1000);
+    tmp->body = body2d_new (INI_MASS, -500, 0, 0, -100);
     tmp->shape = shape_new ();
     shape_add_point (tmp->shape, vector2D_new (-55, -80));
     shape_add_point (tmp->shape, vector2D_new (-55, -40));
@@ -73,12 +73,12 @@ void add_objects () {
     tmp->img = image_create ("img/F5.png");
     image_zoom (tmp->img, 100);
     tmp->info.ship->shot_gum1 = fire;
-    body_ang_spe2d (tmp->body, 2);
+    body_ang_spe2d (tmp->body, 0.2);
     body_pos2d_degree (tmp->body, 180);
     control_set_ship2(tmp->info.ship);
 
     tmp = obj_get(obj_new (PLANET));
-    tmp->body = body2d_new (1.49833235e+16, 0, 0, 0, 0);
+    tmp->body = body2d_new (1.49833235e+14, 0, 0, 0, 0);
     tmp->shape = shape2d_circle (200, 10);
     tmp->img = image_create ("img/DeathStar.png");
     image_zoom (tmp->img, 200);
@@ -94,39 +94,55 @@ void add_objects () {
 
 void show_info (float width, float height) {
     float ratio = width / (float) height;
-    printText2D (
-        basic, 
-        "Player 1", 
-        -OPENGL_SCALE*ratio+30, -OPENGL_SCALE+270,
-        0.8);
-    draw_bar (
-        -OPENGL_SCALE*ratio+30, -OPENGL_SCALE+150,
-        1000, 50,
-        0, 0, 1,
-        obj_get(0)->info.ship->life/INI_LIFE);
-    draw_bar (
-        -OPENGL_SCALE*ratio+30, -OPENGL_SCALE+70,
-        1000, 50,
-        .8, .5, .2,
-        (obj_get (0)->body->bbody.mass-INI_MASS*MIN_MASS)
-        /(INI_MASS-INI_MASS*MIN_MASS));
+    if (obj_get (0) != NULL) {
+        printText2D (
+            basic, 
+            "Player 1", 
+            -OPENGL_SCALE*ratio+30, -OPENGL_SCALE+270,
+            0.8);
+        draw_bar (
+            -OPENGL_SCALE*ratio+30, -OPENGL_SCALE+150,
+            1000, 50,
+            0, 0, 1,
+            obj_get(0)->info.ship->life/INI_LIFE);
+        draw_bar (
+            -OPENGL_SCALE*ratio+30, -OPENGL_SCALE+70,
+            1000, 50,
+            .8, .5, .2,
+            (obj_get (0)->body->bbody.mass-INI_MASS*MIN_MASS)
+            /(INI_MASS-INI_MASS*MIN_MASS));
+    } else {
+        printText2D (
+            basic, 
+            "Player 1 is a loser.", 
+            -OPENGL_SCALE*ratio+30, -OPENGL_SCALE+270,
+            0.8);
+    }
 
-    printText2D (
-        basic, 
-        "Player 2", 
-        30, -OPENGL_SCALE+270,
-        0.8);
-    draw_bar (
-        30, -OPENGL_SCALE+150,
-        1000, 50,
-        0, 0, 1,
-        obj_get(1)->info.ship->life/INI_LIFE);
-    draw_bar (
-        30, -OPENGL_SCALE+70,
-        1000, 50,
-        .8, .5, .2,
-        (obj_get (1)->body->bbody.mass-INI_MASS*MIN_MASS)
-        /(INI_MASS-INI_MASS*MIN_MASS));
+    if (obj_get (1) != NULL) {
+        printText2D (
+            basic, 
+            "Player 2", 
+            30, -OPENGL_SCALE+270,
+            0.8);
+        draw_bar (
+            30, -OPENGL_SCALE+150,
+            1000, 50,
+            0, 0, 1,
+            obj_get(1)->info.ship->life/INI_LIFE);
+        draw_bar (
+            30, -OPENGL_SCALE+70,
+            1000, 50,
+            .8, .5, .2,
+            (obj_get (1)->body->bbody.mass-INI_MASS*MIN_MASS)
+            /(INI_MASS-INI_MASS*MIN_MASS));
+    } else {
+        printText2D (
+            basic, 
+            "Player 2 is a loser.", 
+            30, -OPENGL_SCALE+270,
+            0.8);
+    }
 }
 
 GLFWwindow * create_window () {
@@ -211,7 +227,7 @@ int main (int argc, char *argv[]) {
             draw_objects ();    /* Desenha objetos */
             printText2D (font2, "POGWar", -OPENGL_SCALE*ratio+20, OPENGL_SCALE-20, 1);
             sprintf(buffer, "%3.2f fps", 1.0/deltafps);
-            printText2D (basic, buffer, -OPENGL_SCALE*ratio+20, OPENGL_SCALE-150, 1);
+            printText2D (basic, buffer, -OPENGL_SCALE*ratio+20, OPENGL_SCALE-150, 0.5);
             show_info (width, height);
 
             glfwSwapBuffers(window);

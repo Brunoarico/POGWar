@@ -86,8 +86,6 @@ void act_force (Body c, double sec) {
 
     /* para o caso linear */
     /* Impoem aceleracao */
-    printf("%f\n", c->force->data[1]);
-
 
     at = vector_zeros (c->force->size);
     if (c->bbody.mass > 0) {
