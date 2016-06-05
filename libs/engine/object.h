@@ -21,43 +21,47 @@
 #include "../graphs/shape.h"
 #include "../graphs/image.h"
 #include "../physics/physics.h"
+#include "../../config.h"
+
 
 /* Estrutura que representa uma nave */
 struct ship {
     double fuel;
     double life;
+    char jet1, jet2; /* armazena se o motor esta ligado*/
+    char gum1; /* armazen se a arma 1 está lugada */
+    double last_shot_gum1;
 };
 typedef struct ship *Ship;
 
 /* Estrutura que representa um tiro */
 struct shot {
     double disapear_time;
-    double damage;
     int id_origem;
 };
 typedef struct shot *Shot;
 
-/* Estrutura que representa sujeira */
-struct dust {
-    double appear_time;
-    double disappear_time;
-};
-typedef struct dust *Dust;
+/* Estrutura basica que representa qualquer objeto da cena */
+enum otype {SHOT, SHIP, PLANET};
+typedef enum otype OType;
 
 /* Estrutura basica que representa qualquer objeto da cena */
 struct object {
     Body body;
     Shape shape;
-    Shot shot;
-    Ship ship;
+    union {
+        Shot shot;
+        Ship ship;
+    } info;
+    OType type;
     Image img;
-    Dust dust;
     int id;
+    int kill; /* marca se um objeto deve ser destruido */
 };
 typedef struct object *Object;
 
 /* Cria um novo objeto retornando o seu id */
-unsigned int obj_new ();
+unsigned int obj_new (OType type);
 
 /* Retorna o objeto de id i */
 Object obj_get (int i);
@@ -77,5 +81,8 @@ void obj_impact (int a, int b);
 
 /* Verifica tempo de vida */
 void object_lifetime (double last_time); 
+
+/* determina de qual objeto vem o tiro */
+void shot_origem (unsigned int origen, unsigned int shot);
 
 #endif

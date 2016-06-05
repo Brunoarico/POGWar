@@ -22,3 +22,20 @@
 /* Intervalo mínimo entre passos do modelo gravitacional */
 #define MIN_INTERVAL 0.001					/* 0.0001 */
 
+#define INI_FUEL 100 /* combustível inicial */
+#define INI_LIFE 100 /* vida inicial */
+#define SHOT_DURATION 1 /* duraçao do tiro*/
+#define SHOT_INTERVAL 0.1 /* intervalo minimo entre os tiros */
+
+/* Sobre os controles */
+#define SHIP1_JET1 GLFW_KEY_A
+#define SHIP1_JET2 GLFW_KEY_D
+#define SHIP1_GUM1 GLFW_KEY_S
+
+#define SHIP2_JET1 GLFW_KEY_H
+#define SHIP2_JET2 GLFW_KEY_J
+#define SHIP2_GUM1 GLFW_KEY_K
+
+#define PAUSE GLFW_KEY_P
+#define RESTART GLFW_KEY_R
+

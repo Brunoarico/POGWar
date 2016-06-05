@@ -310,7 +310,6 @@ void BSP(void (*impact)()) {
     for (i = 0; i < obj_numberof (); i++) {
         tmp = obj_get (i);
         if (tmp == NULL) continue;
-        stmp = tmp->shape;
         if (tmp->shape == NULL) continue;
         stmp = shape_copy (tmp->shape);
         shape_rotate (stmp, 0.0);
@@ -318,7 +317,7 @@ void BSP(void (*impact)()) {
         for (j = 0; j < stmp->size; j++) {
             k = (j + 1) % stmp->size;
             vertmp = vertice_new (stmp->points[j], stmp->points[k], tmp);
-            vertices_insert (vertices, vertmp); 
+            vertices_insert (vertices, vertmp);
         }
         free (stmp->points); 
         free (stmp); 
@@ -326,7 +325,7 @@ void BSP(void (*impact)()) {
     
     tree = BuildBSPTree(vertices, 0);
 
-    for (i = 0; i < vertices_size(vertices) ; i++) {
+    for (i = 0; i < vertices_size (vertices); i++) {
         vertmp = vertices_get (vertices, i);
         tmp = Collision (vertmp, tree);
         if (tmp != NULL) {

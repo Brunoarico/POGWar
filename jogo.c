@@ -20,21 +20,18 @@
 #include "libs/graphs/bitmap.h"
 #include "libs/simulation/bsp.h"
 #include "libs/engine/object.h"
+#include "libs/engine/controls.h"
 #include "config.h"
 
 static void error_callback(int error, const char* description) {
     fputs(description, stderr);
-}
-static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, GL_TRUE);
 }
 
 void add_objects () {
     Object tmp;
 
     /* adicionar objetos */
-    tmp = obj_get(obj_new ());
+    tmp = obj_get(obj_new (SHIP));
     tmp->body = body2d_new (1.498334e+12, 500, 0, 0, 1000);
     tmp->shape = shape_new ();
     shape_add_point (tmp->shape, vector2D_new (-100, -70));
@@ -50,9 +47,10 @@ void add_objects () {
     tmp->img = image_create ("img/F6.png");
     image_zoom (tmp->img, 100); 
     body_ang_spe2d (tmp->body, 2);
+    control_set_ship1(tmp->info.ship);
 
 
-    tmp = obj_get(obj_new ());
+    tmp = obj_get(obj_new (SHIP));
     tmp->body = body2d_new (1.498334e+12, -500, 0, 0, -1000);
     tmp->shape = shape_new ();
     shape_add_point (tmp->shape, vector2D_new (-55, -80));
@@ -68,10 +66,11 @@ void add_objects () {
     image_zoom (tmp->img, 100);
     body_ang_spe2d (tmp->body, 2);
     body_pos2d_degree (tmp->body, 180);
+    control_set_ship2(tmp->info.ship);
 
-    tmp = obj_get(obj_new ());
+    tmp = obj_get(obj_new (PLANET));
     tmp->body = body2d_new (1.49833235e+16, 0, 0, 0, 0);
-    tmp->shape = shape2d_circle (200, 30);
+    tmp->shape = shape2d_circle (200, 10);
     tmp->img = image_create ("img/DeathStar.png");
     image_zoom (tmp->img, 200);
 
@@ -95,7 +94,7 @@ GLFWwindow * create_window () {
         exit(EXIT_FAILURE);
     }
     glfwMakeContextCurrent(window);
-    glfwSetKeyCallback(window, key_callback);
+    glfwSetKeyCallback(window, control_callback);
     return window;
 }
 
@@ -128,7 +127,7 @@ int main (int argc, char *argv[]) {
         glfwGetFramebufferSize(window, &width, &height);
         ratio = width / (float) height;
 
-        while (stime > 0) {
+        while (stime > 0 && !control_stade ()) {
             if (stime < MIN_INTERVAL) 
                 moviments_update (stime);
             else 
@@ -154,7 +153,10 @@ int main (int argc, char *argv[]) {
             glLoadIdentity();
             
             BSP (&obj_impact);   /* Verifica colisoes */
+            obj_validate ();
             object_lifetime (atual);
+
+
             draw_back ();       /* Desenha fundo */
             draw_objects ();    /* Desenha objetos */
             printText2D (font2, "POGWar", -OPENGL_SCALE*ratio+20, OPENGL_SCALE-20, 1);
@@ -164,6 +166,11 @@ int main (int argc, char *argv[]) {
             glfwSwapBuffers(window);
             glfwPollEvents();
             lastfps = atual;
+
+            if (control_restart ()) {
+                obj_delete_all ();
+                add_objects ();
+            }
         }
     }
     glfwDestroyWindow(window);
