@@ -39,7 +39,8 @@ void add_objects () {
     /* deixar as naves como primeiros objetos */
     /* adicionar objetos */
     tmp = obj_get(obj_new (SHIP));
-    tmp->body = body2d_new (1.498334e+12, 500, 0, 0, 1000);
+    //tmp->body = body2d_new (INI_MASS, 500, 0, 0, 1000);
+    tmp->body = body2d_new (INI_MASS, 500, 0, 0, 0);
     tmp->shape = shape_new ();
     shape_add_point (tmp->shape, vector2D_new (-100, -70));
     shape_add_point (tmp->shape, vector2D_new (-100, -55));
@@ -54,12 +55,13 @@ void add_objects () {
     tmp->img = image_create ("img/F6.png");
     image_zoom (tmp->img, 100); 
     tmp->info.ship->shot_gum1 = fire;
-    body_ang_spe2d (tmp->body, 2);
+    //body_ang_spe2d (tmp->body, 1);
     control_set_ship1(tmp->info.ship);
 
 
     tmp = obj_get(obj_new (SHIP));
-    tmp->body = body2d_new (1.498334e+12, -500, 0, 0, -1000);
+    //tmp->body = body2d_new (INI_MASS, -500, 0, 0, -1000);
+    tmp->body = body2d_new (0, -500, 0, 0, 0);
     tmp->shape = shape_new ();
     shape_add_point (tmp->shape, vector2D_new (-55, -80));
     shape_add_point (tmp->shape, vector2D_new (-55, -40));
@@ -73,15 +75,15 @@ void add_objects () {
     tmp->img = image_create ("img/F5.png");
     image_zoom (tmp->img, 100);
     tmp->info.ship->shot_gum1 = fire;
-    body_ang_spe2d (tmp->body, 2);
+    //body_ang_spe2d (tmp->body, 1);
     body_pos2d_degree (tmp->body, 180);
     control_set_ship2(tmp->info.ship);
 
-    tmp = obj_get(obj_new (PLANET));
+    /*tmp = obj_get(obj_new (PLANET));
     tmp->body = body2d_new (1.49833235e+16, 0, 0, 0, 0);
     tmp->shape = shape2d_circle (200, 10);
     tmp->img = image_create ("img/DeathStar.png");
-    image_zoom (tmp->img, 200);
+    image_zoom (tmp->img, 200);*/
 
     /*int i;
     for (i = 0 ; i < 10; i++) {
@@ -108,7 +110,8 @@ void show_info (float width, float height) {
         -OPENGL_SCALE*ratio+30, -OPENGL_SCALE+70,
         1000, 50,
         .8, .5, .2,
-        .9);
+        (obj_get (0)->body->bbody.mass-INI_MASS*MIN_MASS)
+        /(INI_MASS-INI_MASS*MIN_MASS));
 
     printText2D (
         basic, 
@@ -124,7 +127,8 @@ void show_info (float width, float height) {
         30, -OPENGL_SCALE+70,
         1000, 50,
         .8, .5, .2,
-        .9);
+        (obj_get (1)->body->bbody.mass-INI_MASS*MIN_MASS)
+        /(INI_MASS-INI_MASS*MIN_MASS));
 }
 
 GLFWwindow * create_window () {
@@ -151,8 +155,6 @@ int main (int argc, char *argv[]) {
     double stime;
     char buffer [50];
 
-    Vector zero, f;
-
     add_objects ();
     window = create_window ();
 
@@ -174,16 +176,7 @@ int main (int argc, char *argv[]) {
         ratio = width / (float) height;
 
         while (stime > 0 && !control_stade ()) {
-            /* atualizador de estados */
-           /* zero = vector_zeros (2);
-            f = vector_zeros (2);
-            f->data[0] = 1;
-
-            zero->data[0] = 0;
-            zero->data[1] = 10000000000;
-
-            body_add_force (obj_get(0)->body, f, zero);
-            */moviments_update ();
+            moviments_update ();
 
 
             if (stime < MIN_INTERVAL) 

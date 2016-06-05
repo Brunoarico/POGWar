@@ -139,6 +139,11 @@ void obj_impact (int a, int b) {
             AllObjects[a]->info.ship->life -= SHOT_DEMAGE;
             AllObjects[b]->kill = 1;
         }
+        if (AllObjects[a]->type == SHIP && AllObjects[b]->type == SHIP
+            && AllObjects[a]->id != AllObjects[b]->info.shot->id_origem) {
+            AllObjects[a]->info.ship->life = 0;
+            AllObjects[b]->info.ship->life = 0;
+        }
     }
 }
 

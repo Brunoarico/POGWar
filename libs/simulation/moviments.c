@@ -41,8 +41,37 @@ void moviments_update () {
 
 void moviments_act (double interval) {
     int i;
-    for (i = 0; i < obj_numberof (); i++)
+    Vector pjet1, pjet2, force;
+    pjet1 = vector_zeros(2);
+    pjet2 = vector_zeros(2);
+    force = vector_zeros(2);
+    pjet1->data[0] = 30;
+    pjet1->data[1] = -30;
+
+    pjet2->data[0] = -30;
+    pjet2->data[1] = -30;
+
+    for (i = 0; i < obj_numberof (); i++) {
+        if (obj_get (i) == NULL) continue;
+        if (obj_get (i)->type == SHIP) { //verifica turbina
+            if (obj_get (i)->info.ship->jet1 && 
+                obj_get (i)->body->bbody.mass > INI_MASS*MIN_MASS) {
+                force->data[1] = SHOT_MASS*PROPELLANT_SPEED*interval;
+                body_add_force (obj_get (i)->body, force, pjet1);
+                obj_get (i)->body->bbody.mass -= SHOT_MASS;
+            }
+            if (obj_get (i)->info.ship->jet2 && 
+                obj_get (i)->body->bbody.mass > INI_MASS*MIN_MASS) {
+                force->data[1] = SHOT_MASS*PROPELLANT_SPEED*interval;
+                body_add_force (obj_get (i)->body, force, pjet2);
+                obj_get (i)->body->bbody.mass -= SHOT_MASS;
+            }
+        }
         act_force (obj_get (i)->body, interval);
+    }
+    vector_delete (pjet1);
+    vector_delete (pjet2);
+    vector_delete (force);
 }
 
 void check_screen_edges (double x, double y) {

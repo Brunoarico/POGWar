@@ -86,6 +86,9 @@ void act_force (Body c, double sec) {
 
     /* para o caso linear */
     /* Impoem aceleracao */
+    printf("%f\n", c->force->data[1]);
+
+
     at = vector_zeros (c->force->size);
     if (c->bbody.mass > 0) {
         vector_copy (at, c->force);
@@ -147,9 +150,11 @@ void body_add_force (Body a, Vector f, Vector p) {
     Vector lin, ang, tmp;
     double norm;
 
+    vector2D_rotate (p, a->ang_position->data[0]);
+
     tmp = vector_copy2 (p);
     norm = vector_norm (tmp);
-    if (norm > 0) {
+    if (norm > 0 && 0) {
         vector_scale(tmp, 1.0/vector_norm (tmp));
 
         lin = vector_copy2 (tmp);
@@ -159,18 +164,14 @@ void body_add_force (Body a, Vector f, Vector p) {
         ang = vector_copy2 (f);
         vector_sub (ang, lin); /* projecao em perpendicular a p */
 
-        vector_add (a->force, lin);
         a->torque -= p->data[0]*ang->data[1];
         a->torque += p->data[1]*ang->data[0];
 
-            
-     printf ("0) %f \n", p->data[1]*ang->data[0]-p->data[0]*ang->data[1]);
-
         vector_delete (lin);
         vector_delete (ang);
-    } else {
-        vector_add(a->force, f);
     }
+    vector_add(a->force, f);
+
     vector_delete (tmp);
 }
 

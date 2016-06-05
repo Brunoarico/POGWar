@@ -125,9 +125,9 @@ void draw_bar (double x, double y, double width, double height, double cr,
         glVertex2f(x+p*width - m + 1, y + m);
         glVertex2f(x+p*width - m + 1, y + height - m + 1);
         glVertex2f(x + m, y+height - m + 1);
-        glColor3f(1,1,1);
         glEnd();
     }
+    glColor4f(1,1,1,1);
 
 }
 
@@ -155,7 +155,7 @@ void draw_nbar (double x, double y, double width, double height, int val,
         glVertex2f(sum+width/max - 3, y + m - 1);
         glVertex2f(sum+width/max - 3, y + height - m + 1);
         glVertex2f(sum, y + height - m + 1);
-        glColor3f(1,1,1);
+        glColor4f(1,1,1,1);
         glEnd();
         sum += width/max;
     }
