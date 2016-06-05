@@ -51,6 +51,7 @@ static Object obj_add (OType type, int id) {
     }
     a->img = NULL;
     a->id = id;
+    a->kill = 0;
     return a;
 }
 
@@ -95,7 +96,9 @@ void obj_delete (int i) {
     if (AllObjects[i] == NULL) return;
     shape_delete (AllObjects[i]->shape);
     body_delete (AllObjects[i]->body);
-    image_delete (AllObjects[i]->img);
+
+    if (AllObjects[i]->type != SHOT)
+        image_delete (AllObjects[i]->img);
     free (AllObjects[i]);
     AllObjects[i] = NULL;
 }
@@ -117,10 +120,20 @@ void obj_impact (int a, int b) {
     if (AllObjects[a] != NULL && AllObjects[b] != NULL) {
         if (AllObjects[a]->type == SHOT
             && AllObjects[b]->type == PLANET)
-            obj_delete (a);
+            AllObjects[a]->kill = 1;
         if (AllObjects[b]->type == SHOT
             && AllObjects[a]->type == PLANET)
-            obj_delete (b);
+            AllObjects[b]->kill = 1;
+
+
+        if (AllObjects[b]->type == SHIP
+            && AllObjects[a]->type == SHOT
+            && AllObjects[b]->id != AllObjects[a]->info.shot->id_origem)
+            AllObjects[b]->info.ship->life -= SHOT_DEMAGE;
+        if (AllObjects[a]->type == SHIP
+            && AllObjects[b]->type == SHOT
+            && AllObjects[a]->id != AllObjects[b]->info.shot->id_origem)
+            AllObjects[a]->info.ship->life -= SHOT_DEMAGE;
     }
 }
 
@@ -130,10 +143,16 @@ void obj_validate () {
     Object entidade, tmp;
     double t = glfwGetTime();
     double delta;
+    BasicBody rasc;
+    Vector va, vb, vc;
 
     for (i = 0; i < n; i++) {
         entidade = AllObjects[i];
         if (entidade == NULL) continue;
+        if (entidade->kill) {
+            obj_delete (i);
+            continue;
+        }
         switch(entidade->type) {
             case SHOT:
                 if (entidade->info.shot->disapear_time < t)
@@ -141,14 +160,40 @@ void obj_validate () {
                 break; /* optional */
             
             case SHIP:
-                if (AllObjects[i]->info.ship->gum1) {
+                if (entidade->info.ship->life <= 0) {
+                    obj_delete (i);
+                } else if (AllObjects[i]->info.ship->gum1) {
                     delta = t - AllObjects[i]->info.ship->last_shot_gum1;
                     if (delta > SHOT_INTERVAL) {
+                        rasc = &AllObjects[i]->body->bbody;
+                        vb = vector_zeros (2);
+                        va = vector_copy2 (rasc->speed);
+                        vc = vector_zeros (2);
+
+                        vc->data[1] = SHOT_SPEED;
+                        vector2D_rotate (vc, 
+                            AllObjects[i]->body->ang_position->data[0]);
+                        vector_add (va, vc);
+
+                        vb->data[1] = 100;
+                        vector2D_rotate (vb, 
+                            AllObjects[i]->body->ang_position->data[0]);
+                        vector_add (vb, rasc->position);
+
                         objid = obj_new (SHOT);
                         tmp = obj_get(objid);
-                        tmp->body = body2d_new (10, 500, 500, 0, 0);
+                        tmp->body = body2d_new (
+                            1000, 
+                            vb->data[0], 
+                            vb->data[1], 
+                            va->data[0], 
+                            va->data[1]);
                         tmp->shape = shape2d_circle (20, 10);
-                        shot_origem (i, objid);  
+                        tmp->img = AllObjects[i]->info.ship->shot_gum1;
+                        shot_origem (i, objid);
+                        vector_delete (va);
+                        vector_delete (vb);
+                        vector_delete (vc);
                     }
                 }
                 break; /* optional */
@@ -158,7 +203,6 @@ void obj_validate () {
                 break; /* optional */
 
         }
-
 
        
     }

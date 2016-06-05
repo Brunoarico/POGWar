@@ -31,6 +31,7 @@ struct ship {
     char jet1, jet2; /* armazena se o motor esta ligado*/
     char gum1; /* armazen se a arma 1 está lugada */
     double last_shot_gum1;
+    Image shot_gum1;
 };
 typedef struct ship *Ship;
 
@@ -84,5 +85,7 @@ void object_lifetime (double last_time);
 
 /* determina de qual objeto vem o tiro */
 void shot_origem (unsigned int origen, unsigned int shot);
+
+void obj_validate ();
 
 #endif

@@ -34,4 +34,10 @@ void draw_objects ();
 /* Desenha o background da cena */
 void draw_back ();
 
+void draw_nbar (double x, double y, double width, double height, int val, 
+                int max);
+
+void draw_bar (double x, double y, double width, double height, double cr,
+               double cg, double cb, double p);
+
 #endif

@@ -24,8 +24,10 @@
 
 #define INI_FUEL 100 /* combustível inicial */
 #define INI_LIFE 100 /* vida inicial */
+#define SHOT_DEMAGE 10 /* quanto tira de vida um tiro */
 #define SHOT_DURATION 1 /* duraçao do tiro*/
 #define SHOT_INTERVAL 0.1 /* intervalo minimo entre os tiros */
+#define SHOT_SPEED 800 /* velocidade do tiro */
 
 /* Sobre os controles */
 #define SHIP1_JET1 GLFW_KEY_A
@@ -38,4 +40,5 @@
 
 #define PAUSE GLFW_KEY_P
 #define RESTART GLFW_KEY_R
+
 
