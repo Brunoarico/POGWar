@@ -41,23 +41,38 @@ void moviments_update () {
 
 void moviments_act (double interval) {
     int i;
+    Vector pjet1, pjet2, force;
+    pjet1 = vector_zeros(2);
+    pjet2 = vector_zeros(2);
+    force = vector_zeros(2);
+    pjet1->data[0] = 30;
+    pjet1->data[1] = -30;
+
+    pjet2->data[0] = -30;
+    pjet2->data[1] = -30;
 
     for (i = 0; i < obj_numberof (); i++) {
         if (obj_get (i) == NULL) continue;
         if (obj_get (i)->type == SHIP) { //verifica turbina
             if (obj_get (i)->info.ship->jet1 && 
                 obj_get (i)->body->bbody.mass > INI_MASS*MIN_MASS) {
-                obj_get (i)->body->ang_position->data[0] += 1*interval;
+
+                force->data[1] = PROPELLANT_SPEED*PROPELLANT_MASSRATE*interval;
+                body_add_force (obj_get (i)->body, force, pjet1);
                 obj_get (i)->body->bbody.mass -= PROPELLANT_MASSRATE*interval;
             }
             if (obj_get (i)->info.ship->jet2 && 
                 obj_get (i)->body->bbody.mass > INI_MASS*MIN_MASS) {
-                obj_get (i)->body->ang_position->data[0] -= 1*interval;
+                force->data[1] = PROPELLANT_SPEED*PROPELLANT_MASSRATE*interval;
+                body_add_force (obj_get (i)->body, force, pjet2);
                 obj_get (i)->body->bbody.mass -= PROPELLANT_MASSRATE*interval;
             }
         }
         act_force (obj_get (i)->body, interval);
     }
+    vector_delete (pjet1);
+    vector_delete (pjet2);
+    vector_delete (force);
 }
 
 void check_screen_edges (double x, double y) {
