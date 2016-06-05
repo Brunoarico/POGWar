@@ -6,25 +6,25 @@
  *  Projeto da disciplina de Laboratorio de Programacao MAC0211
  *  Batalha Espacial
  *
- *  Interface que cuida do calculo dos movimentos dos corpos
+ *  Interface que manipula objetos da cena
+ *
+ *  object.c contem um vetor de objetos que indicam todos os objetos da cena
  *
  ******************************************************************************/
-
-#ifndef _MOVIMENTS_HUT_H
-#define _MOVIMENTS_HUT_H
+#ifndef CONTROLS_H
+#define CONTROLS_H
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "../physics/physics.h"
-#include "../math/vector.h"
+#include <GLFW/glfw3.h>
 #include "../engine/object.h"
+#include "../../config.h"
 
-/* Atualiza o movimento dos corpos apos um intervalo de tempo interval */
-void moviments_update ();
 
-void moviments_act (double interval);
-
-/* Recebe o tamanho máximo da tela */
-void check_screen_edges (double x, double y);
+void control_callback (GLFWwindow* window, int key, int scancode, int action, int mods);
+void control_set_ship1 (Ship s);
+void control_set_ship2 (Ship s);
+int control_stade ();
+int control_restart ();
 
 #endif

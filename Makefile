@@ -1,16 +1,14 @@
 # Utilizado para gerar nosso executável.
 CFLAGS  = -g -Wall -Wno-unused-result -O0 -pedantic
-T=0.0001
-F=testes_simulacao/orbital.txt
 
 ifeq ($(shell uname),Linux)
-    GLFWFLAGS = -lm -lglfw3 -lGL -lXrandr -lXi -lX11 -lXxf86vm -lpthread -ldl -lXcursor -lXinerama
+    GLFWFLAGS = -lglfw3 -lXrandr -lXi -lX11 -lXxf86vm -lpthread -ldl -lXcursor -lXinerama
 else
     GLFWFLAGS = -lglfw3 -framework OpenGL
 endif
 
-default: image.o physics.o vector.o moviments.o shape.o object.o draw.o vertices.o bsp.o jogo.o 
-	$(CC) $(CFLAGS) *.o -o jogo -lm $(GLFWFLAGS) -lpng16
+default: image.o physics.o vector.o moviments.o shape.o object.o draw.o vertices.o bsp.o controls.o jogo.o 
+	$(CC) $(CFLAGS) $(GLFWFLAGS) -lpng *.o -o jogo -lm
 
 jogo.o: jogo.c
 	$(CC) $(CFLAGS) -ansi -c  *.c 
@@ -43,6 +41,9 @@ draw.o: libs/graphs/draw.c libs/graphs/draw.h
 	$(CC) $(CFLAGS) -ansi -c $^
 
 object.o: libs/engine/object.c libs/engine/object.h
+	$(CC) $(CFLAGS) -ansi -c $^
+
+controls.o: libs/engine/controls.c libs/engine/controls.h
 	$(CC) $(CFLAGS) -ansi -c $^
 
 draw.o: libs/graphs/bitmap.c libs/graphs/bitmap.h

@@ -105,3 +105,59 @@ void draw_back () {
     glDisable(GL_TEXTURE_2D);
    
 }
+
+void draw_bar (double x, double y, double width, double height, double cr,
+              double cg, double cb, double p) {
+    int m = 5;
+
+    glBegin(GL_QUADS);
+    glColor4f(1,1,1, 0.5);
+    glVertex2f (x,y);
+    glVertex2f (x + width, y);
+    glVertex2f (x + width, y + height);
+    glVertex2f (x, y + height);
+    glEnd ();
+
+    if (p > 0) {
+        glBegin(GL_QUADS);
+        glColor4f(cr,cg,cb, 0.8);
+        glVertex2f(x+m,y+m);
+        glVertex2f(x+p*width - m + 1, y + m);
+        glVertex2f(x+p*width - m + 1, y + height - m + 1);
+        glVertex2f(x + m, y+height - m + 1);
+        glEnd();
+    }
+    glColor4f(1,1,1,1);
+
+}
+
+void draw_nbar (double x, double y, double width, double height, int val, 
+                int max) {
+
+    double m = 5, sum;
+    int i;
+
+    glBegin(GL_QUADS);
+    glColor4f(1,1,1, 0.5);
+    glVertex2f (x,y);
+    glVertex2f (x + width, y);
+    glVertex2f (x + width, y + height);
+    glVertex2f (x, y + height);
+    glEnd ();
+
+    sum = x + m;
+    width = width - m - 1;
+
+    for (i = 0; i < val; i++) {
+        glBegin(GL_QUADS);
+        glColor4f(0,0,1, 0.8);
+        glVertex2f(sum, y + m - 1);
+        glVertex2f(sum+width/max - 3, y + m - 1);
+        glVertex2f(sum+width/max - 3, y + height - m + 1);
+        glVertex2f(sum, y + height - m + 1);
+        glColor4f(1,1,1,1);
+        glEnd();
+        sum += width/max;
+    }
+
+}

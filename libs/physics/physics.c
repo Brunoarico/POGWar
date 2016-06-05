@@ -79,18 +79,24 @@ Vector gravitational_force (Body a, Body b) {
     return res;
 }
 
-void act_force (Body c, Vector f, Vector p, double sec) {
+void act_force (Body c, double sec) {
     Vector at, v0;
-    at = vector_zeros (f->size);
+    double ang_at;
+    at = NULL;
 
     /* para o caso linear */
     /* Impoem aceleracao */
-    vector_copy (at, f);
-    vector_scale (at, 1.0/c->bbody.mass);
-    vector_copy (c->bbody.acel, at);
+
+    at = vector_zeros (c->force->size);
+    if (c->bbody.mass > 0) {
+        vector_copy (at, c->force);
+        vector_scale (at, 1.0/c->bbody.mass);
+        vector_copy (c->bbody.acel, at);
+        vector_copy (c->force, vector_zeros (c->force->size));
+    }
 
     /* Calcula nova velocidade */
-    v0 = vector_zeros (f->size);
+    v0 = vector_zeros (c->force->size);
     vector_copy (v0, c->bbody.speed);
     vector_copy (at, c->bbody.acel);
     vector_scale (at, sec);
@@ -106,10 +112,64 @@ void act_force (Body c, Vector f, Vector p, double sec) {
     /* Impoem aceleracao */
     /* Calcula nova velocidade */
     /* calcula nova posicao */
-    c->ang_position->data[0] += (c->ang_speed->data[0]) * sec;
+
+    vector_delete (at);
+    at = vector_zeros (1);
+
+    if (c->bbody.mass > 0) {
+        ang_at = c->torque;
+        ang_at /= M_PI/4.0*c->bbody.mass;
+        c->ang_acel->data[0] = ang_at;
+        at->data[0] = ang_at;
+        c->torque = 0;
+    }
+
+    /* Calcula nova velocidade */
+    vector_delete (v0);
+    v0 = vector_zeros (1);
+    vector_copy (v0, c->ang_speed);
+    vector_copy (at, c->ang_acel);
+    vector_scale (at, sec);
+    vector_add(c->ang_speed, at);
+
+    /* calcula nova posicao */
+    vector_scale (v0, sec);
+    vector_add(c->ang_position, v0);
+    vector_scale (at, sec/2.0);
+    vector_add(c->ang_position, at);
 
     vector_delete (at);
     vector_delete (v0);
+}
+
+void body_add_force (Body a, Vector f, Vector p) {
+    /* vamos separar a linear da angular */
+    Vector lin, ang, tmp;
+    double norm;
+
+    vector2D_rotate (p, a->ang_position->data[0]);
+
+    tmp = vector_copy2 (p);
+    norm = vector_norm (tmp);
+    if (norm > 0) {
+        vector_scale(tmp, 1.0/vector_norm (tmp));
+
+        lin = vector_copy2 (tmp);
+
+        vector_mul (lin, f); /* projecao em paralela a p */
+
+        ang = vector_copy2 (f);
+        vector_sub (ang, lin); /* projecao em perpendicular a p */
+
+        a->torque -= p->data[0]*ang->data[1];
+        a->torque += p->data[1]*ang->data[0];
+
+        vector_delete (lin);
+        vector_delete (ang);
+    }
+    vector_add(a->force, f);
+
+    vector_delete (tmp);
 }
 
 void body_delete (Body a) {
@@ -119,6 +179,7 @@ void body_delete (Body a) {
         vector_delete (a->bbody.acel);
         vector_delete (a->ang_position);
         vector_delete (a->ang_speed);
+        vector_delete (a->ang_acel);
         free (a);
     }    
 }
@@ -129,7 +190,6 @@ Body body_new () {
     new->ang_position = 0;
     return new;
 }
-
 
 void body_mass (Body b, double m) {
     b->bbody.mass = m;
@@ -179,6 +239,9 @@ Body body2d_new (double mass, double x, double y, double vx,
     body_spe (b, speed);
     body_acel (b, acel);
     b->ang_position = vector_zeros (1);
+    b->ang_acel = vector_zeros (1);
+    b->force = vector_zeros (2);
+    b->torque = 0;
     body_ang_spe(b, vector_zeros (1));
     return b;
 }

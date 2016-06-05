@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <png.h>
 #include <GLFW/glfw3.h>
+#include "../../config.h"
 
 /* Estrutura criada para uma imagem e trabalhada nessa interface */
 struct image {

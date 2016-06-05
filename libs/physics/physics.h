@@ -41,6 +41,8 @@ typedef struct basicbody *BasicBody;
 struct body {
     struct basicbody bbody;
     Vector ang_position, ang_speed, ang_acel;
+    Vector force;
+    double torque;
 };
 typedef struct body *Body;
 
@@ -66,7 +68,8 @@ void act_force_center (Body c, Vector f, double sec);
 /* Realiza uma forca f no corpo c durante sec segundos
  * Atualiza o corpo. Essa força é aplicada em p. Para
  * o caso gravitacional p = (0, 0) */
-void act_force (Body c, Vector f, Vector p, double sec);
+void act_force (Body c, double sec);
+void body_add_force (Body a, Vector f, Vector p);
 
 /* Desaloca um corpo a */
 void body_delete (Body a);

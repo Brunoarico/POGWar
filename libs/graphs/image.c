@@ -103,8 +103,10 @@ void image_load (Image img) {
     img->h = height;
 
     data = malloc(img->w * img->h * 4 *sizeof(float));
-    printf("Lendo %s \t", img->filename);
-    printf("W: %d\tH: %d\tD: %d\n", img->w, img->h , 4);
+    if (DEBUG) {
+        printf("Lendo %s \t", img->filename);
+        printf("W: %d\tH: %d\tD: %d\n", img->w, img->h , 4);
+    }
     for(y = 0; y < height; y++) {
         png_bytep row = row_pointers[y];
         for(x = 0; x < width * 4; x++) {
