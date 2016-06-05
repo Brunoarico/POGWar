@@ -1,7 +1,5 @@
 # Utilizado para gerar nosso executável.
 CFLAGS  = -g -Wall -Wno-unused-result -O0 -pedantic
-T=0.0001
-F=testes_simulacao/orbital.txt
 
 ifeq ($(shell uname),Linux)
     GLFWFLAGS = -lglfw3 -lXrandr -lXi -lX11 -lXxf86vm -lpthread -ldl -lXcursor -lXinerama

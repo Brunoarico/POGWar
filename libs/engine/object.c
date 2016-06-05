@@ -212,14 +212,3 @@ void obj_validate () {
        
     }
 }
-
-void object_lifetime (double last_time) {
-   /* int i;
-    for (i = 0; i < obj_numberof (); i++) {
-        if (AllObjects[i] != NULL &&
-            AllObjects[i]->dust != NULL) {
-            if(AllObjects[i]->dust->disappear_time>=last_time)
-                obj_delete (i);
-        }
-    }*/
-}

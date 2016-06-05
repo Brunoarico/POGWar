@@ -20,7 +20,9 @@
 #include "../engine/object.h"
 
 /* Atualiza o movimento dos corpos apos um intervalo de tempo interval */
-void moviments_update (double interval);
+void moviments_update ();
+
+void moviments_act (double interval);
 
 /* Recebe o tamanho máximo da tela */
 void check_screen_edges (double x, double y);

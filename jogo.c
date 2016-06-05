@@ -39,7 +39,7 @@ void add_objects () {
     /* deixar as naves como primeiros objetos */
     /* adicionar objetos */
     tmp = obj_get(obj_new (SHIP));
-    tmp->body = body2d_new (1.498334e+12, 500, 0, 0, 0);
+    tmp->body = body2d_new (1.498334e+12, 500, 0, 0, 1000);
     tmp->shape = shape_new ();
     shape_add_point (tmp->shape, vector2D_new (-100, -70));
     shape_add_point (tmp->shape, vector2D_new (-100, -55));
@@ -59,7 +59,7 @@ void add_objects () {
 
 
     tmp = obj_get(obj_new (SHIP));
-    tmp->body = body2d_new (1.498334e+12, -500, 0, 0, 0);
+    tmp->body = body2d_new (1.498334e+12, -500, 0, 0, -1000);
     tmp->shape = shape_new ();
     shape_add_point (tmp->shape, vector2D_new (-55, -80));
     shape_add_point (tmp->shape, vector2D_new (-55, -40));
@@ -73,15 +73,15 @@ void add_objects () {
     tmp->img = image_create ("img/F5.png");
     image_zoom (tmp->img, 100);
     tmp->info.ship->shot_gum1 = fire;
-    //body_ang_spe2d (tmp->body, 2);
+    body_ang_spe2d (tmp->body, 2);
     body_pos2d_degree (tmp->body, 180);
     control_set_ship2(tmp->info.ship);
 
-    /*tmp = obj_get(obj_new (PLANET));
+    tmp = obj_get(obj_new (PLANET));
     tmp->body = body2d_new (1.49833235e+16, 0, 0, 0, 0);
     tmp->shape = shape2d_circle (200, 10);
     tmp->img = image_create ("img/DeathStar.png");
-    image_zoom (tmp->img, 200);*/
+    image_zoom (tmp->img, 200);
 
     /*int i;
     for (i = 0 ; i < 10; i++) {
@@ -151,6 +151,8 @@ int main (int argc, char *argv[]) {
     double stime;
     char buffer [50];
 
+    Vector zero, f;
+
     add_objects ();
     window = create_window ();
 
@@ -172,10 +174,22 @@ int main (int argc, char *argv[]) {
         ratio = width / (float) height;
 
         while (stime > 0 && !control_stade ()) {
+            /* atualizador de estados */
+           /* zero = vector_zeros (2);
+            f = vector_zeros (2);
+            f->data[0] = 1;
+
+            zero->data[0] = 0;
+            zero->data[1] = 10000000000;
+
+            body_add_force (obj_get(0)->body, f, zero);
+            */moviments_update ();
+
+
             if (stime < MIN_INTERVAL) 
-                moviments_update (stime);
+                moviments_act(stime);
             else 
-                moviments_update (MIN_INTERVAL);
+                moviments_act (MIN_INTERVAL);
             /* verifica margem */
             check_screen_edges (OPENGL_SCALE*ratio, OPENGL_SCALE);
             stime -= MIN_INTERVAL;
@@ -199,7 +213,6 @@ int main (int argc, char *argv[]) {
             if (!control_stade ()) {
                 BSP (&obj_impact);   /* Verifica colisoes */
                 obj_validate ();
-                object_lifetime (atual);
             }
 
 

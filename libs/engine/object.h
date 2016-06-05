@@ -80,12 +80,10 @@ unsigned int obj_numberof ();
 /* No momento só imprime na tela. */ 
 void obj_impact (int a, int b);
 
-/* Verifica tempo de vida */
-void object_lifetime (double last_time); 
-
 /* determina de qual objeto vem o tiro */
 void shot_origem (unsigned int origen, unsigned int shot);
 
+/* Verifica tempo de vida e condicoes de existencia dos objetos*/
 void obj_validate ();
 
 #endif
