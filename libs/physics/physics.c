@@ -161,8 +161,8 @@ void body_add_force (Body a, Vector f, Vector p) {
 
         vector_sub (tmp, f); /* projecao em perpendicular a p */
 
-        a->torque += p->data[0]*tmp->data[1]/1000;
-        a->torque -= p->data[1]*tmp->data[0]/1000;
+        a->torque += p->data[0]*tmp->data[1];
+        a->torque -= p->data[1]*tmp->data[0];
     }
     vector_add(a->force, f);
 

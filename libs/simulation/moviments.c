@@ -40,22 +40,19 @@ void moviments_update () {
 }
 
 void moviments_act (double interval) {
-    int i;=
+    int i;
 
     for (i = 0; i < obj_numberof (); i++) {
         if (obj_get (i) == NULL) continue;
         if (obj_get (i)->type == SHIP) { //verifica turbina
             if (obj_get (i)->info.ship->jet1 && 
                 obj_get (i)->body->bbody.mass > INI_MASS*MIN_MASS) {
-
-                force->data[1] = PROPELLANT_SPEED*PROPELLANT_MASSRATE*interval;
-                body_add_force (obj_get (i)->body, force, pjet1);
+                obj_get (i)->body->ang_position->data[0] += 1*interval;
                 obj_get (i)->body->bbody.mass -= PROPELLANT_MASSRATE*interval;
             }
             if (obj_get (i)->info.ship->jet2 && 
                 obj_get (i)->body->bbody.mass > INI_MASS*MIN_MASS) {
-                force->data[1] = PROPELLANT_SPEED*PROPELLANT_MASSRATE*interval;
-                body_add_force (obj_get (i)->body, force, pjet2);
+                obj_get (i)->body->ang_position->data[0] -= 1*interval;
                 obj_get (i)->body->bbody.mass -= PROPELLANT_MASSRATE*interval;
             }
         }
