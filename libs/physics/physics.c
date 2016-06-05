@@ -113,31 +113,8 @@ void act_force (Body c, double sec) {
     /* Calcula nova velocidade */
     /* calcula nova posicao */
     vector_delete (at);
-    at = vector_zeros (1);
 
-    if (c->bbody.mass > 0) {
-        ang_at = c->torque;
-        ang_at /= M_PI/4.0*c->bbody.mass;
-        c->ang_acel->data[0] = ang_at;
-        at->data[0] = ang_at;
-        c->torque = 0;
-    }
 
-    /* Calcula nova velocidade */
-    vector_delete (v0);
-    v0 = vector_zeros (1);
-    vector_copy (v0, c->ang_speed);
-    vector_copy (at, c->ang_acel);
-    vector_scale (at, sec);
-    vector_add(c->ang_speed, at);
-
-    /* calcula nova posicao */
-    vector_scale (v0, sec);
-    vector_add(c->ang_position, v0);
-    vector_scale (at, sec/2.0);
-    vector_add(c->ang_position, at);
-
-    vector_delete (at);
     vector_delete (v0);
 }
 
@@ -158,13 +135,15 @@ void body_add_force (Body a, Vector f, Vector p) {
         vector_scale(tmp, 1.0/vector_norm (tmp));
 
         vector_mul (tmp, f); /* projecao em paralela a p */
+        vector_add(a->force, tmp);
 
         vector_sub (tmp, f); /* projecao em perpendicular a p */
 
-        a->torque += p->data[0]*tmp->data[1];
-        a->torque -= p->data[1]*tmp->data[0];
+        a->torque += p->data[0]*tmp->data[1]/1000;
+        a->torque -= p->data[1]*tmp->data[0]/1000;
+    } else {
+        vector_add(a->force, f);
     }
-    vector_add(a->force, f);
 
     vector_delete (tmp);
 }

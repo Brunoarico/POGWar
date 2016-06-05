@@ -41,37 +41,44 @@ void moviments_update () {
 
 void moviments_act (double interval) {
     int i;
-    Vector pjet1, pjet2, force;
-    pjet1 = vector_zeros(2);
-    pjet2 = vector_zeros(2);
+    Vector pjet, force;
+    pjet = vector_zeros(2);
     force = vector_zeros(2);
-    pjet1->data[0] = 30;
-    pjet1->data[1] = -30;
-
-    pjet2->data[0] = -30;
-    pjet2->data[1] = -30;
 
     for (i = 0; i < obj_numberof (); i++) {
         if (obj_get (i) == NULL) continue;
         if (obj_get (i)->type == SHIP) { //verifica turbina
             if (obj_get (i)->info.ship->jet1 && 
-                obj_get (i)->body->bbody.mass > INI_MASS*MIN_MASS) {
+                    obj_get (i)->body->bbody.mass > INI_MASS*MIN_MASS) {
+                pjet->data[0] = 30;
+                pjet->data[1] = -30;
 
                 force->data[1] = PROPELLANT_SPEED*PROPELLANT_MASSRATE*interval;
-                body_add_force (obj_get (i)->body, force, pjet1);
+                body_add_force (obj_get (i)->body, force, pjet);
                 obj_get (i)->body->bbody.mass -= PROPELLANT_MASSRATE*interval;
             }
             if (obj_get (i)->info.ship->jet2 && 
-                obj_get (i)->body->bbody.mass > INI_MASS*MIN_MASS) {
+                    obj_get (i)->body->bbody.mass > INI_MASS*MIN_MASS) {
+                pjet->data[0] = -30;
+                pjet->data[1] = -30;
+
                 force->data[1] = PROPELLANT_SPEED*PROPELLANT_MASSRATE*interval;
-                body_add_force (obj_get (i)->body, force, pjet2);
+                body_add_force (obj_get (i)->body, force, pjet);
+                obj_get (i)->body->bbody.mass -= PROPELLANT_MASSRATE*interval;
+            }
+            if (obj_get (i)->info.ship->jet3 && 
+                    obj_get (i)->body->bbody.mass > INI_MASS*MIN_MASS) {
+                pjet->data[0] = 0;
+                pjet->data[1] = 0;
+
+                force->data[1] = -PROPELLANT_SPEED*PROPELLANT_MASSRATE*interval;
+                body_add_force (obj_get (i)->body, force, pjet);
                 obj_get (i)->body->bbody.mass -= PROPELLANT_MASSRATE*interval;
             }
         }
         act_force (obj_get (i)->body, interval);
     }
-    vector_delete (pjet1);
-    vector_delete (pjet2);
+    vector_delete (pjet);
     vector_delete (force);
 }
 

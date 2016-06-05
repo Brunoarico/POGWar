@@ -26,6 +26,10 @@ void control_callback (GLFWwindow* window, int key, int scancode, int action, in
         ship1->jet2 = 1;
     else if (key == SHIP1_JET2 && action == GLFW_RELEASE)
         ship1->jet2 = 0;
+    else if (key == SHIP1_JET3 && action == GLFW_PRESS)
+        ship1->jet3 = 1;
+    else if (key == SHIP1_JET3 && action == GLFW_RELEASE)
+        ship1->jet3 = 0;
     else if (key == SHIP1_GUM1 && action == GLFW_PRESS)
         ship1->gum1 = 1;
     else if (key == SHIP1_GUM1 && action == GLFW_RELEASE)
@@ -39,6 +43,10 @@ void control_callback (GLFWwindow* window, int key, int scancode, int action, in
         ship2->jet2 = 1;
     else if (key == SHIP2_JET2 && action == GLFW_RELEASE)
         ship2->jet2 = 0;
+    else if (key == SHIP2_JET3 && action == GLFW_PRESS)
+        ship2->jet3 = 1;
+    else if (key == SHIP2_JET3 && action == GLFW_RELEASE)
+        ship2->jet3 = 0;
     else if (key == SHIP2_GUM1 && action == GLFW_PRESS)
         ship2->gum1 = 1;
     else if (key == SHIP2_GUM1 && action == GLFW_RELEASE)

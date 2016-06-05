@@ -28,7 +28,7 @@
 struct ship {
     double fuel;
     double life;
-    char jet1, jet2; /* armazena se o motor esta ligado*/
+    char jet1, jet2, jet3; /* armazena se o motor esta ligado*/
     char gum1; /* armazen se a arma 1 está lugada */
     double last_shot_gum1;
     Image shot_gum1;
