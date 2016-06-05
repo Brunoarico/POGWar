@@ -86,8 +86,6 @@ void act_force (Body c, double sec) {
 
     /* para o caso linear */
     /* Impoem aceleracao */
-    printf("%f\n", c->force->data[1]);
-
 
     at = vector_zeros (c->force->size);
     if (c->bbody.mass > 0) {
@@ -114,8 +112,6 @@ void act_force (Body c, double sec) {
     /* Impoem aceleracao */
     /* Calcula nova velocidade */
     /* calcula nova posicao */
-    c->ang_position->data[0] += (c->ang_speed->data[0]) * sec;
-
     vector_delete (at);
     at = vector_zeros (1);
 
@@ -147,28 +143,26 @@ void act_force (Body c, double sec) {
 
 void body_add_force (Body a, Vector f, Vector p) {
     /* vamos separar a linear da angular */
-    Vector lin, ang, tmp;
+    Vector tmp;
     double norm;
 
     vector2D_rotate (p, a->ang_position->data[0]);
+    vector2D_rotate (f, a->ang_position->data[0]);
+    vector_add(a->force, f);
+
 
     tmp = vector_copy2 (p);
     norm = vector_norm (tmp);
-    if (norm > 0 && 0) {
+    if (norm > 0) {
+        //printf("a) (%f, %f)\n", tmp->data[0], tmp->data[1]);
         vector_scale(tmp, 1.0/vector_norm (tmp));
 
-        lin = vector_copy2 (tmp);
+        vector_mul (tmp, f); /* projecao em paralela a p */
 
-        vector_mul (lin, f); /* projecao em paralela a p */
+        vector_sub (tmp, f); /* projecao em perpendicular a p */
 
-        ang = vector_copy2 (f);
-        vector_sub (ang, lin); /* projecao em perpendicular a p */
-
-        a->torque -= p->data[0]*ang->data[1];
-        a->torque += p->data[1]*ang->data[0];
-
-        vector_delete (lin);
-        vector_delete (ang);
+        a->torque += p->data[0]*tmp->data[1]/1000;
+        a->torque -= p->data[1]*tmp->data[0]/1000;
     }
     vector_add(a->force, f);
 
