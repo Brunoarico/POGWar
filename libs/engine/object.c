@@ -157,7 +157,6 @@ void obj_impact (int a, int b) {
     }
 }
 
-// realiza chegagem de todos os objetos por tipo
 void obj_validate () {
     int i, objid;
     Object entidade, tmp;
@@ -219,7 +218,6 @@ void obj_validate () {
                 break; /* optional */
 
             case PLANET:
-                //statement(s);
                 break; /* optional */
 
         }

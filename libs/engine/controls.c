@@ -15,7 +15,7 @@
 #include "controls.h"
 
 static Ship ship1, ship2;
-static int pause = 0, restart = 0, gameover = 0;
+static int pause = 0, restart = 0;
 
 void control_callback (GLFWwindow* window, int key, int scancode, int action, int mods) {
     if (key == SHIP1_JET1 && action == GLFW_PRESS)
