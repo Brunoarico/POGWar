@@ -54,7 +54,7 @@ void add_objects () {
     tmp->img = image_create ("img/F6.png");
     image_zoom (tmp->img, 100); 
     tmp->info.ship->shot_gum1 = fire;
-    body_ang_spe2d (tmp->body, 1);
+    body_ang_spe2d (tmp->body, 2);
     control_set_ship1(tmp->info.ship);
 
 
@@ -73,7 +73,7 @@ void add_objects () {
     tmp->img = image_create ("img/F5.png");
     image_zoom (tmp->img, 100);
     tmp->info.ship->shot_gum1 = fire;
-    body_ang_spe2d (tmp->body, 1);
+    body_ang_spe2d (tmp->body, 2);
     body_pos2d_degree (tmp->body, 180);
     control_set_ship2(tmp->info.ship);
 

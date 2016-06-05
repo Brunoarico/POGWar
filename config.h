@@ -31,7 +31,7 @@
 #define INI_MASS 1.498334e+12
 #define MIN_MASS 0.1 /* porcentagem mínima da massa */
 
-#define PROPELLANT_SPEED 100000
+#define PROPELLANT_SPEED 2
 #define PROPELLANT_MASSRATE 1e+11
 
 
