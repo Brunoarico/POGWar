@@ -6,11 +6,10 @@
  *  Projeto da disciplina de Laboratorio de Programacao MAC0211
  *  Batalha Espacial
  *
- *  Interface que manipula objetos da cena
- *
- *  object.c contem um vetor de objetos que indicam todos os objetos da cena
+ *  Interface de gerenciamento de controles
  *
  ******************************************************************************/
+ 
 #ifndef CONTROLS_H
 #define CONTROLS_H
 

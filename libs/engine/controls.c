@@ -6,9 +6,7 @@
  *  Projeto da disciplina de Laboratorio de Programacao MAC0211
  *  Batalha Espacial
  *
- *  Manipula objetos da cena
- *
- *  Contem um vetor de objetos que indicam todos os objetos da cena
+ *  Cuida do gerenciamento dos controles
  *
  ******************************************************************************/
 

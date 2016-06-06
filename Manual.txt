@@ -1,4 +1,4 @@
-Manual de usuário - Batalha Espacial (2ª fase)
+Manual de usuário - Batalha Espacial (3ª fase)
 
 - Descrição
 
@@ -22,4 +22,30 @@ Para executar o jogo basta executar o seguinte comando:
 ./jogo
 
 Para fechar o jogo basta pressionar ESC.
+
+- Controles
+
+Controles do player 1
+
+W - frente
+A - esquerda
+D - direita
+S - tiro
+
+Controles do player 2
+
+I - frente
+J - esquerda
+L - direita
+K - tiro
+
+R - reset (reinicia pausado)
+
+P - pause/despause
+
+ESC - fecha o jogo
+
+- Jogo
+
+As naves podem ser controladas cada uma por seu player e possuem uma barra de vida (azul) e uma barra de combustível. Ir pra frente consome combustível, uma possível recarga será implementada no futuro. Quando a barra de vida se esvazia ou alguma nave se choca, esta se destrói. 
 
