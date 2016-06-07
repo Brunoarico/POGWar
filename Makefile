@@ -2,13 +2,13 @@
 CFLAGS  = -g -Wall -Wno-unused-result -O0 -pedantic
 
 ifeq ($(shell uname),Linux)
-    GLFWFLAGS = -lm -lglfw3 -lGL -lXrandr -lXi -lX11 -lXxf86vm -lpthread -ldl -lXcursor -lXinerama -lpng16
+    GLFWFLAGS = -lm -lglfw3 -lGL -lXrandr -lXi -lX11 -lXxf86vm -lpthread -ldl -lXcursor -lXinerama
 else
     GLFWFLAGS = -lglfw3 -framework OpenGL
 endif
 
 default: image.o physics.o vector.o moviments.o shape.o object.o draw.o vertices.o bsp.o controls.o jogo.o 
-	$(CC) $(CFLAGS) *.o -o jogo $(GLFWFLAGS) 
+	$(CC) $(CFLAGS) *.o -o jogo $(GLFWFLAGS)  -lpng
 
 jogo.o: jogo.c
 	$(CC) $(CFLAGS) -ansi -c  *.c 
