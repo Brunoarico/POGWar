@@ -32,6 +32,7 @@ void moviments_update () {
             if (i == j || tmpobjj == NULL) continue;
             if (tmpobjj->body == NULL) continue;
             tmp = gravitational_force (tmpobji->body, tmpobjj->body);
+            vector2D_rotate (tmp, -1*tmpobjj->body->ang_position->data[0]);
             body_add_force (tmpobjj->body, tmp, zero);
             vector_delete (tmp);
         }
@@ -42,30 +43,43 @@ void moviments_update () {
 void moviments_act (double interval) {
     int i;
     Vector tmp;
+    Vector turbine_force = vector_zeros (2);
+    Vector frontal = vector_zeros (2);
+    Vector force = vector_zeros (2);
+    turbine_force->data[1] = 100*PROPELLANT_MASSRATE*PROPELLANT_SPEED;
+    frontal->data[1] = -80*PROPELLANT_MASSRATE*PROPELLANT_SPEED;
+
     for (i = 0; i < obj_numberof (); i++) {
         if (obj_get (i) == NULL) continue;
         if (obj_get (i)->type == SHIP) { /* verifica turbina */
             if (obj_get (i)->info.ship->jet1 && 
                     obj_get (i)->body->bbody.mass > INI_MASS*MIN_MASS) {
-                obj_get (i)->body->ang_position->data[0] += interval * PROPELLANT_SPEED;
+                force->data[0] = 5;
+                force->data[1] = 40;
+                body_add_force (obj_get (i)->body, turbine_force, force);
                 obj_get (i)->body->bbody.mass -= PROPELLANT_MASSRATE*interval;
             }
             if (obj_get (i)->info.ship->jet2 && 
                     obj_get (i)->body->bbody.mass > INI_MASS*MIN_MASS) {
-                obj_get (i)->body->ang_position->data[0] -= interval * PROPELLANT_SPEED;
+                force->data[0] = -5;
+                force->data[1] = 40;
+                body_add_force (obj_get (i)->body, turbine_force, force);
                 obj_get (i)->body->bbody.mass -= PROPELLANT_MASSRATE*interval;
             }
+            
             if (obj_get (i)->info.ship->jet3 && 
                     obj_get (i)->body->bbody.mass > INI_MASS*MIN_MASS) {
-                tmp = vector_zeros (2);
-                tmp->data[1] = interval * PROPELLANT_SPEED * 100;
-                vector2D_rotate (tmp, obj_get (i)->body->ang_position->data[0]);
-                vector_add(obj_get (i)->body->bbody.position, tmp);
-                obj_get (i)->body->bbody.mass -= 2*PROPELLANT_MASSRATE*interval;
+                force->data[0] = 0;
+                force->data[1] = -40;
+                body_add_force (obj_get (i)->body, frontal, force);
+                obj_get (i)->body->bbody.mass -= PROPELLANT_MASSRATE*interval;
             }
         }
         act_force (obj_get (i)->body, interval);
     }
+    vector_delete(frontal);
+    vector_delete(turbine_force);
+    vector_delete(force);
 }
 
 void check_screen_edges (double x, double y) {

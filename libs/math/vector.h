@@ -25,10 +25,10 @@ struct vector {
 typedef struct vector *Vector;
 
 /* calcula o norma ao quadrado de a */
-double vector_norm2 (Vector a);
+double vector_mag2 (Vector a);
 
 /* Calcula o norma de um vetor */
-double vector_norm (Vector a);
+double vector_mag (Vector a);
 
 /* Realiza a = a - b */
 void vector_sub (Vector a, Vector b);

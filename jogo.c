@@ -34,54 +34,55 @@ void add_objects () {
     Object tmp;
     Image fire;
     fire = image_create ("img/fire.png");
-    image_zoom (fire, 20); 
+    image_zoom (fire, 13); 
 
     /* deixar as naves como primeiros objetos */
     /* adicionar objetos */
     tmp = obj_get(obj_new (SHIP));
-    tmp->body = body2d_new (INI_MASS, 500, 0, 0, 100);
+    /*tmp->body = body2d_new (INI_MASS, 500, 0, 0, 100);*/
+    tmp->body = body2d_new (INI_MASS, 500, 0, 0, 10000, INI_INERCIA);
     tmp->shape = shape_new ();
-    shape_add_point (tmp->shape, vector2D_new (-100, -70));
-    shape_add_point (tmp->shape, vector2D_new (-100, -55));
-    shape_add_point (tmp->shape, vector2D_new (-28, 10));
-    shape_add_point (tmp->shape, vector2D_new (-28, 45));
-    shape_add_point (tmp->shape, vector2D_new (0, 100));
-    shape_add_point (tmp->shape, vector2D_new (28, 45));
-    shape_add_point (tmp->shape, vector2D_new (28, 10));
-    shape_add_point (tmp->shape, vector2D_new (100, -55));
-    shape_add_point (tmp->shape, vector2D_new (100, -70));
-    shape_add_point (tmp->shape, vector2D_new (0, -100));
+    shape_add_point (tmp->shape, vector2D_new (-50, -35));
+    shape_add_point (tmp->shape, vector2D_new (-50, -27.5));
+    shape_add_point (tmp->shape, vector2D_new (-14, 5));
+    shape_add_point (tmp->shape, vector2D_new (-14, 22.5));
+    shape_add_point (tmp->shape, vector2D_new (0, 50));
+    shape_add_point (tmp->shape, vector2D_new (14, 22.5));
+    shape_add_point (tmp->shape, vector2D_new (14, 5));
+    shape_add_point (tmp->shape, vector2D_new (50, -27.5));
+    shape_add_point (tmp->shape, vector2D_new (50, -35));
+    shape_add_point (tmp->shape, vector2D_new (0, -50));
     tmp->img = image_create ("img/F6.png");
-    image_zoom (tmp->img, 100); 
+    image_zoom (tmp->img, 50); 
     tmp->info.ship->shot_gum1 = fire;
     body_ang_spe2d (tmp->body, 0.2);
     control_set_ship1(tmp->info.ship);
 
 
     tmp = obj_get(obj_new (SHIP));
-    tmp->body = body2d_new (INI_MASS, -500, 0, 0, -100);
+    tmp->body = body2d_new (0, -500, 0, 0, -100, INI_INERCIA);
     tmp->shape = shape_new ();
-    shape_add_point (tmp->shape, vector2D_new (-55, -80));
-    shape_add_point (tmp->shape, vector2D_new (-55, -40));
-    shape_add_point (tmp->shape, vector2D_new (-28, -10));
-    shape_add_point (tmp->shape, vector2D_new (-28, 53));
-    shape_add_point (tmp->shape, vector2D_new (0, 98));
-    shape_add_point (tmp->shape, vector2D_new (28, 53));
-    shape_add_point (tmp->shape, vector2D_new (28, -10));
-    shape_add_point (tmp->shape, vector2D_new (55, -40));
-    shape_add_point (tmp->shape, vector2D_new (55, -80));
+    shape_add_point (tmp->shape, vector2D_new (-27.5, -40));
+    shape_add_point (tmp->shape, vector2D_new (-27.5, -20));
+    shape_add_point (tmp->shape, vector2D_new (-14, -5));
+    shape_add_point (tmp->shape, vector2D_new (-14, 26.5));
+    shape_add_point (tmp->shape, vector2D_new (0, 49));
+    shape_add_point (tmp->shape, vector2D_new (14, 26.5));
+    shape_add_point (tmp->shape, vector2D_new (14, -5));
+    shape_add_point (tmp->shape, vector2D_new (27.5, -20));
+    shape_add_point (tmp->shape, vector2D_new (27.5, -40));
     tmp->img = image_create ("img/F5.png");
-    image_zoom (tmp->img, 100);
+    image_zoom (tmp->img, 50);
     tmp->info.ship->shot_gum1 = fire;
     body_ang_spe2d (tmp->body, 0.2);
     body_pos2d_degree (tmp->body, 180);
     control_set_ship2(tmp->info.ship);
 
     tmp = obj_get(obj_new (PLANET));
-    tmp->body = body2d_new (1.49833235e+14, 0, 0, 0, 0);
-    tmp->shape = shape2d_circle (200, 10);
+    tmp->body = body2d_new (PLANET_MASS, 0, 0, 0, 0, 100);
+    tmp->shape = shape2d_circle (100, 10);
     tmp->img = image_create ("img/DeathStar.png");
-    image_zoom (tmp->img, 200);
+    image_zoom (tmp->img, 100);
 
     /*int i;
     for (i = 0 ; i < 10; i++) {

@@ -12,7 +12,7 @@
 
 #include "vector.h"
 
-double vector_norm2 (Vector a) {
+double vector_mag2 (Vector a) {
     int i;
     double sum = 0.0; 
     for (i = 0; i < a->size; i++)
@@ -20,8 +20,8 @@ double vector_norm2 (Vector a) {
     return sum;
 }
 
-double vector_norm (Vector a) {
-    return sqrt (vector_norm2 (a));
+double vector_mag (Vector a) {
+    return sqrt (vector_mag2 (a));
 }
 
 void vector_sub (Vector a, Vector b) {

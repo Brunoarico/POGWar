@@ -202,11 +202,12 @@ void obj_validate () {
                         objid = obj_new (SHOT);
                         tmp = obj_get(objid);
                         tmp->body = body2d_new (
-                            1000, 
+                            20, 
                             vb->data[0], 
                             vb->data[1], 
                             va->data[0], 
-                            va->data[1]);
+                            va->data[1],
+                            200);
                         tmp->shape = shape2d_circle (15, 3);
                         tmp->img = AllObjects[i]->info.ship->shot_gum1;
                         shot_origem (i, objid);

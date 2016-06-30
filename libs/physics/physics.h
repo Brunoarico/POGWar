@@ -43,15 +43,9 @@ struct body {
     Vector ang_position, ang_speed, ang_acel;
     Vector force;
     double torque;
+    double inertia;
 };
 typedef struct body *Body;
-
-/* Retorna um novo vetor contendo a posicao do centro de 
- * massa entre dois corpos a e b */ 
-Vector center_of_mass (Body a, Body b);
-
-/* Retorna o centro de massa de um vetor de corpos bodies de tamanho N */
-Vector center_of_mass_array (Body *bodies, int N);
 
 /* Calcula a forca que o corpo b aplica em a,
  * Retorna um vetor de forcas */
@@ -70,6 +64,7 @@ void act_force_center (Body c, Vector f, double sec);
  * o caso gravitacional p = (0, 0) */
 void act_force (Body c, double sec);
 void body_add_force (Body a, Vector f, Vector p);
+void body_add_force_centerxy (Body a, Vector f);
 
 /* Desaloca um corpo a */
 void body_delete (Body a);
@@ -105,8 +100,9 @@ void body_pos2d_degree (Body b, double p);
 void body_acel (Body b, Vector p);
 
 /* Retorna um corpo inicializado com massa mass, na posicao (x, y) com
-   velocidade em x vx e velocidade em y vy */
+   velocidade em x vx e velocidade em y vy 
+   iner eh o momento de inercia */
 Body body2d_new (double mass, double x, double y, double vx, 
-                 double vy);
+                 double vy, double iner);
 
 #endif

@@ -13,45 +13,6 @@
 
 #include "physics.h"
 
-Vector center_of_mass (Body a, Body b) {
-    Vector tmp, res;
-    double total_mass_i;
-    total_mass_i = 1.0/(a->bbody.mass + b->bbody.mass);
-    res = vector_zeros (a->bbody.position->size);
-    tmp = vector_zeros (a->bbody.position->size);
-
-    vector_copy (tmp, a->bbody.position);
-    vector_scale (tmp, a->bbody.mass);
-    vector_copy (res, b->bbody.position);
-    vector_scale (res, b->bbody.mass);
-    vector_add (res, tmp);
-    vector_scale (res, total_mass_i);
-    vector_delete (tmp);
-    return res;
-}
-
-Vector center_of_mass_array (Body *bodies, int N) {
-    Vector tmp, res;
-    int i;
-    double total_mass_i = 0.0;
-    for (i = 0; i < N; i++)
-        total_mass_i += bodies[i]->bbody.mass;
-    total_mass_i = 1.0/(total_mass_i);
-    res = vector_zeros (bodies[0]->bbody.position->size);
-    tmp = vector_zeros (bodies[0]->bbody.position->size);
-    
-    for (i = 0; i < N; i++) {
-        if (bodies[i] == NULL) continue;
-        vector_copy (tmp, bodies[i]->bbody.position);
-        vector_scale (tmp, bodies[i]->bbody.mass);
-        vector_add (res, tmp);
-    }
-
-    vector_scale (res, total_mass_i);
-    vector_delete (tmp); 
-    return res;
-}
-
 Vector gravitational_acel (Body a, Body b) {
     Vector res;
     double force, tmp;
@@ -60,13 +21,15 @@ Vector gravitational_acel (Body a, Body b) {
     vector_copy (res, a->bbody.position);
     vector_sub (res, b->bbody.position);
 
-    tmp = vector_norm2 (res);
+    tmp = vector_mag2 (res);
+
     if (tmp == 0) {
         fprintf (stderr, "gravitational_force: ");
         fprintf (stderr, "Division by zero.\n");
         /* exit(EXIT_FAILURE); */
         tmp = 0.00001;
     }
+    
     force /= tmp;
     vector_scale (res, force);
     return res;
@@ -118,7 +81,7 @@ void act_force (Body c, double sec) {
 
     if (c->bbody.mass > 0) {
         ang_at = c->torque;
-        ang_at /= M_PI/4.0*c->bbody.mass;
+        ang_at /= c->inertia*c->bbody.mass;
         c->ang_acel->data[0] = ang_at;
         at->data[0] = ang_at;
         c->torque = 0;
@@ -144,32 +107,16 @@ void act_force (Body c, double sec) {
 
 void body_add_force (Body a, Vector f, Vector p) {
     /* vamos separar a linear da angular */
-    Vector lin, ang, tmp;
-    double norm;
 
-    vector2D_rotate (p, a->ang_position->data[0]);
-
-    tmp = vector_copy2 (p);
-    norm = vector_norm (tmp);
-    if (norm > 0) {
-        vector_scale(tmp, 1.0/vector_norm (tmp));
-
-        lin = vector_copy2 (tmp);
-
-        vector_mul (lin, f); /* projecao em paralela a p */
-
-        ang = vector_copy2 (f);
-        vector_sub (ang, lin); /* projecao em perpendicular a p */
-
-        a->torque -= p->data[0]*ang->data[1];
-        a->torque += p->data[1]*ang->data[0];
-
-        vector_delete (lin);
-        vector_delete (ang);
-    }
+    a->torque -= p->data[0]*f->data[1];
+    a->torque += p->data[1]*f->data[0];
+    vector2D_rotate (f, a->ang_position->data[0]);
     vector_add(a->force, f);
+}
 
-    vector_delete (tmp);
+void body_add_force_centerxy (Body a, Vector f) {
+    /* vamos separar a linear da angular */
+    vector_add(a->force, f);
 }
 
 void body_delete (Body a) {
@@ -223,7 +170,7 @@ void body_acel (Body b, Vector p) {
 }
 
 Body body2d_new (double mass, double x, double y, double vx, 
-                 double vy) {
+                 double vy, double iner) {
     Vector position, speed, acel;
     Body b;
     b = body_new();
@@ -242,6 +189,7 @@ Body body2d_new (double mass, double x, double y, double vx,
     b->ang_acel = vector_zeros (1);
     b->force = vector_zeros (2);
     b->torque = 0;
+    b->inertia = iner;
     body_ang_spe(b, vector_zeros (1));
     return b;
 }
