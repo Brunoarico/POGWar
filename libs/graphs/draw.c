@@ -14,6 +14,7 @@
 
 /* imagem de background */
 static Image back = NULL;
+static Image logo = NULL;
 
 void draw2d_shape (Shape s, Vector position, double angle) {
 	int i;
@@ -104,6 +105,30 @@ void draw_back () {
     glFlush();
     glDisable(GL_TEXTURE_2D);
    
+}
+
+void draw_logo () {
+
+    if (logo == NULL) {
+        logo = image_create (LOGO_IMAGE);
+        image_load (logo);
+        image_zoom (logo, 100);
+    }
+
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    image_set_texture (logo);
+    glBegin(GL_POLYGON);
+    glTexCoord2f(0.0, 1.0); glVertex2f(-logo->w/2, OPENGL_SCALE-logo->h+15);
+    glTexCoord2f(1.0, 1.0); glVertex2f(+logo->w/2, OPENGL_SCALE-logo->h+15);
+    glTexCoord2f(1.0, 0.0); glVertex2f(+logo->w/2, OPENGL_SCALE+15);
+    glTexCoord2f(0.0, 0.0); glVertex2f(-logo->w/2, OPENGL_SCALE+15);
+    glEnd();
+    glDisable(GL_TEXTURE_2D);
+
+    glFlush();
+    glPopMatrix();
+
 }
 
 void draw_bar (double x, double y, double width, double height, double cr,

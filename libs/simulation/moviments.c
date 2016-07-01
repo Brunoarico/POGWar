@@ -51,7 +51,6 @@ void moviments_act (double interval) {
     for (i = 0; i < obj_numberof (); i++) {
         if (obj_get (i) == NULL) continue;
         if (obj_get (i)->type == SHIP) { /* verifica turbina */
-            printf("%e\n", obj_get (i)->body->bbody.mass);
             if (obj_get (i)->body->bbody.mass > INI_MASS*MIN_MASS) {
                 if (obj_get (i)->info.ship->jet1 && obj_get (i)->info.ship->jet2) {
                     force->data[0] = 0;

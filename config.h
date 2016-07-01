@@ -16,6 +16,7 @@
 #define GRAV_CONST 1             /* Constante gravitacional */
 
 #define BACKGROUD_IMAGE "img/galaxy.png"    /* Localizacao da imagem de background */
+#define LOGO_IMAGE "img/logo.png"    
 
 #define FPS 120                             /* Quantidade de frames (atualizacao de 
                                                imagem) por segundo */
@@ -36,8 +37,8 @@
 
 #define PLANET_MASS 4995000
 
-#define PROPELLANT_SPEED 20 /* velocidade de saída do combustível. */
-#define PROPELLANT_MASSRATE 500 /* qunato de massa vai perder por segundo. */
+#define PROPELLANT_SPEED 4 /* velocidade de saída do combustível. */
+#define PROPELLANT_MASSRATE 200 /* qunato de massa vai perder por segundo. */
 
 
 /* Sobre os controles */

@@ -170,6 +170,7 @@ int main (int argc, char *argv[]) {
     double stime;
     char buffer [50];
 
+
     add_objects ();
     window = create_window ();
 
@@ -226,7 +227,8 @@ int main (int argc, char *argv[]) {
 
             draw_back ();       /* Desenha fundo */
             draw_objects ();    /* Desenha objetos */
-            printText2D (font2, "POGWar", -OPENGL_SCALE*ratio+20, OPENGL_SCALE-20, 1);
+            /*printText2D (font2, "POGWar", -OPENGL_SCALE*ratio+20, OPENGL_SCALE-20, 1);*/
+            draw_logo ();
             sprintf(buffer, "%3.2f fps", 1.0/deltafps);
             printText2D (basic, buffer, -OPENGL_SCALE*ratio+20, OPENGL_SCALE-150, 0.5);
             show_info (width, height);
