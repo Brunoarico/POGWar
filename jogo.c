@@ -228,7 +228,21 @@ int main (int argc, char *argv[]) {
             draw_back ();       /* Desenha fundo */
             draw_objects ();    /* Desenha objetos */
             /*printText2D (font2, "POGWar", -OPENGL_SCALE*ratio+20, OPENGL_SCALE-20, 1);*/
-            draw_logo (width, height);
+            if (obj_get (0) != NULL && obj_get (1) != NULL && 
+                obj_get (0)->type == SHIP && obj_get (1)->type == SHIP) {
+                draw_logo (width, height,
+                    obj_get(0)->info.ship->life/INI_LIFE,
+                    (obj_get (0)->body->bbody.mass-INI_MASS*MIN_MASS)/(INI_MASS-INI_MASS*MIN_MASS),
+                    1.0,
+                    obj_get(1)->info.ship->life/INI_LIFE,
+                    (obj_get (1)->body->bbody.mass-INI_MASS*MIN_MASS)/(INI_MASS-INI_MASS*MIN_MASS),
+                    1.0);
+            } else {
+                /* Restart screen */
+                draw_logo (width, height, 0, 0, 0, 0, 0, 0);
+            }
+
+
             sprintf(buffer, "%3.2f fps", 1.0/deltafps);
             printText2D (basic, buffer, -OPENGL_SCALE*ratio+20, OPENGL_SCALE-50, 0.5);
             /* show_info (width, height); */

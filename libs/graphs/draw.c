@@ -112,7 +112,9 @@ void draw_back () {
    
 }
 
-void draw_logo (float width, float height) {
+void draw_logo (float width, float height,
+    double life1, double fuel1, double speed1,
+    double life2, double fuel2, double speed2) {
     double x, y;
     double l = width/height*OPENGL_SCALE;
     if (logo == NULL) {
@@ -163,16 +165,16 @@ void draw_logo (float width, float height) {
     image_set_texture (life_bar);
     glBegin(GL_POLYGON);
     glTexCoord2f(0.0, 1.0); glVertex2f(-l+x, -OPENGL_SCALE+y);
-    glTexCoord2f(1.0, 1.0); glVertex2f(-l+x+life_bar->w, -OPENGL_SCALE+y);
-    glTexCoord2f(1.0, 0.0); glVertex2f(-l+x+life_bar->w, -OPENGL_SCALE+life_bar->h+y);
+    glTexCoord2f(1.0*life1, 1.0); glVertex2f(-l+x+(life_bar->w*life1), -OPENGL_SCALE+y);
+    glTexCoord2f(1.0*life1, 0.0); glVertex2f(-l+x+(life_bar->w*life1), -OPENGL_SCALE+life_bar->h+y);
     glTexCoord2f(0.0, 0.0); glVertex2f(-l+x, -OPENGL_SCALE+life_bar->h+y);
     glEnd();
 
     glBegin(GL_POLYGON);
-    glTexCoord2f(0.0, 1.0); glVertex2f(-x+l-life_bar->w, -OPENGL_SCALE+y);
-    glTexCoord2f(1.0, 1.0); glVertex2f(-x+l, -OPENGL_SCALE+y);
-    glTexCoord2f(1.0, 0.0); glVertex2f(-x+l, -OPENGL_SCALE+life_bar->h+y);
-    glTexCoord2f(0.0, 0.0); glVertex2f(-x+l-life_bar->w, -OPENGL_SCALE+life_bar->h+y);
+    glTexCoord2f(0.0, 1.0); glVertex2f(-x+l, -OPENGL_SCALE+y);
+    glTexCoord2f(1.0*life2, 1.0); glVertex2f(-x+l-(life_bar->w)*life2, -OPENGL_SCALE+y);
+    glTexCoord2f(1.0*life2, 0.0); glVertex2f(-x+l-(life_bar->w)*life2, -OPENGL_SCALE+life_bar->h+y);
+    glTexCoord2f(0.0, 0.0); glVertex2f(-x+l, -OPENGL_SCALE+life_bar->h+y);
     glEnd();
 
     x = 420;
@@ -180,16 +182,16 @@ void draw_logo (float width, float height) {
     image_set_texture (fuel_bar);
     glBegin(GL_POLYGON);
     glTexCoord2f(0.0, 1.0); glVertex2f(-l+x, -OPENGL_SCALE+y);
-    glTexCoord2f(1.0, 1.0); glVertex2f(-l+x+fuel_bar->w, -OPENGL_SCALE+y);
-    glTexCoord2f(1.0, 0.0); glVertex2f(-l+x+fuel_bar->w, -OPENGL_SCALE+fuel_bar->h+y);
+    glTexCoord2f(1.0*fuel1, 1.0); glVertex2f(-l+x+(fuel_bar->w*fuel1), -OPENGL_SCALE+y);
+    glTexCoord2f(1.0*fuel1, 0.0); glVertex2f(-l+x+(fuel_bar->w*fuel1), -OPENGL_SCALE+fuel_bar->h+y);
     glTexCoord2f(0.0, 0.0); glVertex2f(-l+x, -OPENGL_SCALE+fuel_bar->h+y);
     glEnd();
 
     glBegin(GL_POLYGON);
-    glTexCoord2f(0.0, 1.0); glVertex2f(-x+l-fuel_bar->w, -OPENGL_SCALE+y);
-    glTexCoord2f(1.0, 1.0); glVertex2f(-x+l, -OPENGL_SCALE+y);
-    glTexCoord2f(1.0, 0.0); glVertex2f(-x+l, -OPENGL_SCALE+fuel_bar->h+y);
-    glTexCoord2f(0.0, 0.0); glVertex2f(-x+l-fuel_bar->w, -OPENGL_SCALE+fuel_bar->h+y);
+    glTexCoord2f(0.0, 1.0); glVertex2f(-x+l, -OPENGL_SCALE+y);
+    glTexCoord2f(1.0*fuel2, 1.0); glVertex2f(-x+l-(fuel_bar->w)*fuel2, -OPENGL_SCALE+y);
+    glTexCoord2f(1.0*fuel2, 0.0); glVertex2f(-x+l-(fuel_bar->w)*fuel2, -OPENGL_SCALE+fuel_bar->h+y);
+    glTexCoord2f(0.0, 0.0); glVertex2f(-x+l, -OPENGL_SCALE+fuel_bar->h+y);
     glEnd();
 
     x = 420;
@@ -197,16 +199,16 @@ void draw_logo (float width, float height) {
     image_set_texture (speed_bar);
     glBegin(GL_POLYGON);
     glTexCoord2f(0.0, 1.0); glVertex2f(-l+x, -OPENGL_SCALE+y);
-    glTexCoord2f(1.0, 1.0); glVertex2f(-l+x+speed_bar->w, -OPENGL_SCALE+y);
-    glTexCoord2f(1.0, 0.0); glVertex2f(-l+x+speed_bar->w, -OPENGL_SCALE+speed_bar->h+y);
+    glTexCoord2f(1.0*speed1, 1.0); glVertex2f(-l+x+(speed_bar->w*speed1), -OPENGL_SCALE+y);
+    glTexCoord2f(1.0*speed1, 0.0); glVertex2f(-l+x+(speed_bar->w*speed1), -OPENGL_SCALE+speed_bar->h+y);
     glTexCoord2f(0.0, 0.0); glVertex2f(-l+x, -OPENGL_SCALE+speed_bar->h+y);
     glEnd();
-    
+
     glBegin(GL_POLYGON);
-    glTexCoord2f(0.0, 1.0); glVertex2f(-x+l-speed_bar->w, -OPENGL_SCALE+y);
-    glTexCoord2f(1.0, 1.0); glVertex2f(-x+l, -OPENGL_SCALE+y);
-    glTexCoord2f(1.0, 0.0); glVertex2f(-x+l, -OPENGL_SCALE+speed_bar->h+y);
-    glTexCoord2f(0.0, 0.0); glVertex2f(-x+l-speed_bar->w, -OPENGL_SCALE+speed_bar->h+y);
+    glTexCoord2f(0.0, 1.0); glVertex2f(-x+l, -OPENGL_SCALE+y);
+    glTexCoord2f(1.0*speed2, 1.0); glVertex2f(-x+l-(speed_bar->w)*speed2, -OPENGL_SCALE+y);
+    glTexCoord2f(1.0*speed2, 0.0); glVertex2f(-x+l-(speed_bar->w)*speed2, -OPENGL_SCALE+speed_bar->h+y);
+    glTexCoord2f(0.0, 0.0); glVertex2f(-x+l, -OPENGL_SCALE+speed_bar->h+y);
     glEnd();
 
 

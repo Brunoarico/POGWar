@@ -1,5 +1,5 @@
 # Utilizado para gerar nosso executável.
-CFLAGS  = -g -Wall -Wno-unused-result -O0 -pedantic
+CFLAGS  = -g -Wall -Wno-unused-result -O3 -pedantic
 
 ifeq ($(shell uname),Linux)
     GLFWFLAGS = -lm -lglfw3 -lGL -lXrandr -lXi -lX11 -lXxf86vm -lpthread -ldl -lXcursor -lXinerama
