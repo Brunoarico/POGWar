@@ -10,13 +10,18 @@
  *
  ******************************************************************************/
 #define OPENGL_SCALE 1000.0                 /* Escala de zoom da camera do jogo */
-#define SHOW_GL_LINE_LOOP 1                 /* Mostra os vertices dos shapes */
+#define SHOW_GL_LINE_LOOP 0                 /* Mostra os vertices dos shapes */
 #define DEBUG 0
 
 #define GRAV_CONST 1             /* Constante gravitacional */
 
 #define BACKGROUD_IMAGE "img/galaxy.png"    /* Localizacao da imagem de background */
+#define LEFT_PANEL_IMAGE "img/left.png"    /* Localizacao da imagem de background */
+#define RIGHT_PANEL_IMAGE "img/right.png"    /* Localizacao da imagem de background */
 #define LOGO_IMAGE "img/logo.png"    
+#define FUEL_BAR_IMAGE "img/load_red.png"    
+#define LIFE_BAR_IMAGE "img/load_green.png"    
+#define SPEED_BAR_IMAGE "img/load_orange.png"    
 
 #define FPS 120                             /* Quantidade de frames (atualizacao de 
                                                imagem) por segundo */

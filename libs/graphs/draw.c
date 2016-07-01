@@ -15,6 +15,11 @@
 /* imagem de background */
 static Image back = NULL;
 static Image logo = NULL;
+static Image right = NULL;
+static Image left = NULL;
+static Image life_bar = NULL;
+static Image fuel_bar = NULL;
+static Image speed_bar = NULL;
 
 void draw2d_shape (Shape s, Vector position, double angle) {
 	int i;
@@ -107,15 +112,27 @@ void draw_back () {
    
 }
 
-void draw_logo () {
-
+void draw_logo (float width, float height) {
+    double x, y;
+    double l = width/height*OPENGL_SCALE;
     if (logo == NULL) {
         logo = image_create (LOGO_IMAGE);
         image_load (logo);
-        image_zoom (logo, 100);
+        right = image_create (RIGHT_PANEL_IMAGE);
+        image_load (right);
+        left = image_create (LEFT_PANEL_IMAGE);
+        image_load (left);
+
+        life_bar = image_create (LIFE_BAR_IMAGE );
+        image_load (life_bar);
+        fuel_bar = image_create (FUEL_BAR_IMAGE);
+        image_load (fuel_bar);
+        speed_bar = image_create (SPEED_BAR_IMAGE);
+        image_load (speed_bar);
     }
 
     glPushMatrix();
+
     glEnable(GL_TEXTURE_2D);
     image_set_texture (logo);
     glBegin(GL_POLYGON);
@@ -124,6 +141,76 @@ void draw_logo () {
     glTexCoord2f(1.0, 0.0); glVertex2f(+logo->w/2, OPENGL_SCALE+15);
     glTexCoord2f(0.0, 0.0); glVertex2f(-logo->w/2, OPENGL_SCALE+15);
     glEnd();
+
+    image_set_texture (left);
+    glBegin(GL_POLYGON);
+    glTexCoord2f(0.0, 1.0); glVertex2f(-10-l, -OPENGL_SCALE);
+    glTexCoord2f(1.0, 1.0); glVertex2f(-10-l+left->w, -OPENGL_SCALE);
+    glTexCoord2f(1.0, 0.0); glVertex2f(-10-l+left->w, -OPENGL_SCALE+left->h);
+    glTexCoord2f(0.0, 0.0); glVertex2f(-10-l, -OPENGL_SCALE+left->h);
+    glEnd();
+
+    image_set_texture (right);
+    glBegin(GL_POLYGON);
+    glTexCoord2f(0.0, 1.0); glVertex2f(+10+l-right->w, -OPENGL_SCALE);
+    glTexCoord2f(1.0, 1.0); glVertex2f(+10+l, -OPENGL_SCALE);
+    glTexCoord2f(1.0, 0.0); glVertex2f(+10+l, -OPENGL_SCALE+right->h);
+    glTexCoord2f(0.0, 0.0); glVertex2f(+10+l-right->w, -OPENGL_SCALE+right->h);
+    glEnd();
+
+    x = 420;
+    y = 129;
+    image_set_texture (life_bar);
+    glBegin(GL_POLYGON);
+    glTexCoord2f(0.0, 1.0); glVertex2f(-l+x, -OPENGL_SCALE+y);
+    glTexCoord2f(1.0, 1.0); glVertex2f(-l+x+life_bar->w, -OPENGL_SCALE+y);
+    glTexCoord2f(1.0, 0.0); glVertex2f(-l+x+life_bar->w, -OPENGL_SCALE+life_bar->h+y);
+    glTexCoord2f(0.0, 0.0); glVertex2f(-l+x, -OPENGL_SCALE+life_bar->h+y);
+    glEnd();
+
+    glBegin(GL_POLYGON);
+    glTexCoord2f(0.0, 1.0); glVertex2f(-x+l-life_bar->w, -OPENGL_SCALE+y);
+    glTexCoord2f(1.0, 1.0); glVertex2f(-x+l, -OPENGL_SCALE+y);
+    glTexCoord2f(1.0, 0.0); glVertex2f(-x+l, -OPENGL_SCALE+life_bar->h+y);
+    glTexCoord2f(0.0, 0.0); glVertex2f(-x+l-life_bar->w, -OPENGL_SCALE+life_bar->h+y);
+    glEnd();
+
+    x = 420;
+    y = 68;
+    image_set_texture (fuel_bar);
+    glBegin(GL_POLYGON);
+    glTexCoord2f(0.0, 1.0); glVertex2f(-l+x, -OPENGL_SCALE+y);
+    glTexCoord2f(1.0, 1.0); glVertex2f(-l+x+fuel_bar->w, -OPENGL_SCALE+y);
+    glTexCoord2f(1.0, 0.0); glVertex2f(-l+x+fuel_bar->w, -OPENGL_SCALE+fuel_bar->h+y);
+    glTexCoord2f(0.0, 0.0); glVertex2f(-l+x, -OPENGL_SCALE+fuel_bar->h+y);
+    glEnd();
+
+    glBegin(GL_POLYGON);
+    glTexCoord2f(0.0, 1.0); glVertex2f(-x+l-fuel_bar->w, -OPENGL_SCALE+y);
+    glTexCoord2f(1.0, 1.0); glVertex2f(-x+l, -OPENGL_SCALE+y);
+    glTexCoord2f(1.0, 0.0); glVertex2f(-x+l, -OPENGL_SCALE+fuel_bar->h+y);
+    glTexCoord2f(0.0, 0.0); glVertex2f(-x+l-fuel_bar->w, -OPENGL_SCALE+fuel_bar->h+y);
+    glEnd();
+
+    x = 420;
+    y = 7;
+    image_set_texture (speed_bar);
+    glBegin(GL_POLYGON);
+    glTexCoord2f(0.0, 1.0); glVertex2f(-l+x, -OPENGL_SCALE+y);
+    glTexCoord2f(1.0, 1.0); glVertex2f(-l+x+speed_bar->w, -OPENGL_SCALE+y);
+    glTexCoord2f(1.0, 0.0); glVertex2f(-l+x+speed_bar->w, -OPENGL_SCALE+speed_bar->h+y);
+    glTexCoord2f(0.0, 0.0); glVertex2f(-l+x, -OPENGL_SCALE+speed_bar->h+y);
+    glEnd();
+    
+    glBegin(GL_POLYGON);
+    glTexCoord2f(0.0, 1.0); glVertex2f(-x+l-speed_bar->w, -OPENGL_SCALE+y);
+    glTexCoord2f(1.0, 1.0); glVertex2f(-x+l, -OPENGL_SCALE+y);
+    glTexCoord2f(1.0, 0.0); glVertex2f(-x+l, -OPENGL_SCALE+speed_bar->h+y);
+    glTexCoord2f(0.0, 0.0); glVertex2f(-x+l-speed_bar->w, -OPENGL_SCALE+speed_bar->h+y);
+    glEnd();
+
+
+
     glDisable(GL_TEXTURE_2D);
 
     glFlush();
