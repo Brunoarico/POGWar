@@ -21,7 +21,7 @@ Vector gravitational_acel (Body a, Body b) {
     vector_copy (res, a->bbody.position);
     vector_sub (res, b->bbody.position);
 
-    tmp = vector_mag2 (res);
+    tmp = vector_mag (res);
 
     if (tmp == 0) {
         fprintf (stderr, "gravitational_force: ");
@@ -30,7 +30,7 @@ Vector gravitational_acel (Body a, Body b) {
         tmp = 0.00001;
     }
     
-    force /= tmp;
+    force /= tmp*tmp*tmp;
     vector_scale (res, force);
     return res;
 }

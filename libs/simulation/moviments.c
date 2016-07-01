@@ -42,7 +42,6 @@ void moviments_update () {
 
 void moviments_act (double interval) {
     int i;
-    Vector tmp;
     Vector turbine_force = vector_zeros (2);
     Vector frontal = vector_zeros (2);
     Vector force = vector_zeros (2);
@@ -52,27 +51,33 @@ void moviments_act (double interval) {
     for (i = 0; i < obj_numberof (); i++) {
         if (obj_get (i) == NULL) continue;
         if (obj_get (i)->type == SHIP) { /* verifica turbina */
-            if (obj_get (i)->info.ship->jet1 && 
-                    obj_get (i)->body->bbody.mass > INI_MASS*MIN_MASS) {
-                force->data[0] = 5;
-                force->data[1] = 40;
-                body_add_force (obj_get (i)->body, turbine_force, force);
-                obj_get (i)->body->bbody.mass -= PROPELLANT_MASSRATE*interval;
-            }
-            if (obj_get (i)->info.ship->jet2 && 
-                    obj_get (i)->body->bbody.mass > INI_MASS*MIN_MASS) {
-                force->data[0] = -5;
-                force->data[1] = 40;
-                body_add_force (obj_get (i)->body, turbine_force, force);
-                obj_get (i)->body->bbody.mass -= PROPELLANT_MASSRATE*interval;
-            }
-            
-            if (obj_get (i)->info.ship->jet3 && 
-                    obj_get (i)->body->bbody.mass > INI_MASS*MIN_MASS) {
-                force->data[0] = 0;
-                force->data[1] = -40;
-                body_add_force (obj_get (i)->body, frontal, force);
-                obj_get (i)->body->bbody.mass -= PROPELLANT_MASSRATE*interval;
+            printf("%e\n", obj_get (i)->body->bbody.mass);
+            if (obj_get (i)->body->bbody.mass > INI_MASS*MIN_MASS) {
+                if (obj_get (i)->info.ship->jet1 && obj_get (i)->info.ship->jet2) {
+                    force->data[0] = 0;
+                    force->data[1] = 0;
+                    body_add_force (obj_get (i)->body, turbine_force, force);
+                    body_add_force (obj_get (i)->body, turbine_force, force);
+                    obj_get (i)->body->bbody.mass -= 2*PROPELLANT_MASSRATE*interval;
+                } else {
+                    if (obj_get (i)->info.ship->jet1) {
+                        force->data[0] = 5;
+                        force->data[1] = 40;
+                        body_add_force (obj_get (i)->body, turbine_force, force);
+                        obj_get (i)->body->bbody.mass -= PROPELLANT_MASSRATE*interval;
+                    }else if (obj_get (i)->info.ship->jet2) {
+                        force->data[0] = -5;
+                        force->data[1] = 40;
+                        body_add_force (obj_get (i)->body, turbine_force, force);
+                        obj_get (i)->body->bbody.mass -= PROPELLANT_MASSRATE*interval;
+                    }
+                    if (obj_get (i)->info.ship->jet3) {
+                        force->data[0] = 0;
+                        force->data[1] = -40;
+                        body_add_force (obj_get (i)->body, frontal, force);
+                        obj_get (i)->body->bbody.mass -= PROPELLANT_MASSRATE*interval;
+                    }
+                }
             }
         }
         act_force (obj_get (i)->body, interval);

@@ -202,7 +202,7 @@ void obj_validate () {
                         objid = obj_new (SHOT);
                         tmp = obj_get(objid);
                         tmp->body = body2d_new (
-                            20, 
+                            SHOT_MASS, 
                             vb->data[0], 
                             vb->data[1], 
                             va->data[0], 

@@ -29,14 +29,15 @@
 #define SHOT_DURATION 1 /* duraçao do tiro*/
 #define SHOT_INTERVAL 0.1 /* intervalo minimo entre os tiros */
 #define SHOT_SPEED 800 /* velocidade do tiro */
+#define SHOT_MASS 50
 #define INI_MASS 5000
 #define INI_INERCIA 250*3 /* momento de inercia */
 #define MIN_MASS 0.1 /* porcentagem mínima da massa */
 
 #define PLANET_MASS 4995000
 
-#define PROPELLANT_SPEED 10000
-#define PROPELLANT_MASSRATE 0.1
+#define PROPELLANT_SPEED 20 /* velocidade de saída do combustível. */
+#define PROPELLANT_MASSRATE 500 /* qunato de massa vai perder por segundo. */
 
 
 /* Sobre os controles */

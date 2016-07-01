@@ -40,7 +40,7 @@ void add_objects () {
     /* adicionar objetos */
     tmp = obj_get(obj_new (SHIP));
     /*tmp->body = body2d_new (INI_MASS, 500, 0, 0, 100);*/
-    tmp->body = body2d_new (INI_MASS, 500, 0, 0, 10000, INI_INERCIA);
+    tmp->body = body2d_new (INI_MASS, 500, 0, 0, 100, INI_INERCIA);
     tmp->shape = shape_new ();
     shape_add_point (tmp->shape, vector2D_new (-50, -35));
     shape_add_point (tmp->shape, vector2D_new (-50, -27.5));
@@ -60,7 +60,7 @@ void add_objects () {
 
 
     tmp = obj_get(obj_new (SHIP));
-    tmp->body = body2d_new (0, -500, 0, 0, -100, INI_INERCIA);
+    tmp->body = body2d_new (INI_MASS, -500, 0, 0, -100, INI_INERCIA);
     tmp->shape = shape_new ();
     shape_add_point (tmp->shape, vector2D_new (-27.5, -40));
     shape_add_point (tmp->shape, vector2D_new (-27.5, -20));
