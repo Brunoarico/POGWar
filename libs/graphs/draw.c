@@ -20,6 +20,10 @@ static Image left = NULL;
 static Image life_bar = NULL;
 static Image fuel_bar = NULL;
 static Image speed_bar = NULL;
+static Image pause = NULL;
+static Image over1 = NULL;
+static Image over2 = NULL;
+static Image both = NULL;
 
 void draw2d_shape (Shape s, Vector position, double angle) {
 	int i;
@@ -112,14 +116,93 @@ void draw_back () {
    
 }
 
-void draw_logo (float width, float height,
-    double life1, double fuel1, double speed1,
-    double life2, double fuel2, double speed2) {
-    double x, y;
-    double l = width/height*OPENGL_SCALE;
+void draw_over1 () {
+    Vector tmp;
+    tmp = vector_zeros (2);
+    if (over1 == NULL) {
+        over1 = image_create (LOST1_IMAGE);
+        image_load (over1);
+        image_zoom (over1, 50);
+    }
+    tmp->data[0] = 0;
+    tmp->data[1] = -OPENGL_SCALE/2;
+    draw2d_image (over1, tmp, 0);
+    vector_delete(tmp);
+}
+
+void draw_over2 () {
+    Vector tmp;
+    tmp = vector_zeros (2);
+    if (over2 == NULL) {
+        over2 = image_create (LOST2_IMAGE);
+        image_load (over2);
+        image_zoom (over2, 50);
+    }
+    tmp->data[0] = 0;
+    tmp->data[1] = -OPENGL_SCALE/2;
+    draw2d_image (over2, tmp, 0);
+    vector_delete(tmp);
+}
+
+void draw_both () {
+    Vector tmp;
+    tmp = vector_zeros (2);
+    if (both == NULL) {
+        both = image_create (BOTH_LOST_IMAGE);
+        image_load (both);
+        image_zoom (both, 50);
+    }
+    tmp->data[0] = 0;
+    tmp->data[1] = -OPENGL_SCALE/2;
+    draw2d_image (both, tmp, 0);
+    vector_delete(tmp);
+}
+
+void draw_pause () {
+    Vector tmp;
+    tmp = vector_zeros (2);
+    if (pause == NULL) {
+        pause = image_create (PAUSE_IMAGE);
+        image_load (pause);
+        image_zoom (pause, 25);
+    }
+    tmp->data[0] = 0;
+    tmp->data[1] = -OPENGL_SCALE/2;
+    draw2d_image (pause, tmp, 0);
+    vector_delete(tmp);
+}
+
+void draw_logo () {
     if (logo == NULL) {
         logo = image_create (LOGO_IMAGE);
         image_load (logo);
+    }
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+
+    image_set_texture (logo);
+    glBegin(GL_POLYGON);
+    glTexCoord2f(0.0, 1.0); glVertex2f(-logo->w/2, OPENGL_SCALE-logo->h+15);
+    glTexCoord2f(1.0, 1.0); glVertex2f(+logo->w/2, OPENGL_SCALE-logo->h+15);
+    glTexCoord2f(1.0, 0.0); glVertex2f(+logo->w/2, OPENGL_SCALE+15);
+    glTexCoord2f(0.0, 0.0); glVertex2f(-logo->w/2, OPENGL_SCALE+15);
+    glEnd();
+
+    glDisable(GL_TEXTURE_2D);
+
+    glFlush();
+    glPopMatrix();
+}
+
+void draw_painel (float width, float height,
+    double life1, double fuel1, double speed1,
+    double life2, double fuel2, double speed2,
+    Image ship1, double ang1, Image ship2, double ang2) {
+    double x, y;
+    double l = width/height*OPENGL_SCALE;
+    Vector tmp;
+    tmp = vector_zeros (2);
+    if (left == NULL) {
         right = image_create (RIGHT_PANEL_IMAGE);
         image_load (right);
         left = image_create (LEFT_PANEL_IMAGE);
@@ -134,15 +217,7 @@ void draw_logo (float width, float height,
     }
 
     glPushMatrix();
-
     glEnable(GL_TEXTURE_2D);
-    image_set_texture (logo);
-    glBegin(GL_POLYGON);
-    glTexCoord2f(0.0, 1.0); glVertex2f(-logo->w/2, OPENGL_SCALE-logo->h+15);
-    glTexCoord2f(1.0, 1.0); glVertex2f(+logo->w/2, OPENGL_SCALE-logo->h+15);
-    glTexCoord2f(1.0, 0.0); glVertex2f(+logo->w/2, OPENGL_SCALE+15);
-    glTexCoord2f(0.0, 0.0); glVertex2f(-logo->w/2, OPENGL_SCALE+15);
-    glEnd();
 
     image_set_texture (left);
     glBegin(GL_POLYGON);
@@ -211,13 +286,19 @@ void draw_logo (float width, float height,
     glTexCoord2f(0.0, 0.0); glVertex2f(-x+l, -OPENGL_SCALE+speed_bar->h+y);
     glEnd();
 
+    tmp->data[0] = -l+160;
+    tmp->data[1] = -OPENGL_SCALE+165;
+    draw2d_image (ship1, tmp, ang1);
 
+    tmp->data[0] = l-160;
+    tmp->data[1] = -OPENGL_SCALE+165;
+    draw2d_image (ship2, tmp, ang2);
 
     glDisable(GL_TEXTURE_2D);
 
     glFlush();
     glPopMatrix();
-
+    vector_delete(tmp);
 }
 
 void draw_bar (double x, double y, double width, double height, double cr,

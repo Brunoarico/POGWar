@@ -19,9 +19,14 @@
 #define LEFT_PANEL_IMAGE "img/left.png"    /* Localizacao da imagem de background */
 #define RIGHT_PANEL_IMAGE "img/right.png"    /* Localizacao da imagem de background */
 #define LOGO_IMAGE "img/logo.png"    
+#define LOST1_IMAGE "img/over1.png"    
+#define LOST2_IMAGE "img/over2.png"    
+#define BOTH_LOST_IMAGE "img/both.png"    
+#define PAUSE_IMAGE "img/resume.png"    
 #define FUEL_BAR_IMAGE "img/load_red.png"    
 #define LIFE_BAR_IMAGE "img/load_green.png"    
-#define SPEED_BAR_IMAGE "img/load_orange.png"    
+#define SPEED_BAR_IMAGE "img/load_orange.png"
+#define CENTRAL_PLANET_IMAGE "img/earth.png"    
 
 #define FPS 120                             /* Quantidade de frames (atualizacao de 
                                                imagem) por segundo */
@@ -45,6 +50,7 @@
 #define PROPELLANT_SPEED 4 /* velocidade de saída do combustível. */
 #define PROPELLANT_MASSRATE 200 /* qunato de massa vai perder por segundo. */
 
+#define SHIP_SPEED_REFERENCE 1000 /* valor máximo a ser mostrado no velocímetro */
 
 /* Sobre os controles */
 #define SHIP1_JET1 GLFW_KEY_A

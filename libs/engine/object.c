@@ -194,7 +194,7 @@ void obj_validate () {
                             AllObjects[i]->body->ang_position->data[0]);
                         vector_add (va, vc);
 
-                        vb->data[1] = 100;
+                        vb->data[1] = 50; /* distancia que é criado o tiro da nave */
                         vector2D_rotate (vb, 
                             AllObjects[i]->body->ang_position->data[0]);
                         vector_add (vb, rasc->position);

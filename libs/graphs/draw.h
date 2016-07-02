@@ -34,14 +34,21 @@ void draw_objects ();
 
 /* Desenha o background da cena */
 void draw_back ();
-void draw_logo (float width, float height,
+void draw_painel (float width, float height,
     double life1, double fuel1, double speed1,
-    double life2, double fuel2, double speed2);
+    double life2, double fuel2, double speed2,
+    Image ship1, double ang1, Image ship2, double ang2);
 
 void draw_nbar (double x, double y, double width, double height, int val, 
                 int max);
 
 void draw_bar (double x, double y, double width, double height, double cr,
                double cg, double cb, double p);
+
+void draw_over1 ();
+void draw_over2 ();
+void draw_pause ();
+void draw_logo ();
+void draw_both ();
 
 #endif
