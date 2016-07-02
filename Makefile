@@ -7,7 +7,7 @@ else
     GLFWFLAGS = -lglfw3 -framework OpenGL
 endif
 
-default: image.o physics.o vector.o moviments.o shape.o object.o draw.o vertices.o bsp.o controls.o jogo.o 
+default: image.o physics.o vector.o moviments.o shape.o object.o draw.o bitmap.o vertices.o bsp.o controls.o jogo.o 
 	$(CC) $(CFLAGS) *.o -o jogo $(GLFWFLAGS)  -lpng
 
 jogo.o: jogo.c
@@ -46,7 +46,7 @@ object.o: libs/engine/object.c libs/engine/object.h
 controls.o: libs/engine/controls.c libs/engine/controls.h
 	$(CC) $(CFLAGS) -ansi -c $^
 
-draw.o: libs/graphs/bitmap.c libs/graphs/bitmap.h
+bitmap.o: libs/graphs/bitmap.c libs/graphs/bitmap.h
 	$(CC) $(CFLAGS) -ansi -c $^
 
 build: config.h
@@ -69,7 +69,12 @@ teste:
 
 tar:
 	make clean
-	COPYFILE_DISABLE=1 tar -cvf parte_2.tar ./*
+	COPYFILE_DISABLE=1 tar -cvf parte_4.tar ./*
+
+zip:
+	@ make clean > /dev/null
+	@ zip -r tmp.zip ./* > /dev/null
+	#md5 -q tmp.zip | awk '{print $1".zip"}' | xargs mv tmp.zip
 
 clean:
 	$(RM) jogo
