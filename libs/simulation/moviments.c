@@ -42,15 +42,18 @@ void moviments_update () {
 
 void moviments_act (double interval) {
     int i;
-    Vector turbine_force = vector_zeros (2);
-    Vector frontal = vector_zeros (2);
-    Vector force = vector_zeros (2);
-    turbine_force->data[1] = 100*PROPELLANT_MASSRATE*PROPELLANT_SPEED;
-    frontal->data[1] = -80*PROPELLANT_MASSRATE*PROPELLANT_SPEED;
+    Vector turbine_force = NULL;
+    Vector frontal = NULL;
+    Vector force = NULL;
 
     for (i = 0; i < obj_numberof (); i++) {
         if (obj_get (i) == NULL) continue;
         if (obj_get (i)->type == SHIP) { /* verifica turbina */
+            turbine_force = vector_zeros (2);
+            frontal = vector_zeros (2);
+            force = vector_zeros (2);
+            turbine_force->data[1] = 100*PROPELLANT_MASSRATE*PROPELLANT_SPEED;
+            frontal->data[1] = -80*PROPELLANT_MASSRATE*PROPELLANT_SPEED;
             if (obj_get (i)->body->bbody.mass > INI_MASS*MIN_MASS) {
                 if (obj_get (i)->info.ship->jet1 && obj_get (i)->info.ship->jet2) {
                     force->data[0] = 0;
@@ -77,13 +80,18 @@ void moviments_act (double interval) {
                         obj_get (i)->body->bbody.mass -= PROPELLANT_MASSRATE*interval;
                     }
                 }
-            }
+            }      
+            vector_delete(frontal);
+            vector_delete(turbine_force);
+            vector_delete(force);
+
+           /* printf("%d\t", obj_get (i)->info.ship->jet1);
+            printf("%d\t", obj_get (i)->info.ship->jet2);
+            printf("%d\t", obj_get (i)->info.ship->jet3);*/
         }
         act_force (obj_get (i)->body, interval);
     }
-    vector_delete(frontal);
-    vector_delete(turbine_force);
-    vector_delete(force);
+    /*printf("\n");*/
 }
 
 void check_screen_edges (double x, double y) {

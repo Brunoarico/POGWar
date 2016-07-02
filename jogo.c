@@ -58,7 +58,6 @@ void add_objects () {
     body_pos2d_degree (tmp->body, 180);
     control_set_ship1(tmp->info.ship);
 
-
     tmp = obj_get(obj_new (SHIP));
     tmp->body = body2d_new (INI_MASS, 500, 0, 0, 100, INI_INERCIA);
     tmp->shape = shape_new ();
@@ -195,7 +194,6 @@ int main (int argc, char *argv[]) {
                     obj_get(1)->img, body_ang_position_degrees (obj_get(1)->body));
             } else {
                 draw_both ();
-                printf("PERDERAM\n");
             }
 
             if (control_stade ()) {
