@@ -19,7 +19,6 @@
 #include "../engine/object.h"
 #include "../../config.h"
 
-
 void control_callback (GLFWwindow* window, int key, int scancode, int action, int mods);
 void control_set_ship1 (Ship s);
 void control_set_ship2 (Ship s);

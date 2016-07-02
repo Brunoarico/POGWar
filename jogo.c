@@ -25,6 +25,7 @@
 
 /* fontes, vamos declarar como globais */
 Font basic, font2;
+char * planet;
 
 static void error_callback(int error, const char* description) {
     fputs(description, stderr);
@@ -33,8 +34,13 @@ static void error_callback(int error, const char* description) {
 void add_objects () {
     Object tmp;
     Image fire;
+    double zoom = (rand()%100-30)/100.0+1.0;
+    planet = malloc(20*sizeof (char));
+    strcpy(planet, "img/planet0.png");
+
     fire = image_create ("img/fire.png");
     image_zoom (fire, 13); 
+    planet[10] += rand()%4;
 
     /* deixar as naves como primeiros objetos */
     /* adicionar objetos */
@@ -78,16 +84,24 @@ void add_objects () {
 
     tmp = obj_get(obj_new (PLANET));
     tmp->body = body2d_new (PLANET_MASS, 0, 0, 0, 0, 100);
-    tmp->shape = shape2d_circle (100, 10);
-    tmp->img = image_create (CENTRAL_PLANET_IMAGE);
-    image_zoom (tmp->img, 100);
+    tmp->shape = shape2d_circle (100*zoom, 10);
+    tmp->img = image_create (planet);
+    image_zoom (tmp->img, 100*zoom);
 
-    /*int i;
-    for (i = 0 ; i < 10; i++) {
-        tmp = obj_get(obj_new ());
-        tmp->body = body2d_new (0, 10*i, 0, 100, 0);
-        tmp->shape = shape2d_circle (1, 2);
-    }*/
+    tmp = obj_get(obj_new (PLANET));
+    tmp->body = body2d_new (5, 0, 800, 79.01744269, 0, 100);
+    tmp->shape = shape2d_circle (15, 5);
+    tmp->img = image_create ("img/s5.png");
+    image_zoom (tmp->img, 40);
+    body_pos2d_degree (tmp->body, 35);
+    body_ang_spe2d (tmp->body, -.1);
+
+    tmp = obj_get(obj_new (PLANET));
+    tmp->body = body2d_new (-100, rand()%1600-800, rand()%1600-800, rand()%200-100, rand()%200-100, 100);
+    tmp->shape = shape2d_circle (20, 5);
+    tmp->img = image_create ("img/s4.png");
+    image_zoom (tmp->img, 35);
+    body_ang_spe2d (tmp->body, rand()%200/100);
 
 }
 
@@ -220,6 +234,7 @@ int main (int argc, char *argv[]) {
     obj_delete_all ();
     deleteText2D (basic);
     deleteText2D (font2);
+    free (planet);
 
     return 0;
 }
