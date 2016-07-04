@@ -1,4 +1,12 @@
-Manual de usuário - Batalha Espacial (3ª fase)
+Manual de usuário - Batalha Espacial (4ª fase)
+
+- Aviso
+
+Esse jogo segue a física real, portanto é difícil de ser jogado. Os controles simulam turbinas de um foguete. Ou seja, se apertar de mais uma turbina, vc vai ficar rodando no espaço.
+
+Além do mais, toda nave tem seu combustível e só ele, não existe combustível solto no espaço. Portanto não deixe-o acabar.
+
+Mais uma coisa, no espaço, se sua nave bate com outra ou você atinge um setélite, com 99% de chance, você vai morrer.
 
 - Descrição
 
@@ -27,16 +35,16 @@ Para fechar o jogo basta pressionar ESC.
 
 Controles do player 1
 
-W - frente
-A - esquerda
-D - direita
+W - Propulsor fontal para freio
+A - Propulsor esquerdo
+D - Propulsor direiro
 S - tiro
 
 Controles do player 2
 
-I - frente
-J - esquerda
-L - direita
+I - Propulsor fontal para freio
+J - Propulsor esquerdo
+L - Propulsor direiro
 K - tiro
 
 R - reset (reinicia pausado)
